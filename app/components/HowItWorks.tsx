@@ -6,7 +6,7 @@ import googlePlayImage from '/public/googleplay.svg';
 
 const HowItWorks = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white ">
       <div className="container mx-[120px] px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mb-16">
           {/* For Manufacturers Section */}
@@ -65,8 +65,8 @@ const HowItWorks = () => {
               <button className="flex items-center px-6 py-3 bg-[#0037A6] text-white rounded-4xl hover:bg-blue-800" title="App Store">
                 <Image src="/appstore.svg" alt="App Store" width={20} height={26} className="mr-2" />
                 <div className="text-left">
-                  <p className="text-xs">Download on the</p>
-                  <p className="text-md font-bold">App Store</p>
+                  <p className="text-[8px] leading-[50%] tracking-[-10%]">Download on the</p>
+                  <p className="text-md leading-[120%] tracking-[-10%] font-bold">App Store</p>
                 </div>
               </button>
             </div>
