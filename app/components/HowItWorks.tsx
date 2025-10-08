@@ -6,7 +6,7 @@ import googlePlayImage from '/public/googleplay.svg';
 
 const HowItWorks = () => {
   return (
-    <section className="py-16 bg-white flex justify-center items-center">
+    <section className="py-16 bg-white flex justify-center items-center" id="how-it-works">
       <div className="container mx-[120px] px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mb-16">
           {/* For Manufacturers Section */}

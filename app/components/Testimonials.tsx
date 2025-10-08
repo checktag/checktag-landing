@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Testimonials = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white flex justify-center items-center" id="testimonials">
       <div className="container mx-auto flex flex-col items-center px-4">
         <div className="text-center w-[680px] mb-12">
           <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">Reviews & Testimonials</span>
