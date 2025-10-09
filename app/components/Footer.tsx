@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#001642] text-white py-[60px] px-[120px] flex flex-col space-y-[80px] items-center">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start space-y-8 md:space-y-0 text-[10px] leading-[100%] tracking-[0%]">
+    <footer className="bg-[#001642] text-white py-8 md:py-[60px] px-4 md:px-[120px] flex flex-col space-y-8 md:space-y-[80px] items-center">
+      <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-8 text-[10px] leading-[100%] tracking-[0%] w-full">
         <div className="flex flex-col space-y-4">
           <h4 className="text-[#7ACEE3] font-bold">PRODUCT</h4>
           <ul className="space-y-2">
@@ -71,10 +71,10 @@ const Footer = () => {
           </ul>
         </div>
         <div className="flex flex-col space-y-3 items-start">
-          <h4 className="text-white font-bold text-[14px]">
+          <h4 className="text-white font-bold text-[14px] whitespace-nowrap">
             Wanna be in the loop about going ons?
           </h4>
-          <form className="flex items-center bg-[#002164] rounded-[40px] w-[388px] px-4 py-2.5">
+          <form className="flex items-center bg-[#002164] rounded-[40px] max-w-[388px] px-4 py-2.5">
             <input
               type="email"
               placeholder="Email Address"
@@ -95,6 +95,7 @@ const Footer = () => {
           alt="Big Checktag logo"
           width={1200}
           height={234}
+          loading="lazy"
         />
       </div>
     </footer>

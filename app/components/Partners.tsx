@@ -15,29 +15,31 @@ const Partners = () => {
   ];
 
   return (
-    <section className="bg-[#001642] text-white py-16 px-[40px] space-y-8 flex flex-col items-center">
-      <div className="space-y-4 text-center">
-        <h2 className="text-[24px] leading-[100%] tracking-[-5%] font-normal">
+    <section className="bg-[#001642] text-white py-8 md:py-16 px-4 md:px-[40px] space-y-4 md:space-y-8 flex flex-col items-center">
+      <div className="space-y-4 text-center px-4">
+        <h2 className="text-[20px] md:text-[24px] leading-[100%] tracking-[-5%] font-normal">
           Trusted by manufacturers in food & beverage, pharma, cosmetics & more!
         </h2>
-        <p className="text-[#6687CA] text-[16px]">
+        <p className="text-[#6687CA] text-[14px] md:text-[16px]">
           Over 10M scans • &lt;500ms verification • Global code coverage
         </p>
       </div>
-      <div className="flex gap-8 overflow-hidden animate-scroll">
+      <div className="flex gap-4 md:gap-8 overflow-hidden animate-scroll">
         {Array(5)
           .fill(partners)
           .flat()
           .map((partner, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg p-4 flex items-center justify-center w-[175px] h-[60px]"
+              className="bg-white rounded-lg p-2 md:p-4 flex items-center justify-center w-[120px] md:w-[175px] h-[40px] md:h-[60px]"
             >
               <Image
                 src={partner.src}
                 alt={partner.name}
-                width={partner.width}
-                height={partner.height}
+                width={partner.width * 0.8}
+                height={partner.height * 0.8}
+                className="md:scale-100 scale-75"
+                loading="lazy"
               />
             </div>
           ))}

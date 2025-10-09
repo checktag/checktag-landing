@@ -3,21 +3,21 @@ import React from "react";
 const Pricing = () => {
   return (
     <section
-      className="py-24 h-screen bg-[#001642] text-white flex justify-center items-center"
+      className="py-12 md:py-24 min-h-screen bg-[#001642] text-white flex justify-center items-center px-4"
       id="pricing"
     >
-      <div className="container mx-auto px-4 flex flex-col items-center space-y-4">
-        <div className="text-[12px] font-normal leading-[100%] tracking-[-1%] bg-[#CCD7ED] text-[#0037A6] rounded-[40px] flex justify-center items-center px-[12px] py-[6px] w-[63px] ">
+      <div className="container mx-auto flex flex-col items-center space-y-8 md:space-y-4">
+        <div className="text-[12px] font-normal leading-[100%] tracking-[-1%] bg-[#CCD7ED] text-[#0037A6] rounded-[40px] flex justify-center items-center px-[12px] py-[6px] w-[63px]">
           Pricing
         </div>
-        <h2 className="text-center text-[32px] text-[#E8F6FA] leading-[100%] tracking-[-5%] font-bold">
+        <h2 className="text-center text-[24px] md:text-[32px] text-[#E8F6FA] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold px-4">
           Pricing for brands — scale from pilot to global rollout.
         </h2>
-        <p className="text-center text-[16px] text-[#6687CA] leading-[150%] tracking-[-5%] mb-6">
+        <p className="text-center text-[14px] md:text-[16px] text-[#6687CA] leading-[150%] tracking-[-5%] mb-6 px-4">
           Choose a plan that matches your stage. Scanning for consumers remains
           free.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center items-center w-full md:w-auto px-4 md:px-0">
           {/* Starter Plan */}
           <div className="bg-[#002164] p-8 rounded-[32px] flex flex-col justify-center items-center text-[#E5EBF6] space-y-[24px]">
             <div className="flex flex-col space-y-2 items-start">
