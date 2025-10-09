@@ -10,8 +10,8 @@ const Navbar = () => {
 
   return (
     <nav className="relative bg-white">
-      <div className="flex items-center justify-between px-4 md:px-[120px] py-4 md:py-[30px]">
-        <Link href="/" className="flex items-center space-x-2">
+      <div className="container mx-auto flex items-center justify-between px-4 md:px-[120px] py-4 md:py-[30px]">
+        <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
           <Image
             src={checktagLogo}
             alt="CheckTag Logo"
@@ -33,8 +33,8 @@ const Navbar = () => {
         </button>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <ul className="flex space-x-6 text-[#444955] text-[12px] font-normal items-center">
+        <div className="hidden md:flex items-center justify-center flex-1 mx-8">
+          <ul className="flex space-x-8 text-[#444955] text-[12px] font-normal items-center">
             <li>
               <a href="#how-it-works" className="hover:text-[#0037A6]">
                 How it works
@@ -56,14 +56,16 @@ const Navbar = () => {
               </a>
             </li>
           </ul>
-          <div className="flex space-x-4">
-            <button className="px-4 py-2 h-[44px] border border-[#0037A6] text-[#0037A6] hover:bg-blue-50 rounded-[40px]">
-              Book a demo
-            </button>
-            <button className="px-4 py-2 h-[44px] bg-[#0037A6] text-white rounded-[40px] hover:bg-blue-900">
-              Get CheckTag
-            </button>
-          </div>
+        </div>
+
+        {/* Desktop Buttons */}
+        <div className="hidden md:flex items-center space-x-4 flex-shrink-0">
+          <button className="px-4 py-2 h-[44px] border border-[#0037A6] text-[#0037A6] hover:bg-blue-50 rounded-[40px] whitespace-nowrap">
+            Book a demo
+          </button>
+          <button className="px-4 py-2 h-[44px] bg-[#0037A6] text-white rounded-[40px] hover:bg-blue-900 whitespace-nowrap">
+            Get CheckTag
+          </button>
         </div>
       </div>
 
