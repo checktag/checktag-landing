@@ -8,7 +8,7 @@ const interFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CheckTag®",
+  title: "CheckTag®: The Mark of what's Real",
   description:
     "The leading solution for product authentication, traceability, and consumer engagement.",
 };
