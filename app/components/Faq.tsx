@@ -6,10 +6,10 @@ import minusIcon from "/public/minus.svg";
 import plusIcon from "/public/plus.svg";
 
 const Faq = () => {
-  const [openFaq, setOpenFaq] = useState<Record<number, boolean>>({});
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
-    setOpenFaq((prev) => ({ ...prev, [index]: !prev[index] }));
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
   const faqs = [
@@ -74,7 +74,7 @@ const Faq = () => {
             <div
               key={index}
               className={`bg-[#E8F6FA] px-4 md:px-[51px] py-6 md:py-[31px] justify-center rounded-3xl flex flex-col transition-all duration-300 ease-in-out ${
-                openFaq[index]
+                openFaqIndex === index
                   ? "max-h-[500px]"
                   : "max-h-[100px] md:max-h-[80px]"
               }`}
@@ -86,11 +86,11 @@ const Faq = () => {
                 <button
                   onClick={() => toggleFaq(index)}
                   className="flex-shrink-0"
-                  title={openFaq[index] ? "Close FAQ" : "Open FAQ"}
+                  title={openFaqIndex === index ? "Close FAQ" : "Open FAQ"}
                 >
                   <Image
-                    src={openFaq[index] ? minusIcon : plusIcon}
-                    alt={openFaq[index] ? "Close FAQ" : "Open FAQ"}
+                    src={openFaqIndex === index ? minusIcon : plusIcon}
+                    alt={openFaqIndex === index ? "Close FAQ" : "Open FAQ"}
                     width={36}
                     height={36}
                     className="md:w-[46px] md:h-[46px]"
@@ -100,10 +100,10 @@ const Faq = () => {
               </div>
               <div
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  openFaq[index] ? "max-h-[500px]" : "max-h-0"
+                  openFaqIndex === index ? "max-h-[500px]" : "max-h-0"
                 }`}
               >
-                <p className="text-[#8F9299]">{faq.answer}</p>
+                <p className="text-[#8F9299] leading-relaxed">{faq.answer}</p>
               </div>
             </div>
           ))}

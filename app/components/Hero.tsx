@@ -3,7 +3,7 @@ import React from "react";
 const Hero = () => {
   return (
     <section className="flex flex-col items-center text-center bg-white py-8 md:py-16 px-4">
-      <h1 className="text-[40px] md:text-[80px] font-bold text-[#444955] mb-4 w-full md:w-[905px] leading-[100%] tracking-[-40%]">
+      <h1 className="text-[40px] md:text-[80px] font-bold text-[#444955] mb-4 w-full md:w-[905px] leading-[100%] tracking-[-5%]">
         Stop counterfeits at the source. Verify in seconds
       </h1>
       <p className="text-base md:text-lg text-[#8F9299] font-normal leading-[150%] tracking-[-5%] w-full md:w-[641px] mb-8">
