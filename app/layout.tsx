@@ -8,9 +8,9 @@ const interFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CheckTag® - AI-Powered Code Review for Developers",
+  title: "CheckTag®",
   description:
-    "Enhance your code quality with CheckTag®, the AI-driven code review tool that helps developers write cleaner, more efficient code. Try it now!",
+    "The leading solution for product authentication, traceability, and consumer engagement.",
 };
 
 export default function RootLayout({
