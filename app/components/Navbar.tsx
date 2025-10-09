@@ -1,13 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import checktagLogo from '/public/checktag-logo.svg';
+import Link from 'next/link';
 
 const Navbar = () => {
   return (
     <nav className="flex items-center justify-between px-[120px] py-[30px] bg-white">
-      <div className="flex items-center space-x-2">
+      <Link href='/' className="flex items-center space-x-2">
         <Image src={checktagLogo} alt="CheckTag Logo" width={139} height={28} />
-      </div>
+      </Link>
       <ul className="flex space-x-6 text-[#444955] text-[12px] font-normal">
         <li><a href="#how-it-works" className="hover:text-[#0037A6]">How it works</a></li>
         <li><a href="#testimonials" className="hover:text-[#0037A6]">Testimonials</a></li>
