@@ -25,7 +25,7 @@ const Partners = () => {
         </p>
       </div>
       <div className="flex gap-8 overflow-hidden animate-scroll">
-        {Array(3)
+        {Array(5)
           .fill(partners)
           .flat()
           .map((partner, index) => (
