@@ -12,15 +12,6 @@ const HowItWorks = () => {
     >
       <div className="container px-4 md:mx-[120px]">
         <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-24 mb-8 md:mb-16">
-          {/* Image for mobile */}
-          <div className="md:hidden mb-6">
-            <Image
-              src={notificationImage}
-              alt="Notification"
-              className="w-full h-auto"
-              loading="lazy"
-            />
-          </div>
           {/* For Manufacturers Section */}
           <div className="px-4 md:px-0">
             <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">
@@ -64,6 +55,15 @@ const HowItWorks = () => {
                 Talk to an expert
               </button>
             </div>
+            {/* Image for mobile */}
+            <div className="mt-8 md:hidden">
+              <Image
+                src={notificationImage}
+                alt="Notification"
+                className="w-full h-auto"
+                loading="lazy"
+              />
+            </div>
           </div>
           <div className="flex justify-center items-center max-md:hidden">
             <div className="w-full">
@@ -78,8 +78,8 @@ const HowItWorks = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 items-end">
           {/* For Customers Section */}
-          <div className="flex justify-center items-center">
-            <div className="w-full max-md:mb-8">
+          <div className="flex justify-center items-center md:block order-last md:order-first">
+            <div className="w-full">
               <Image
                 src={handHoldingPhoneImage}
                 alt="Hand Holding Phone"
@@ -87,7 +87,7 @@ const HowItWorks = () => {
               />
             </div>
           </div>
-          <div className="pb-[90px] px-4">
+          <div className="md:pb-[90px] px-4">
             <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">
               For Customers
             </span>
