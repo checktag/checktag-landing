@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -18,7 +19,16 @@ const Hero = () => {
           Get CheckTag for your products
         </button>
       </div>
-      <div className="w-full md:w-[995px] h-[200px] md:h-[402px] bg-[#A7DFED] rounded-[20px] md:rounded-[40px]"></div>
+      <div className="w-full md:w-[995px] h-[200px] md:h-[402px] relative rounded-[20px] md:rounded-[40px] overflow-hidden">
+        <Image
+          src="/hero-img.svg"
+          alt="CheckTag Hero Image"
+          fill
+          priority
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 995px"
+        />
+      </div>
     </section>
   );
 };

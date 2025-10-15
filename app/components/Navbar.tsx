@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import checktagLogo from "/public/checktag-logo.svg";
 import Link from "next/link";
+import closeIcon from "/public/close.svg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,15 +22,27 @@ const Navbar = () => {
           />
         </Link>
 
-        {/* Hamburger button */}
+        {/* Hamburger/Close button */}
         <button
           className="md:hidden p-2"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
-          <div className="w-6 h-0.5 bg-[#444955] mb-1"></div>
-          <div className="w-6 h-0.5 bg-[#444955] mb-1"></div>
-          <div className="w-6 h-0.5 bg-[#444955]"></div>
+          {isMenuOpen ? (
+            <Image
+              src={closeIcon}
+              alt="Close Menu"
+              width={24}
+              height={24}
+              className="text-[#444955]"
+            />
+          ) : (
+            <>
+              <div className="w-6 h-0.5 bg-[#444955] mb-1"></div>
+              <div className="w-6 h-0.5 bg-[#444955] mb-1"></div>
+              <div className="w-6 h-0.5 bg-[#444955]"></div>
+            </>
+          )}
         </button>
 
         {/* Desktop Navigation */}
@@ -97,15 +110,25 @@ const Navbar = () => {
                 FAQs
               </a>
             </li>
+            <li>
+              <a href="#faqs" className="block hover:text-[#0037A6]">
+                Book a demo
+              </a>
+            </li>
+            <li>
+              <a href="#faqs" className="block hover:text-[#0037A6]">
+                Get CheckTag
+              </a>
+            </li>
           </ul>
-          <div className="flex flex-col space-y-3">
+          {/* <div className="flex flex-col space-y-3">
             <button className="w-full px-4 py-2 h-[44px] border border-[#0037A6] text-[#0037A6] hover:bg-blue-50 rounded-[40px]">
               Book a demo
             </button>
             <button className="w-full px-4 py-2 h-[44px] bg-[#0037A6] text-white rounded-[40px] hover:bg-blue-900">
               Get CheckTag
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </nav>

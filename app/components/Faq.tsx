@@ -59,11 +59,11 @@ const Faq = () => {
             companies. Use this section to remove blockers and accelerate
             adoption.
           </p>
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
-            <button className="w-full md:w-auto h-[42px] md:h-auto px-4 py-[9px] bg-[#CCD7ED] text-[#0037A6] text-[14px] leading-[100%] tracking-[-1%] rounded-[40px] hover:bg-[#0037A6] hover:text-white">
+          <div className="flex flex-row space-x-4 w-full md:w-auto">
+            <button className="flex-1 md:flex-none md:w-auto h-[42px] md:h-auto px-4 py-[9px] bg-[#CCD7ED] text-[#0037A6] text-[14px] leading-[100%] tracking-[-1%] rounded-[40px] hover:bg-[#0037A6] hover:text-white">
               Customers
             </button>
-            <button className="w-full md:w-auto px-4 py-[9px] bg-transparent border border-[#0037A6] text-[#0037A6] rounded-[40px] hover:bg-[#0037A6] hover:text-white">
+            <button className="flex-1 md:flex-none md:w-auto px-4 py-[9px] bg-transparent border border-[#0037A6] text-[#0037A6] rounded-[40px] hover:bg-[#0037A6] hover:text-white">
               Brands
             </button>
           </div>
@@ -109,11 +109,11 @@ const Faq = () => {
           ))}
         </div>
 
-        <div className="text-center w-[616px] space-y-4 ">
-          <h3 className="text-[32px] leading-[100%] tracking-[-5%%] font-bold">
+        <div className="text-center w-full md:w-[616px] px-4 md:px-0 space-y-4">
+          <h3 className="text-[24px] md:text-[32px] leading-[100%] tracking-[-5%] font-bold">
             Still have questions?
           </h3>
-          <p className="text-[#8F9299] text-[16px] leading-[150%] tracking-[-1%]">
+          <p className="text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-1%]">
             Quality work requires attention to detail. Innovation drives
             progress in unexpected ways. Great design balances form and
             function. Learning never stops in a changing world.

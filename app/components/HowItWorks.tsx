@@ -56,11 +56,11 @@ const HowItWorks = () => {
                 counterfeit hotspots.
               </li>
             </ul>
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 h-auto md:h-[44px] items-center w-full md:w-auto">
-              <button className="w-full md:w-auto p-4 rounded-[40px] bg-[#0037A6] text-white hover:bg-blue-800">
+            <div className="flex flex-row space-x-4 h-auto md:h-[44px] items-center w-full md:w-auto">
+              <button className="flex-1 md:flex-none md:w-auto p-4 rounded-[40px] bg-[#0037A6] text-white hover:bg-blue-800">
                 Book a demo
               </button>
-              <button className="w-full md:w-auto p-4 bg-white text-[#0037A6] rounded-[40px] border border-[#0037A6] hover:bg-blue-100">
+              <button className="flex-1 md:flex-none md:w-auto p-4 bg-white text-[#0037A6] rounded-[40px] border border-[#0037A6] hover:bg-blue-100">
                 Talk to an expert
               </button>
             </div>
