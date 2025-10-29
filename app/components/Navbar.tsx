@@ -73,11 +73,8 @@ const Navbar = () => {
 
         {/* Desktop Buttons */}
         <div className="hidden md:flex items-center space-x-4 flex-shrink-0">
-          <button className="px-4 py-2 h-[44px] border border-[#0037A6] text-[#0037A6] hover:bg-blue-50 rounded-[40px] whitespace-nowrap">
-            Book a demo
-          </button>
           <button className="px-4 py-2 h-[44px] bg-[#0037A6] text-white rounded-[40px] hover:bg-blue-900 whitespace-nowrap">
-            Get CheckTag
+            Join the waitlist
           </button>
         </div>
       </div>
@@ -112,12 +109,7 @@ const Navbar = () => {
             </li>
             <li>
               <a href="#faqs" className="block hover:text-[#0037A6]">
-                Book a demo
-              </a>
-            </li>
-            <li>
-              <a href="#faqs" className="block hover:text-[#0037A6]">
-                Get CheckTag
+                Join the waitlist
               </a>
             </li>
           </ul>

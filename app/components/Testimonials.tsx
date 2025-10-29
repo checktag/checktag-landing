@@ -171,6 +171,13 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
+
+        {/* Join Waitlist Button */}
+        <div className="w-full flex justify-center mt-8 md:mt-12">
+          <button className="px-8 py-4 bg-[#0037A6] text-white text-[16px] font-semibold rounded-[40px] hover:bg-blue-800 transition-colors duration-300 shadow-md hover:shadow-lg">
+            Join the waitlist
+          </button>
+        </div>
       </div>
     </section>
   );

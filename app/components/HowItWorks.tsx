@@ -49,10 +49,7 @@ const HowItWorks = () => {
             </ul>
             <div className="flex flex-row space-x-4 h-auto md:h-[44px] items-center w-full md:w-auto">
               <button className="flex-1 md:flex-none md:w-auto p-4 rounded-[40px] bg-[#0037A6] text-white hover:bg-blue-800">
-                Book a demo
-              </button>
-              <button className="flex-1 md:flex-none md:w-auto p-4 bg-white text-[#0037A6] rounded-[40px] border border-[#0037A6] hover:bg-blue-100">
-                Talk to an expert
+                Join the waitlist
               </button>
             </div>
             {/* Image for mobile */}
@@ -76,7 +73,7 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-24 mt-8 md:mt-32">
           {/* For Customers Section */}
           <div className="flex justify-center items-center md:block order-last md:order-first">
             <div className="w-full">
@@ -87,24 +84,28 @@ const HowItWorks = () => {
               />
             </div>
           </div>
-          <div className="md:pb-[90px] px-4">
+          <div className="px-4">
             <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">
               For Customers
             </span>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 mt-4">
-              Scan to be sure
+            <h2 className="text-[24px] md:text-[32px] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold text-[#444955] mt-5 mb-4">
+              Authenticity pays — collect TAG with every scan
             </h2>
-            <p className="text-gray-600 mb-4">
-              Look for the CheckTag on the product
+            <p className="w-full md:w-[502px] text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-5%] mb-6">
+              Earn TAG every time you verify a product—help stop counterfeits
+              while your balance grows and brands get safer data.
             </p>
-            <ul className="list-disc list-inside text-gray-600 mb-6">
+            <ul className="list-disc list-inside text-gray-600 mb-6 space-y-3 text-[16px] leading-[150%] tracking-[-5%]">
+              <li>Look for the CheckTag on the product</li>
               <li>
-                <strong>Scan with our app:</strong> See Verified, Suspicious, or
-                Expired.
+                Scan with our app to see if the product is Verified, Suspicious,
+                or Expired.
               </li>
               <li>
-                <strong>Report problems:</strong> Photos help the brand act.
+                Earn TAG with every valid scan — plus streaks, brand campaign
+                boosts, and referral bonuses
               </li>
+              <li>Report problems in seconds—photos help the brand act</li>
             </ul>
             <div className="flex space-x-4">
               <button
@@ -134,6 +135,89 @@ const HowItWorks = () => {
                   </p>
                 </div>
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* AI Feature Section */}
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-24 mt-8 md:mt-32">
+          <div className="px-4 md:px-0">
+            <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">
+              For Customers
+            </span>
+            <h2 className="text-[24px] md:text-[32px] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold text-[#444955] mt-5 mb-4">
+              AI feature for deep checks and extra verification layers
+            </h2>
+            <p className="w-full md:w-[502px] text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-5%] mb-6">
+              Smarter than a scan—our AI cross-checks every result with forensic
+              and provenance signals for trust you can prove.
+            </p>
+            <ul className="list-disc list-inside text-gray-600 mb-6 space-y-3 text-[16px] leading-[150%] tracking-[-5%]">
+              <li>
+                <strong>Computer-vision forensics:</strong> spotx cloned codes,
+                reprints, micro-tamper marks, and packaging inconsistencies
+              </li>
+              <li>
+                <strong>Provenance & policy checks:</strong> validates
+                batch/lot, geofenced distribution, recall lists, and on-chain
+                attestations where supported
+              </li>
+              <li>
+                <strong>Risk-based step-ups:</strong> triggers extra
+                verification (multi-angle rescan, NFC tap, or OTP check) only
+                when something looks off
+              </li>
+            </ul>
+            <div className="flex flex-row space-x-4 h-auto md:h-[44px] items-center w-full md:w-auto">
+              <button
+                className="flex items-center px-6 py-3 bg-[#0037A6] text-white rounded-4xl hover:bg-blue-800"
+                title="Google Play"
+              >
+                <Image src={googlePlayImage} alt="Google Play" loading="lazy" />
+              </button>
+              <button
+                className="flex items-center px-6 py-3 bg-[#0037A6] text-white rounded-4xl hover:bg-blue-800"
+                title="App Store"
+              >
+                <Image
+                  src="/appstore.svg"
+                  alt="App Store"
+                  width={20}
+                  height={26}
+                  className="mr-2"
+                  loading="lazy"
+                />
+                <div className="text-left">
+                  <p className="text-[8px] leading-[50%] tracking-[-10%]">
+                    Download on the
+                  </p>
+                  <p className="text-md leading-[120%] tracking-[-10%] font-bold">
+                    App Store
+                  </p>
+                </div>
+              </button>
+            </div>
+            {/* Image for mobile */}
+            <div className="mt-8 md:hidden">
+              <Image
+                src="/robot.svg"
+                alt="AI Robot"
+                width={600}
+                height={600}
+                className="w-full h-auto"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div className="flex justify-center items-center max-md:hidden">
+            <div className="w-full">
+              <Image
+                src="/robot.svg"
+                alt="AI Robot"
+                width={600}
+                height={600}
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
