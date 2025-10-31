@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import notificationImage from "/public/notification.svg";
 import handHoldingPhoneImage from "/public/handholdingphone.svg";
 import googlePlayImage from "/public/googleplay.svg";
@@ -76,12 +79,85 @@ const HowItWorks = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-24 mt-8 md:mt-32">
           {/* For Customers Section */}
           <div className="flex justify-center items-center md:block order-last md:order-first">
-            <div className="w-full">
-              <Image
-                src={handHoldingPhoneImage}
-                alt="Hand Holding Phone"
-                loading="lazy"
-              />
+            <div className="w-full relative h-[350px] md:h-[600px]">
+              {/* Hand holding phone - base layer */}
+              <div className="absolute inset-0 flex items-center justify-center z-0">
+                <div className="w-[70%] md:w-[380px] mt-[-10px] md:mt-[-40px]">
+                  <Image
+                    src="/howitworks/hand.svg"
+                    alt="Hand Holding Phone"
+                    fill
+                    className="object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+              {/* Blur CheckTag - bottom left */}
+              <motion.div
+                className="absolute left-[3%] md:left-[8%] bottom-[28%] md:bottom-[22%] w-[140px] md:w-[233px] h-[140px] md:h-[211px] z-10"
+                animate={{
+                  y: [0, -15, 0],
+                }}
+                transition={{
+                  duration: 3.2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <Image
+                  src="/howitworks/blur-checktag.svg"
+                  alt="Blur CheckTag"
+                  fill
+                  className="object-contain"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              {/* Small CheckTag - bottom left, expanding and reducing */}
+              <motion.div
+                className="absolute left-[60%] md:left-[60%] bottom-[30%] md:bottom-[20%] w-[60px] md:w-[131px] h-[60px] md:h-[123px] z-20"
+                animate={{
+                  scale: [1, 1.2, 1],
+                }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <Image
+                  src="/howitworks/sm-checktag.svg"
+                  alt="Small CheckTag"
+                  fill
+                  className="object-contain"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              {/* Big CheckTag - bottom right */}
+              <motion.div
+                className="absolute right-[5%] md:right-[13%] bottom-[47%] md:bottom-[57%] w-[100px] md:w-[168px] h-[90px] md:h-[152px] z-15"
+                animate={{
+                  x: [0, -5, 0],
+                  y: [0, -5, 0],
+                  scale: [1, 0.97, 1],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.3,
+                }}
+              >
+                <Image
+                  src="/howitworks/big-checktag.svg"
+                  alt="Big CheckTag"
+                  fill
+                  className="object-contain"
+                  loading="lazy"
+                />
+              </motion.div>
             </div>
           </div>
           <div className="px-4">
