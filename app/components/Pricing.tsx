@@ -30,7 +30,8 @@ const Pricing = () => {
             </div>
             <div className="flex flex-col space-y-6 items-start">
               <p className="text-4xl font-bold">
-                $399<span className="text-[14px] text-[#99AFDB]">/mo</span>
+                {/* $399<span className="text-[14px] text-[#99AFDB]">/mo</span> */}
+                <p className="text-4xl font-bold">Custom</p>
               </p>
               <div className="flex flex-col space-y-2">
                 <p className="text-[14px] leading-[150%] tracking-[-5%] font-semibold ">
@@ -75,7 +76,8 @@ const Pricing = () => {
             </div>
             <div className="flex flex-col space-y-6 items-start">
               <p className="text-4xl font-bold">
-                $2,499<span className="text-[14px] text-[#A7DFED]">/mo</span>
+                {/* $2,499 <span className="text-[14px] text-[#A7DFED]">/mo</span> */}
+                <p className="text-4xl font-bold">Custom</p>
               </p>
               <div className="flex flex-col space-y-2">
                 <p className="text-[14px] leading-[150%] tracking-[-5%] font-semibold">
