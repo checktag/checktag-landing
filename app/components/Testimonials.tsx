@@ -38,10 +38,10 @@ const Testimonials = () => {
                 </p>
                 <div className="flex items-center">
                   <Image
-                    src="/icon.svg"
+                    src="/daniel.jpg"
                     alt="Daniel Koch"
-                    width={48}
-                    height={48}
+                    width={30}
+                    height={40}
                     loading="lazy"
                     className="rounded-full"
                   />
@@ -68,10 +68,10 @@ const Testimonials = () => {
                 </p>
                 <div className="flex items-center">
                   <Image
-                    src="/icon.svg"
+                    src="/ritaAde.jpg"
                     alt="Rita Adeyemi"
-                    width={48}
-                    height={48}
+                    width={30}
+                    height={40}
                     loading="lazy"
                     className="rounded-full"
                   />
@@ -95,10 +95,10 @@ const Testimonials = () => {
                 </p>
                 <div className="flex items-center">
                   <Image
-                    src="/icon.svg"
+                    src="/miguel.jpg"
                     alt="Miguel Santos"
-                    width={48}
-                    height={48}
+                    width={30}
+                    height={40}
                     loading="lazy"
                     className="rounded-full"
                   />
@@ -124,10 +124,10 @@ const Testimonials = () => {
                 </p>
                 <div className="flex items-center">
                   <Image
-                    src="/icon.svg"
+                    src="/ethan.jpg"
                     alt="Ethan Park"
-                    width={48}
-                    height={48}
+                    width={30}
+                    height={40}
                     loading="lazy"
                     className="rounded-full"
                   />
@@ -153,10 +153,10 @@ const Testimonials = () => {
                 </p>
                 <div className="flex items-center">
                   <Image
-                    src="/icon.svg"
+                    src="/aisha.jpg"
                     alt="Aisha Al-Hassan"
-                    width={48}
-                    height={48}
+                    width={30}
+                    height={40}
                     loading="lazy"
                     className="rounded-full"
                   />
