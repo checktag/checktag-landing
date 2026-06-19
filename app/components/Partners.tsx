@@ -14,52 +14,58 @@ const Partners = () => {
     { name: "Pepsi", src: "/partners/pepsi.svg", width: 106, height: 40 },
   ];
 
+  const stats = [
+    { value: "10M+", label: "Products Verified" },
+    { value: "<800ms", label: "Verification Speed" },
+    { value: "99.9%", label: "Accuracy Rate" },
+    { value: "62%", label: "Fewer Counterfeits" },
+  ];
+
   return (
-    <section className="bg-[#001642] text-white py-8 md:py-16 px-4 md:px-[40px] space-y-4 md:space-y-8 flex flex-col items-center">
-      <div className="space-y-4 text-center px-4">
-        <h2 className="text-[20px] md:text-[24px] leading-[100%] tracking-[-5%] font-normal">
-          Trusted by manufacturers in food & beverage, pharma, cosmetics & more!
+    <section className="relative bg-[#020817] border-y border-white/5 text-white py-12 md:py-16 px-4 md:px-[80px] flex flex-col items-center overflow-hidden">
+      {/* Subtle radial glow */}
+      <div className="absolute inset-0 radial-glow-blue pointer-events-none" />
+      
+      <div className="space-y-2 text-center px-4 relative z-10 mb-8">
+        <h2 className="text-[16px] md:text-[18px] leading-[140%] tracking-[-0.02em] font-medium text-white/40 max-w-[600px] mx-auto">
+          Trusted by manufacturers in food & beverage, pharma, cosmetics & more
         </h2>
-        <p className="text-[#6687CA] text-[14px] md:text-[16px]">
-          Over 10M scans • &lt;500ms verification • Global code coverage
-        </p>
-      </div>
-      <div className="flex gap-4 md:gap-8 overflow-hidden animate-scroll">
-        {Array(5)
-          .fill(partners)
-          .flat()
-          .map((partner, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg p-2 md:p-4 flex items-center justify-center w-[120px] md:w-[175px] h-[40px] md:h-[60px]"
-            >
-              <Image
-                src={partner.src}
-                alt={partner.name}
-                width={partner.width * 0.8}
-                height={partner.height * 0.8}
-                className="md:scale-100 scale-75"
-                loading="lazy"
-              />
-            </div>
-          ))}
       </div>
 
-      <style jsx>{`
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-100%);
-          }
-        }
+      {/* Stats bar */}
+      <div className="relative z-10 flex flex-wrap justify-center gap-6 md:gap-12 py-6 border-y border-white/5 w-full max-w-[900px] mx-auto mb-8">
+        {stats.map((stat, i) => (
+          <div key={i} className="text-center px-4">
+            <div className="text-sm md:text-base font-bold text-white tracking-tight">{stat.value}</div>
+            <div className="text-[9px] md:text-[10px] text-white/40 mt-1 uppercase tracking-wider font-semibold">{stat.label}</div>
+          </div>
+        ))}
+      </div>
 
-        .animate-scroll {
-          display: flex;
-          animation: scroll 180s linear infinite;
-        }
-      `}</style>
+      {/* Manufacturer logos carousel */}
+      <div className="overflow-hidden w-full relative z-10 mt-4">
+        <div className="flex gap-4 animate-scroll w-max">
+          {Array(6)
+            .fill(partners)
+            .flat()
+            .map((partner, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 bg-white rounded-lg flex items-center justify-center w-[75px] md:w-[95px] h-[24px] md:h-[30px] hover:bg-slate-50 transition-all duration-300 shadow-sm"
+              >
+                <div className="relative w-[70%] h-[55%] flex items-center justify-center">
+                  <Image
+                    src={partner.src}
+                    alt={partner.name}
+                    fill
+                    className="opacity-95 hover:opacity-100 transition-opacity duration-300 object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
     </section>
   );
 };

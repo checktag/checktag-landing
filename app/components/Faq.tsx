@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import minusIcon from "/public/minus.svg";
-import plusIcon from "/public/plus.svg";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Faq = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
@@ -16,112 +14,155 @@ const Faq = () => {
     {
       question: "Is the CheckTag app free for consumers?",
       answer:
-        "Yes. Scanning and seeing product info is free, and you don’t need an account.",
+        "Yes. Scanning and seeing product info is free, and you don't need an account. You can optionally sign up to track scan history, earn TAG rewards, and access AI-powered features like the product assistant chatbot.",
     },
     {
       question: "What do I see after scanning?",
       answer:
-        "A clear status—Genuine, Suspicious, or Expired—plus batch/expiry and brand info.",
+        "A clear status—Genuine, Suspicious, or Expired—plus detailed product information including ingredients, nutritional data, batch/expiry info, and brand details. Our AI also provides a health analysis of every ingredient.",
+    },
+    {
+      question: "How does the AI Product Assistant work?",
+      answer:
+        "After scanning a product, tap the chat icon to open a conversation with our AI assistant. Ask anything—from ingredient health impacts to alternative product suggestions based on price, ingredients, and your dietary needs.",
     },
     {
       question: "Can I scan offline?",
       answer:
-        "Yes. The app reads the code offline and confirms authenticity once you’re back online.",
+        "Yes. The app reads the code offline and confirms authenticity once you're back online. AI features require an active internet connection.",
     },
     {
-      question: "Do I need to sign in?",
+      question: "How do I download the APK for Android?",
       answer:
-        "No for scanning. Sign in only if you want history sync, alerts, or faster reporting.",
+        "Scroll to the Download section on this page and click the Android download button. The APK will be downloaded directly to your device. Make sure to enable 'Install from Unknown Sources' in your device settings.",
     },
     {
-      question: "What if the code won’t scan?",
+      question: "What if the code won't scan?",
       answer:
-        "The app reads the code offline and confirms authenticity once you’re back online.",
+        "Try cleaning the barcode surface and ensuring good lighting. If it still doesn't work, you can manually enter the code or take a photo for our AI to analyze the packaging.",
     },
   ];
 
   return (
     <section
-      className="py-16 bg-white text-[#0A2540] flex justify-center items-center"
+      className="relative py-20 md:py-32 bg-[#020817] overflow-hidden"
       id="faqs"
     >
-      <div className="container mx-auto px-4 flex flex-col items-center space-y-8">
-        <div className="text-center flex flex-col items-center space-y-4 w-full md:w-[680px] px-4 md:px-0">
-          <div className="text-[12px] font-normal leading-[100%] tracking-[-1%] bg-[#D3EFF6] text-[#22AED1] rounded-[40px] inline-block px-[12px] py-[6px]">
-            Frequently Asked Questions
-          </div>
-          <h2 className="text-[24px] md:text-[32px] text-[#444955] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold">
-            No guesswork, just answers
-          </h2>
-          <p className="text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-5%]">
-            Short, useful answers that move you forward: scan tips, reporting,
-            and alerts for customers; pricing tiers, rollouts, and analytics for
-            companies. Use this section to remove blockers and accelerate
-            adoption.
-          </p>
-          <div className="flex flex-row space-x-4 w-full md:w-auto">
-            <button className="flex-1 md:flex-none md:w-auto h-[42px] md:h-auto px-4 py-[9px] bg-[#CCD7ED] text-[#0037A6] text-[14px] leading-[100%] tracking-[-1%] rounded-[40px] hover:bg-[#0037A6] hover:text-white">
-              Customers
-            </button>
-            <button className="flex-1 md:flex-none md:w-auto px-4 py-[9px] bg-transparent border border-[#0037A6] text-[#0037A6] rounded-[40px] hover:bg-[#0037A6] hover:text-white">
-              Brands
-            </button>
-          </div>
-        </div>
+      {/* Background effects */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="orb-2 absolute top-[50%] left-[50%] w-[500px] h-[500px] rounded-full bg-[#0037A6]/5 blur-[200px]" />
+      </div>
 
-        <div className="space-y-4 w-full md:w-[996px] px-4 md:px-0">
+      <div className="container mx-auto px-4 relative z-10 max-w-[800px]">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="inline-flex items-center px-4 py-2 rounded-full border border-[#22AED1]/20 bg-[#22AED1]/5 mb-6">
+            <span className="text-[#22AED1] text-xs font-semibold tracking-wide uppercase">
+              Frequently Asked Questions
+            </span>
+          </div>
+          <h2 className="text-[28px] md:text-[48px] font-bold text-white leading-[120%] tracking-[-0.03em] mb-4">
+            No guesswork,{" "}
+            <span className="text-white/40">just answers</span>
+          </h2>
+          <p className="text-white/40 text-base max-w-[500px] mx-auto leading-[160%]">
+            Quick answers about scanning, AI features, downloading, and
+            everything CheckTag.
+          </p>
+        </motion.div>
+
+        <div className="space-y-3">
           {faqs.map((faq, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`bg-[#E8F6FA] px-4 md:px-[51px] py-6 md:py-[31px] justify-center rounded-3xl flex flex-col transition-all duration-300 ease-in-out ${
+              className={`glass-card rounded-2xl overflow-hidden transition-all duration-300 ${
                 openFaqIndex === index
-                  ? "max-h-[500px]"
-                  : "max-h-[100px] md:max-h-[80px]"
+                  ? "border-[#22AED1]/20"
+                  : "border-white/5 hover:border-white/10"
               }`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
             >
-              <div className="flex items-center justify-between space-x-4">
-                <h3 className="text-base md:text-lg font-bold pr-4">
+              <button
+                onClick={() => toggleFaq(index)}
+                className="flex items-center justify-between w-full px-6 py-5 text-left"
+              >
+                <h3 className="text-[15px] md:text-base font-semibold text-white/80 pr-4">
                   {faq.question}
                 </h3>
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="flex-shrink-0"
-                  title={openFaqIndex === index ? "Close FAQ" : "Open FAQ"}
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                    openFaqIndex === index
+                      ? "bg-[#22AED1]/10 border border-[#22AED1]/30 rotate-180"
+                      : "bg-white/5 border border-white/10"
+                  }`}
                 >
-                  <Image
-                    src={openFaqIndex === index ? minusIcon : plusIcon}
-                    alt={openFaqIndex === index ? "Close FAQ" : "Open FAQ"}
-                    width={36}
-                    height={36}
-                    className="md:w-[46px] md:h-[46px]"
-                    loading="lazy"
-                  />
-                </button>
-              </div>
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  openFaqIndex === index ? "max-h-[500px]" : "max-h-0"
-                }`}
-              >
-                <p className="text-[#8F9299] leading-relaxed">{faq.answer}</p>
-              </div>
-            </div>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke={openFaqIndex === index ? "#22AED1" : "#ffffff60"}
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+              </button>
+              <AnimatePresence>
+                {openFaqIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-6 pb-5 text-white/40 text-sm leading-[170%]">
+                      {faq.answer}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           ))}
         </div>
 
-        <div className="text-center w-full md:w-[616px] px-4 md:px-0 space-y-4">
-          <h3 className="text-[24px] md:text-[32px] leading-[100%] tracking-[-5%] font-bold">
+        {/* Contact CTA */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h3 className="text-[20px] md:text-[24px] font-bold text-white mb-3">
             Still have questions?
           </h3>
-          <p className="text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-1%]">
-            Quality work requires attention to detail. Innovation drives
-            progress in unexpected ways. Great design balances form and
-            function. Learning never stops in a changing world.
+          <p className="text-white/30 text-sm mb-6 max-w-[400px] mx-auto">
+            Our team is here to help. Reach out and we'll get back to you
+            within 24 hours.
           </p>
-          <button className="p-4 w-[160px] bg-[#0037A6] text-white rounded-[40px] hover:bg-[#002164]">
-            Send an email
-          </button>
-        </div>
+          <a
+            href="mailto:support@checktag.co"
+            className="inline-flex items-center space-x-2 px-8 py-3.5 border border-white/15 text-white rounded-full font-medium text-sm hover:bg-white/5 transition-all duration-300"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            <span>Send an email</span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

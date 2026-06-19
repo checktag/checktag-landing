@@ -1,163 +1,183 @@
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
+
+const plans = [
+  {
+    name: "Starter",
+    description: "Best for small teams or pilots getting live in <2 weeks",
+    price: "Custom",
+    includes: "Includes",
+    features: [
+      "Up to 100k unit codes / month",
+      "Dashboard for product, batch/lot & plant setup",
+      "Instant verification API (<800ms typical)",
+      "Anti-reuse basics (duplicate scan detection)",
+      "Consumer app pages (no-code editor)",
+      "Reports intake (photo uploads, notifications)",
+      "Basic analytics (scan counts, top locations)",
+      "2 seats (role-based), 1 plant",
+      "Email support (next-business-day)",
+    ],
+    overages: "Overages: $5 per additional 1k codes",
+    cta: "Start a pilot",
+    highlight: false,
+    bg: "glass-card",
+    border: "border-white/5",
+    ctaStyle:
+      "border border-white/20 text-white hover:bg-white/10",
+  },
+  {
+    name: "Growth",
+    description: "Best for brands rolling out across multiple SKUs and regions",
+    price: "Custom",
+    includes: "Everything in Starter, plus",
+    features: [
+      "Up to 1M unit codes / month (tiered discounts)",
+      "Advanced anti-clone (geo/time anomaly scoring)",
+      "Recall tools (batch/lot targeting; in-app alerts)",
+      "Carton ↔ unit linking (hierarchical serialization)",
+      "10 seats, up to 5 plants, approval workflows",
+      "Custom fields on scan page",
+      "Analytics Pro (cohort trends, hotspot map, CSV)",
+      "Webhooks & SDKs (connect ERP/WMS/CRM)",
+      "SLA support (business hours, 4h first response)",
+    ],
+    overages: "Overages: lower $/1k after cap",
+    cta: "Contact sales",
+    highlight: true,
+    bg: "bg-gradient-to-b from-[#22AED1]/15 to-[#22AED1]/5",
+    border: "border-[#22AED1]/30",
+    ctaStyle:
+      "bg-[#22AED1] text-white hover:bg-[#1A9AB8] shadow-lg shadow-[#22AED1]/20",
+  },
+  {
+    name: "Enterprise",
+    description: "Best for regulated, multi-country operations with strict SLAs",
+    price: "Custom",
+    includes: "Everything in Growth, plus",
+    features: [
+      "Unlimited codes (committed annual volume)",
+      "Multi-tenant & multi-brand workspaces",
+      "SSO / SAML, SCIM user provisioning",
+      "Compliance pack (audit logs, IP allowlists)",
+      "Batch anchoring (optional blockchain)",
+      "Fine-grained policies (geo-fencing, device rules)",
+      "Premium support (24×7, dedicated manager)",
+      "On-site/virtual onboarding & packaging guidance",
+    ],
+    cta: "Contact sales",
+    highlight: false,
+    bg: "glass-card",
+    border: "border-white/5",
+    ctaStyle:
+      "border border-white/20 text-white hover:bg-white/10",
+  },
+];
 
 const Pricing = () => {
   return (
     <section
-      className="py-12 md:py-24 min-h-screen bg-[#001642] text-white flex justify-center items-center px-4"
+      className="relative py-20 md:py-32 bg-[#020817] overflow-hidden"
       id="pricing"
     >
-      <div className="container mx-auto flex flex-col items-center space-y-8 md:space-y-4">
-        <div className="text-[12px] font-normal leading-[100%] tracking-[-1%] bg-[#CCD7ED] text-[#0037A6] rounded-[40px] flex justify-center items-center px-[12px] py-[6px] w-[63px]">
-          Pricing
-        </div>
-        <h2 className="text-center text-[24px] md:text-[32px] text-[#E8F6FA] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold px-4">
-          Pricing for brands — scale from pilot to global rollout.
-        </h2>
-        <p className="text-center text-[14px] md:text-[16px] text-[#6687CA] leading-[150%] tracking-[-5%] mb-6 px-4">
-          Choose a plan that matches your stage. Scanning for consumers remains
-          free.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center items-center w-full md:w-auto px-4 md:px-0">
-          {/* Starter Plan */}
-          <div className="bg-[#002164] p-8 rounded-[32px] flex flex-col justify-center items-center text-[#E5EBF6] space-y-[24px]">
-            <div className="flex flex-col space-y-2 items-start">
-              <h3 className="text-xl font-bold leading-[100%] tracking-[-5%]">
-                Starter
-              </h3>
-              <p className="text-[14px] leading-[150%] tracking-[-5%] text-[#99AFDB]">
-                Best for small teams or pilots getting live in &lt;2 weeks
-              </p>
-            </div>
-            <div className="flex flex-col space-y-6 items-start">
-              <p className="text-4xl font-bold">
-                {/* $399<span className="text-[14px] text-[#99AFDB]">/mo</span> */}
-                <p className="text-4xl font-bold">Custom</p>
-              </p>
-              <div className="flex flex-col space-y-2">
-                <p className="text-[14px] leading-[150%] tracking-[-5%] font-semibold ">
-                  Includes
-                </p>
-                <ul className="list-disc list-inside w-[320px] text-[#99AFDB] text-[14px] leading-[150%] tracking-[-5%] ">
-                  <li>
-                    Up to 100k unit codes / month (unit, carton, or pallet)
-                  </li>
-                  <li>Dashboard for product, batch/lot & plant setup</li>
-                  <li>Instant verification API (&lt;500ms typical)</li>
-                  <li>
-                    Anti-reuse basics (duplicate scan detection by time/device)
-                  </li>
-                  <li>Consumer app pages (no-code editor for product info)</li>
-                  <li>Reports intake (photo uploads, email notifications)</li>
-                  <li>
-                    Basic analytics (scan counts, top locations, device mix)
-                  </li>
-                  <li>2 seats (role-based), 1 plant</li>
-                  <li>Email support (next-business-day)</li>
-                </ul>
-                <p className="text-[14px] leading-[150%] tracking-[-5%] font-semibold ">
-                  Overages: $5 per additional 1k codes
-                </p>
-              </div>
-              <button className="w-[320px] flex justify-center py-3 px-4 bg-transparent text-white rounded-[40px] border border-white hover:bg-white hover:text-[#002164]">
-                Start a pilot
-              </button>
-            </div>
-          </div>
+      {/* Background effects */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="orb-1 absolute top-[30%] left-[20%] w-[500px] h-[500px] rounded-full bg-[#0037A6]/8 blur-[200px]" />
+        <div className="orb-2 absolute bottom-[20%] right-[20%] w-[400px] h-[400px] rounded-full bg-[#22AED1]/6 blur-[150px]" />
+      </div>
 
-          {/* Growth Plan */}
-          <div className="bg-[#22AED1] p-8 rounded-[32px] flex flex-col justify-center items-center text-white space-y-[24px]">
-            <div className="flex flex-col space-y-2 items-start w-[320px]">
-              <h3 className="text-xl font-bold leading-[100%] tracking-[-5%]">
-                Growth
-              </h3>
-              <p className="text-[14px] leading-[150%] tracking-[-5%] text-[#E8F6FA]">
-                Best for brands rolling out across multiple SKUs and regions
-              </p>
-            </div>
-            <div className="flex flex-col space-y-6 items-start">
-              <p className="text-4xl font-bold">
-                {/* $2,499 <span className="text-[14px] text-[#A7DFED]">/mo</span> */}
-                <p className="text-4xl font-bold">Custom</p>
-              </p>
-              <div className="flex flex-col space-y-2">
-                <p className="text-[14px] leading-[150%] tracking-[-5%] font-semibold">
-                  Everything in Starter, plus
-                </p>
-                <ul className="list-disc list-inside w-[320px] text-[#E8F6FA] text-[14px] leading-[150%] tracking-[-5%]">
-                  <li>Up to 1M unit codes / month (tiered discounts)</li>
-                  <li>
-                    Advanced anti-clone (geo/time anomaly scoring, re-scan
-                    heatmaps)
-                  </li>
-                  <li>
-                    Recall tools (batch/lot targeting; in-app consumer alerts)
-                  </li>
-                  <li>Carton ↔ unit linking (hierarchical serialization)</li>
-                  <li>
-                    Team & access: 10 seats, up to 5 plants, approval workflows
-                  </li>
-                  <li>
-                    Custom fields on scan page (ingredients, warranty, care)
-                  </li>
-                  <li>
-                    Analytics Pro (cohort trends, hotspot map, export to CSV)
-                  </li>
-                  <li>Webhooks & SDKs (connect ERP/WMS/CRM)</li>
-                  <li>SLA support (business hours, 4h first response)</li>
-                </ul>
-                <p className="text-[14px] leading-[150%] tracking-[-5%] font-semibold">
-                  Overages: lower $/1k after cap
-                </p>
-              </div>
-              <button className="w-[320px] flex justify-center py-3 px-4 text-[#22AED1] rounded-[40px] border border-white bg-white hover:text-[#22AED1]/hover:bg-white">
-                Contact sales
-              </button>
-            </div>
+      <div className="container mx-auto px-4 md:px-[80px] relative z-10">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="inline-flex items-center px-4 py-2 rounded-full border border-[#22AED1]/20 bg-[#22AED1]/5 mb-6">
+            <span className="text-[#22AED1] text-xs font-semibold tracking-wide uppercase">
+              Pricing
+            </span>
           </div>
+          <h2 className="text-[28px] md:text-[48px] font-bold text-white leading-[120%] tracking-[-0.03em] mb-4">
+            Scale from pilot to{" "}
+            <span className="gradient-text">global rollout</span>
+          </h2>
+          <p className="text-white/40 text-base md:text-lg max-w-[550px] mx-auto leading-[160%]">
+            Choose a plan that matches your stage. Scanning for consumers
+            remains free forever.
+          </p>
+        </motion.div>
 
-          {/* Enterprise Plan */}
-          <div className="bg-[#002164] p-8 rounded-[32px] flex flex-col justify-center items-center text-[#E5EBF6] space-y-[24px]">
-            <div className="flex flex-col space-y-2 items-start w-[320px]">
-              <h3 className="text-xl font-bold leading-[100%] tracking-[-5%]">
-                Enterprise
-              </h3>
-              <p className="text-[14px] leading-[150%] tracking-[-5%] text-[#99AFDB]">
-                Best for regulated, multi-country operations with strict SLAs
-              </p>
-            </div>
-            <div className="flex flex-col space-y-6 items-start">
-              <p className="text-4xl font-bold">Custom</p>
-              <div className="flex flex-col space-y-2">
-                <p className="text-[14px] leading-[150%] tracking-[-5%] font-semibold">
-                  Everything in Growth, plus
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1100px] mx-auto">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={index}
+              className={`relative p-8 rounded-3xl ${plan.bg} border ${plan.border} flex flex-col transition-all duration-500 hover:border-white/15 ${
+                plan.highlight ? "md:scale-105 md:-mt-4 md:-mb-4" : ""
+              }`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+            >
+              {plan.highlight && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#22AED1] text-white text-[10px] font-bold uppercase tracking-wider">
+                  Most Popular
+                </div>
+              )}
+
+              <div className="mb-6">
+                <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                <p className="text-white/30 text-sm leading-[150%]">
+                  {plan.description}
                 </p>
-                <ul className="list-disc list-inside w-[320px] text-[#99AFDB] text-[14px] leading-[150%] tracking-[-5%]">
-                  <li>
-                    Unlimited codes (committed annual volume; best unit pricing)
-                  </li>
-                  <li>Multi-tenant & multi-brand workspaces</li>
-                  <li>SSO / SAML, SCIM user provisioning</li>
-                  <li>
-                    Compliance pack (audit logs, IP allowlists, data residency
-                    options)
-                  </li>
-                  <li>
-                    Batch anchoring (optional blockchain) for audit trails
-                  </li>
-                  <li>
-                    Fine-grained policies (geo-fencing, device reputation rules)
-                  </li>
-                  <li>
-                    Premium support (24×7, dedicated manager, escalation SLAs)
-                  </li>
-                  <li>On-site/virtual onboarding & packaging guidance</li>
-                </ul>
               </div>
-              <button className="w-[320px] flex justify-center py-3 px-4 bg-transparent text-white rounded-[40px] border border-white hover:bg-white hover:text-[#112240]">
-                Contact sales
+
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-white">{plan.price}</span>
+              </div>
+
+              <div className="flex-1 mb-8">
+                <p className="text-white/50 text-sm font-semibold mb-4">
+                  {plan.includes}
+                </p>
+                <ul className="space-y-3">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start space-x-2.5">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke={plan.highlight ? "#22AED1" : "#ffffff40"}
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="mt-0.5 flex-shrink-0"
+                      >
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                      <span className="text-white/50 text-[13px] leading-[150%]">
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                {plan.overages && (
+                  <p className="text-white/30 text-xs mt-4 italic">{plan.overages}</p>
+                )}
+              </div>
+
+              <button
+                className={`w-full py-3.5 rounded-full font-medium text-sm transition-all duration-300 ${plan.ctaStyle}`}
+              >
+                {plan.cta}
               </button>
-            </div>
-          </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

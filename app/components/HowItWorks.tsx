@@ -4,106 +4,142 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import notificationImage from "/public/notification.svg";
-import handHoldingPhoneImage from "/public/handholdingphone.svg";
 import googlePlayImage from "/public/googleplay.svg";
 
 const HowItWorks = () => {
   return (
     <section
-      className="py-8 md:py-16 bg-white flex justify-center items-center"
+      className="relative py-20 md:py-32 bg-[#020817] overflow-hidden"
       id="how-it-works"
     >
-      <div className="container px-4 md:mx-[120px]">
-        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-24 mb-8 md:mb-16">
-          {/* For Manufacturers Section */}
-          <div className="px-4 md:px-0">
-            <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">
-              For Manufacturers
-            </span>
-            <h2 className="text-[24px] md:text-[32px] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold text-[#444955] mt-5 mb-4">
-              Built for manufacturers and QA teams
+      {/* Background effects */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="orb-1 absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full bg-[#0037A6]/8 blur-[150px]" />
+        <div className="orb-3 absolute bottom-[20%] left-[5%] w-[400px] h-[400px] rounded-full bg-[#22AED1]/6 blur-[120px]" />
+      </div>
+
+      <div className="container mx-auto px-4 md:px-[80px] relative z-10">
+        {/* For Manufacturers Section */}
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 mb-16 md:mb-32 items-center">
+          <motion.div
+            className="px-4 md:px-0"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="inline-flex items-center px-4 py-2 rounded-full border border-[#22AED1]/20 bg-[#22AED1]/5 mb-6">
+              <span className="text-[#22AED1] text-xs font-semibold tracking-wide uppercase">
+                For Manufacturers
+              </span>
+            </div>
+            <h2 className="text-[24px] md:text-[40px] leading-[120%] tracking-[-0.03em] font-bold text-white mb-5">
+              Built for manufacturers{" "}
+              <span className="text-white/40">and QA teams</span>
             </h2>
-            <p className="w-full md:w-[502px] text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-5%] mb-6">
-              Quality work requires attention to detail. Innovation drives
-              progress in unexpected ways. Great design balances form and
-              function. Learning never stops in a changing world.
+            <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
+              Integrate anti-counterfeit protection directly into your production
+              line. Unit-level serialization, real-time analytics, and automated
+              threat detection.
             </p>
-            <ul className="list-disc list-inside text-gray-600 mb-6 space-y-3 text-[16px] leading-[150%] tracking-[-5%]">
-              <li>
-                <strong>Unit-level serialization:</strong> Every item has a
-                unique identity.
-              </li>
-              <li>
-                <strong>Instant verification:</strong> &lt;500ms API checks at
-                global edge.
-              </li>
-              <li>
-                <strong>Cloning & reuse detection:</strong> Flag suspicious
-                re-scans by time/geo/device.
-              </li>
-              <li>
-                <strong>Recall & batch tools:</strong> Push precise safety
-                notices by batch/lot.
-              </li>
-              <li>
-                <strong>Analytics:</strong> Heatmaps of scan locations and
-                counterfeit hotspots.
-              </li>
+            <ul className="space-y-4 mb-8">
+              {[
+                {
+                  strong: "Unit-level serialization:",
+                  text: "Every item has a unique identity.",
+                },
+                {
+                  strong: "Instant verification:",
+                  text: "<800ms API checks at global edge.",
+                },
+                {
+                  strong: "Cloning & reuse detection:",
+                  text: "Flag suspicious re-scans by time/geo/device.",
+                },
+                {
+                  strong: "Recall & batch tools:",
+                  text: "Push precise safety notices by batch/lot.",
+                },
+                {
+                  strong: "Analytics:",
+                  text: "Heatmaps of scan locations and counterfeit hotspots.",
+                },
+              ].map((item, i) => (
+                <li key={i} className="flex items-start space-x-3">
+                  <div className="mt-1 w-5 h-5 rounded-full bg-[#22AED1]/10 border border-[#22AED1]/30 flex items-center justify-center flex-shrink-0">
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#22AED1"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  </div>
+                  <span className="text-white/60 text-[14px] leading-[160%]">
+                    <strong className="text-white/80">{item.strong}</strong>{" "}
+                    {item.text}
+                  </span>
+                </li>
+              ))}
             </ul>
-            <div className="flex flex-row space-x-4 h-auto md:h-[44px] items-center w-full md:w-auto">
-              <button className="flex-1 md:flex-none md:w-auto p-4 rounded-[40px] bg-[#0037A6] text-white hover:bg-blue-800">
-                Join the waitlist
-              </button>
-            </div>
-            {/* Image for mobile */}
-            <div className="mt-8 md:hidden">
+            <a
+              href="mailto:hello@checktag.io?subject=Join the CheckTag Waitlist"
+              className="inline-block px-8 py-3.5 bg-[#22AED1] hover:bg-[#1A9AB8] text-white rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-[#22AED1]/20 transition-all duration-300"
+            >
+              Join the waitlist
+            </a>
+          </motion.div>
+          <motion.div
+            className="flex justify-center items-center"
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="w-full max-w-[500px] p-6 glass-card rounded-3xl border border-white/5">
               <Image
                 src={notificationImage}
-                alt="Notification"
-                className="w-full h-auto"
+                alt="Notification Dashboard"
+                className="w-full h-auto rounded-2xl"
                 loading="lazy"
               />
             </div>
-          </div>
-          <div className="flex justify-center items-center max-md:hidden">
-            <div className="w-full">
-              <Image
-                src={notificationImage}
-                alt="Notification"
-                loading="lazy"
-              />
-            </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-24 mt-8 md:mt-32">
-          {/* For Customers Section */}
-          <div className="flex justify-center items-center md:block order-last md:order-first">
-            <div className="w-full relative h-[350px] md:h-[600px]">
-              {/* Hand holding phone - base layer */}
+        {/* For Customers Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-16 mt-8 md:mt-16">
+          <motion.div
+            className="flex justify-center items-center order-last md:order-first"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="w-full relative h-[450px] md:h-[700px] flex items-center justify-center">
+              {/* Hand holding phone */}
               <div className="absolute inset-0 flex items-center justify-center z-0">
-                <div className="w-[70%] md:w-[380px] mt-[-10px] md:mt-[-40px]">
+                <div className="relative w-full h-full md:w-[540px] mt-[-10px] md:mt-[-40px]">
                   <Image
                     src="/howitworks/hand.svg"
                     alt="Hand Holding Phone"
                     fill
-                    className="object-contain"
+                    className="object-contain "
                     loading="lazy"
                   />
                 </div>
               </div>
 
-              {/* Blur CheckTag - bottom left */}
+              {/* Blur CheckTag */}
               <motion.div
                 className="absolute left-[3%] md:left-[8%] bottom-[28%] md:bottom-[22%] w-[140px] md:w-[233px] h-[140px] md:h-[211px] z-10"
-                animate={{
-                  y: [0, -15, 0],
-                }}
-                transition={{
-                  duration: 3.2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Image
                   src="/howitworks/blur-checktag.svg"
@@ -114,17 +150,11 @@ const HowItWorks = () => {
                 />
               </motion.div>
 
-              {/* Small CheckTag - bottom left, expanding and reducing */}
+              {/* Small CheckTag */}
               <motion.div
-                className="absolute left-[60%] md:left-[60%] bottom-[30%] md:bottom-[20%] w-[60px] md:w-[131px] h-[60px] md:h-[123px] z-20"
-                animate={{
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                className="absolute left-[60%] bottom-[30%] md:bottom-[20%] w-[60px] md:w-[131px] h-[60px] md:h-[123px] z-20"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Image
                   src="/howitworks/sm-checktag.svg"
@@ -135,7 +165,7 @@ const HowItWorks = () => {
                 />
               </motion.div>
 
-              {/* Big CheckTag - bottom right */}
+              {/* Big CheckTag */}
               <motion.div
                 className="absolute right-[5%] md:right-[13%] bottom-[47%] md:bottom-[57%] w-[100px] md:w-[168px] h-[90px] md:h-[152px] z-15"
                 animate={{
@@ -159,143 +189,169 @@ const HowItWorks = () => {
                 />
               </motion.div>
             </div>
-          </div>
-          <div className="px-4">
-            <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">
-              For Customers
-            </span>
-            <h2 className="text-[24px] md:text-[32px] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold text-[#444955] mt-5 mb-4">
-              Authenticity pays — collect TAG with every scan
+          </motion.div>
+
+          <motion.div
+            className="px-4"
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="inline-flex items-center px-4 py-2 rounded-full border border-[#22AED1]/20 bg-[#22AED1]/5 mb-6">
+              <span className="text-[#22AED1] text-xs font-semibold tracking-wide uppercase">
+                For Customers
+              </span>
+            </div>
+            <h2 className="text-[24px] md:text-[40px] leading-[120%] tracking-[-0.03em] font-bold text-white mb-5">
+              Authenticity pays —{" "}
+              <span className="gradient-text-warm">collect TAG</span> with every scan
             </h2>
-            <p className="w-full md:w-[502px] text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-5%] mb-6">
+            <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
               Earn TAG every time you verify a product—help stop counterfeits
               while your balance grows and brands get safer data.
             </p>
-            <ul className="list-disc list-inside text-gray-600 mb-6 space-y-3 text-[16px] leading-[150%] tracking-[-5%]">
-              <li>Look for the CheckTag on the product</li>
-              <li>
-                Scan with our app to see if the product is Verified, Suspicious,
-                or Expired.
-              </li>
-              <li>
-                Earn TAG with every valid scan — plus streaks, brand campaign
-                boosts, and referral bonuses
-              </li>
-              <li>Report problems in seconds—photos help the brand act</li>
+            <ul className="space-y-4 mb-8">
+              {[
+                "Look for the CheckTag on the product",
+                "Scan with our app to see if the product is Verified, Suspicious, or Expired",
+                "Earn TAG with every valid scan — plus streaks, brand campaign boosts, and referral bonuses",
+                "Report problems in seconds—photos help the brand act",
+              ].map((item, i) => (
+                <li key={i} className="flex items-start space-x-3">
+                  <div className="mt-1 w-5 h-5 rounded-full bg-[#FF8633]/10 border border-[#FF8633]/30 flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#FF8633] text-[10px] font-bold">{i + 1}</span>
+                  </div>
+                  <span className="text-white/60 text-[14px] leading-[160%]">{item}</span>
+                </li>
+              ))}
             </ul>
             <div className="flex space-x-4">
-              <button
-                className="px-6 py-3 bg-[#0037A6] text-white rounded-4xl hover:bg-blue-800"
-                title="Google Play"
+              <a
+                href="#download"
+                className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-full font-medium text-sm hover:bg-white/10 transition-all duration-300 flex items-center space-x-2"
               >
-                <Image src={googlePlayImage} alt="Google Play" loading="lazy" />
-              </button>
-              <button
-                className="flex items-center px-6 py-3 bg-[#0037A6] text-white rounded-4xl hover:bg-blue-800"
-                title="App Store"
+                <Image src={googlePlayImage} alt="Google Play" width={80} height={20} loading="lazy" className="brightness-0 invert" />
+              </a>
+              <a
+                href="#download"
+                className="flex items-center px-6 py-3 bg-white/5 border border-white/10 text-white rounded-full hover:bg-white/10 transition-all duration-300"
               >
                 <Image
                   src="/appstore.svg"
                   alt="App Store"
-                  width={20}
-                  height={26}
-                  className="mr-2"
+                  width={16}
+                  height={20}
+                  className="mr-2 brightness-0 invert"
                   loading="lazy"
                 />
                 <div className="text-left">
-                  <p className="text-[8px] leading-[50%] tracking-[-10%]">
+                  <p className="text-[8px] leading-[50%] text-white/50">
                     Download on the
                   </p>
-                  <p className="text-md leading-[120%] tracking-[-10%] font-bold">
+                  <p className="text-sm leading-[120%] font-semibold">
                     App Store
                   </p>
                 </div>
-              </button>
+              </a>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* AI Feature Section */}
-        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-24 mt-8 md:mt-32">
-          <div className="px-4 md:px-0">
-            <span className="text-[12px] leading-[100%] tracking-[-1%] font-semibold text-[#22AED1] py-[6px] px-[12px] mb-5 rounded-[40px] bg-[#D3EFF6]">
-              For Customers
-            </span>
-            <h2 className="text-[24px] md:text-[32px] leading-[120%] md:leading-[100%] tracking-[-5%] font-bold text-[#444955] mt-5 mb-4">
-              AI feature for deep checks and extra verification layers
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 mt-16 md:mt-32 items-center">
+          <motion.div
+            className="px-4 md:px-0"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-[#FF8633]/20 bg-[#FF8633]/5 mb-6">
+              <span className="text-[#FF8633] text-xs font-semibold tracking-wide uppercase">
+                AI-Powered • New
+              </span>
+            </div>
+            <h2 className="text-[24px] md:text-[40px] leading-[120%] tracking-[-0.03em] font-bold text-white mb-5">
+              Deep AI analysis{" "}
+              <span className="text-white/40">for every product</span>
             </h2>
-            <p className="w-full md:w-[502px] text-[14px] md:text-[16px] text-[#8F9299] leading-[150%] tracking-[-5%] mb-6">
+            <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
               Smarter than a scan—our AI cross-checks every result with forensic
-              and provenance signals for trust you can prove.
+              and provenance signals for trust you can prove. Plus, chat with our
+              AI assistant about any product.
             </p>
-            <ul className="list-disc list-inside text-gray-600 mb-6 space-y-3 text-[16px] leading-[150%] tracking-[-5%]">
-              <li>
-                <strong>Computer-vision forensics:</strong> spotx cloned codes,
-                reprints, micro-tamper marks, and packaging inconsistencies
-              </li>
-              <li>
-                <strong>Provenance & policy checks:</strong> validates
-                batch/lot, geofenced distribution, recall lists, and on-chain
-                attestations where supported
-              </li>
-              <li>
-                <strong>Risk-based step-ups:</strong> triggers extra
-                verification (multi-angle rescan, NFC tap, or OTP check) only
-                when something looks off
-              </li>
+            <ul className="space-y-4 mb-8">
+              {[
+                {
+                  strong: "Ingredient Health Analysis:",
+                  text: "AI breaks down every ingredient, explaining health impacts and risk levels",
+                },
+                {
+                  strong: "AI Product Assistant:",
+                  text: "Chat with our bot to compare prices, find alternatives, and get personalized recommendations",
+                },
+                {
+                  strong: "Computer-vision forensics:",
+                  text: "Spots cloned codes, reprints, micro-tamper marks, and packaging inconsistencies",
+                },
+                {
+                  strong: "Provenance checks:",
+                  text: "Validates batch/lot, geofenced distribution, recall lists, and on-chain attestations",
+                },
+              ].map((item, i) => (
+                <li key={i} className="flex items-start space-x-3">
+                  <div className="mt-1 w-5 h-5 rounded-full bg-[#FF8633]/10 border border-[#FF8633]/30 flex items-center justify-center flex-shrink-0">
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#FF8633"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  </div>
+                  <span className="text-white/60 text-[14px] leading-[160%]">
+                    <strong className="text-white/80">{item.strong}</strong>{" "}
+                    {item.text}
+                  </span>
+                </li>
+              ))}
             </ul>
-            <div className="flex flex-row space-x-4 h-auto md:h-[44px] items-center w-full md:w-auto">
-              <button
-                className="flex items-center px-6 py-3 bg-[#0037A6] text-white rounded-4xl hover:bg-blue-800"
-                title="Google Play"
+            <div className="flex space-x-4">
+              <a
+                href="#download"
+                className="px-8 py-3.5 shimmer-btn text-white rounded-full font-medium text-sm hover:shadow-lg hover:shadow-[#0037A6]/30 transition-all duration-300"
               >
-                <Image src={googlePlayImage} alt="Google Play" loading="lazy" />
-              </button>
-              <button
-                className="flex items-center px-6 py-3 bg-[#0037A6] text-white rounded-4xl hover:bg-blue-800"
-                title="App Store"
-              >
+                Try it now
+              </a>
+            </div>
+          </motion.div>
+          <motion.div
+            className="flex justify-center items-center"
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-r from-[#FF8633]/20 via-[#22AED1]/10 to-[#0037A6]/20 rounded-3xl blur-xl" />
+              <div className="relative glass-card rounded-3xl border border-white/5 p-6">
                 <Image
-                  src="/appstore.svg"
-                  alt="App Store"
-                  width={20}
-                  height={26}
-                  className="mr-2"
+                  src="/robot.svg"
+                  alt="AI Robot"
+                  width={450}
+                  height={450}
+                  className="w-full h-auto"
                   loading="lazy"
                 />
-                <div className="text-left">
-                  <p className="text-[8px] leading-[50%] tracking-[-10%]">
-                    Download on the
-                  </p>
-                  <p className="text-md leading-[120%] tracking-[-10%] font-bold">
-                    App Store
-                  </p>
-                </div>
-              </button>
+              </div>
             </div>
-            {/* Image for mobile */}
-            <div className="mt-8 md:hidden">
-              <Image
-                src="/robot.svg"
-                alt="AI Robot"
-                width={600}
-                height={600}
-                className="w-full h-auto"
-                loading="lazy"
-              />
-            </div>
-          </div>
-          <div className="flex justify-center items-center max-md:hidden">
-            <div className="w-full">
-              <Image
-                src="/robot.svg"
-                alt="AI Robot"
-                width={600}
-                height={600}
-                loading="lazy"
-              />
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

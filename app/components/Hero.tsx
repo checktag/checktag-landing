@@ -9,30 +9,61 @@ const Hero = () => {
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setAnimationStep(1), 1500), // Show genuine product notification
-      setTimeout(() => setAnimationStep(2), 3500), // Show alert notification
+      setTimeout(() => setAnimationStep(1), 1500),
+      setTimeout(() => setAnimationStep(2), 3500),
     ];
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
   return (
-    <section className="flex flex-col items-center text-center bg-white pt-8 md:pt-16 px-4">
-      <h1 className="text-[40px] md:text-[80px] font-bold text-[#444955] mb-4 w-full md:w-[905px] leading-[100%] tracking-[-5%]">
-        Stop counterfeits at the source. Verify in seconds
-      </h1>
-      <p className="text-base md:text-lg text-[#8F9299] font-normal leading-[150%] tracking-[-5%] w-full md:w-[641px] mb-8">
-        CheckTag gives each product a unique, secure code. Brands protect their
-        lines; customers scan to confirm authenticity—instantly.
-      </p>
-      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 h-auto md:h-[44px] items-center mb-8 md:mb-16 w-full md:w-auto">
-        <button className="w-full md:w-auto p-4 bg-[#0037A6] text-white rounded-[40px] hover:bg-blue-800">
-          Join the waitlist
-        </button>
+    <section className="relative flex flex-col items-center text-center bg-transparent pt-28 md:pt-40 px-4 pb-12 md:pb-16 overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="orb-1 absolute top-[10%] left-[15%] w-[400px] h-[400px] rounded-full bg-[#0037A6]/20 blur-[120px]" />
+        <div className="orb-2 absolute top-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-[#22AED1]/15 blur-[100px]" />
+        <div className="orb-3 absolute bottom-[20%] left-[40%] w-[300px] h-[300px] rounded-full bg-[#7ACEE3]/10 blur-[80px]" />
       </div>
 
-      {/* Animated Hero Section */}
-      <div className="w-full md:w-[995px] h-[400px] md:h-[500px] relative mt-10 md:mt-24">
+      {/* Dot pattern overlay */}
+      <div className="absolute inset-0 dot-pattern pointer-events-none" />
+
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-30"
+        >
+          <source src="/checktagScan.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020817]/30 via-[#020817]/60 to-[#020817]" />
+      </div>
+
+      <motion.h1
+        className="relative z-10 text-[36px] md:text-[72px] lg:text-[80px] font-bold text-white mb-6 w-full md:w-[950px] leading-[110%] tracking-[-0.03em]"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        Stop counterfeits.{" "}
+        <span className="gradient-text">Verify in seconds.</span>
+      </motion.h1>
+
+      <motion.p
+        className="relative z-10 text-base md:text-lg text-white/50 font-normal leading-[160%] w-full md:w-[600px] mb-10"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        CheckTag gives each product a unique, secure code. Brands protect their
+        lines; customers scan to confirm authenticity—powered by AI analysis.
+      </motion.p>
+
+      {/* Animated Hero Phones */}
+      <div className="relative z-10 w-full md:w-[995px] h-[350px] md:h-[500px] mt-8 md:mt-12">
         {/* Background Rectangle */}
         <motion.div
           className="absolute top-[18%] left-0 w-full h-[45%] z-0"
@@ -43,14 +74,14 @@ const Hero = () => {
             src="/hero/rectangle.svg"
             alt="Background"
             fill
-            className="object-cover rounded-t-[20px] md:rounded-t-[40px]"
+            className="object-cover rounded-t-[20px] md:rounded-t-[40px] opacity-40"
             sizes="(max-width: 768px) 100vw, 995px"
           />
         </motion.div>
 
         {/* Small Phone - Left */}
         <motion.div
-          className="absolute right-[0%] bottom-[9%] md:bottom-[30%] w-[100%] h-[100%] z-20"
+          className="absolute right-[0%] bottom-0 md:bottom-[4%] w-[100%] h-[100%] z-20"
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -65,7 +96,7 @@ const Hero = () => {
 
         {/* Big Phone - Right */}
         <motion.div
-          className="absolute right-[0%] bottom-[9%] md:bottom-[30%] w-[100%] h-[100%] z-10"
+          className="absolute right-[0%] bottom-0 md:bottom-[4%] w-[100%] h-[100%] z-10"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
@@ -106,7 +137,7 @@ const Hero = () => {
                 alt="Genuine Product"
                 width={180}
                 height={60}
-                className="w-[100px] md:w-[180px] h-auto"
+                className="w-[100px] md:w-[180px] h-auto drop-shadow-2xl"
               />
             </motion.div>
           )}
@@ -142,12 +173,15 @@ const Hero = () => {
                 alt="Report Alert"
                 width={200}
                 height={80}
-                className="w-[120px] md:w-[200px] h-auto"
+                className="w-[120px] md:w-[200px] h-auto drop-shadow-2xl"
               />
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#020817] to-transparent z-20" />
     </section>
   );
 };
