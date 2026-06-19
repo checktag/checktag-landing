@@ -7,7 +7,7 @@ const plans = [
   {
     name: "Starter",
     description: "Best for small teams or pilots getting live in <2 weeks",
-    price: "Custom",
+    price: "To Be Announced",
     includes: "Includes",
     features: [
       "Up to 100k unit codes / month",
@@ -31,7 +31,7 @@ const plans = [
   {
     name: "Growth",
     description: "Best for brands rolling out across multiple SKUs and regions",
-    price: "Custom",
+    price: "To Be Announced",
     includes: "Everything in Starter, plus",
     features: [
       "Up to 1M unit codes / month (tiered discounts)",
@@ -55,7 +55,7 @@ const plans = [
   {
     name: "Enterprise",
     description: "Best for regulated, multi-country operations with strict SLAs",
-    price: "Custom",
+    price: "To Be Announced",
     includes: "Everything in Growth, plus",
     features: [
       "Unlimited codes (committed annual volume)",
@@ -172,9 +172,10 @@ const Pricing = () => {
               </div>
 
               <button
-                className={`w-full py-3.5 rounded-full font-medium text-sm transition-all duration-300 ${plan.ctaStyle}`}
+                disabled
+                className={`w-full py-3.5 rounded-full font-medium text-sm transition-all duration-300 opacity-65 cursor-not-allowed ${plan.ctaStyle.replace('hover:bg-white/10', '').replace('hover:bg-[#1A9AB8]', '')}`}
               >
-                {plan.cta}
+                Coming soon
               </button>
             </motion.div>
           ))}
