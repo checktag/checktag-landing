@@ -49,6 +49,16 @@ const Footer = () => {
                   FAQs
                 </Link>
               </li>
+              <li>
+                <a
+                  href="/CTAG-Whitepaper.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white/60 transition-colors"
+                >
+                  Whitepaper
+                </a>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col space-y-4">

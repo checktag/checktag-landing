@@ -14,7 +14,8 @@ const sections = [
         list: [
             "Account information: email address provided during sign-up.",
             "Authentication data: tokens used to verify your identity securely via Privy.",
-            "Wallet addresses: Ethereum and Solana wallet addresses generated for your account.",
+            "Wallet addresses: the public Ethereum and Solana addresses of the self-custodial wallet created for your account via Privy. We store only public addresses — never your private keys or recovery phrase, which we cannot access.",
+            "On-chain activity: CTAG reward balances and transactions associated with your public wallet address.",
             "Scan data: product scan events including timestamps and product identifiers.",
             "Device information: device type, operating system, and app version for troubleshooting.",
         ],
@@ -33,7 +34,7 @@ const sections = [
     {
         title: "3. Data Sharing",
         content:
-            "We do not sell your personal data. We may share data with trusted third-party service providers who assist us in operating our platform, including authentication providers (Privy), cloud infrastructure (Railway), and database services. We may also disclose data when required by applicable law.",
+            "We do not sell your personal data. We may share data with trusted third-party service providers who assist us in operating our platform, including authentication and embedded-wallet infrastructure (Privy), payment processing (Paystack), cloud infrastructure (Railway), and database services. We may also disclose data when required by applicable law.",
         list: null,
     },
     {
@@ -43,9 +44,9 @@ const sections = [
         list: null,
     },
     {
-        title: "5. Security",
+        title: "5. Security & Wallet Custody",
         content:
-            "We implement industry-standard security measures including HTTPS encryption, JWT-based authentication, and access controls. However, no method of data transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
+            "CheckTag provides a non-custodial (self-hosted) wallet through Privy. Your private keys are generated and secured on your device and are never transmitted to, stored by, or accessible to CheckTag. You retain sole control of your wallet and any digital assets, including CTAG rewards — CheckTag cannot access, transfer, freeze, or recover your keys or funds, and all on-chain transactions are authorized and signed by you on your device. For the data we do process, we implement industry-standard security measures including HTTPS encryption, JWT-based authentication, and access controls. However, no method of data transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
         list: null,
     },
     {
