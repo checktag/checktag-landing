@@ -125,6 +125,11 @@ const Footer = () => {
                   Cookie Policy
                 </Link>
               </li>
+              <li>
+                <Link href="/delete-account" className="hover:text-white/60 transition-colors">
+                  Delete Account
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col space-y-4 col-span-2 md:col-span-1">
