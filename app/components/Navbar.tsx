@@ -71,6 +71,12 @@ const Navbar = () => {
               >
                 Features
               </a>
+              <a
+                href="#roadmap"
+                className="hover:text-[#22AED1] transition-colors duration-300"
+              >
+                Roadmap
+              </a>
             </li>
             <li>
               <a
@@ -140,6 +146,12 @@ const Navbar = () => {
                 className="block hover:text-[#22AED1] transition-colors"
               >
                 Features
+              </a>
+              <a
+                href="#roadmap"
+                className="block hover:text-[#22AED1] transition-colors"
+              >
+                Roadmap
               </a>
             </li>
             <li>

@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import Partners from './components/Partners'
 import HowItWorks from './components/HowItWorks'
 import Features from './components/Features'
+import Roadmap from './components/Roadmap'
 import Testimonials from './components/Testimonials'
 import Pricing from './components/Pricing'
 import DownloadApp from './components/DownloadApp'
@@ -18,6 +19,7 @@ const page = () => {
       <Partners />
       <HowItWorks />
       <Features />
+      <Roadmap />
       <Testimonials />
       <Pricing />
       <DownloadApp />
