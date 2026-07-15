@@ -66,11 +66,13 @@ const Navbar = () => {
           <ul className="flex space-x-8 text-white/70 text-[13px] font-medium items-center">
             <li>
               <a
-                href="#features"
+                href="#how-it-works"
                 className="hover:text-[#22AED1] transition-colors duration-300"
               >
-                Features
+                How it works
               </a>
+            </li>
+            <li>
               <a
                 href="#roadmap"
                 className="hover:text-[#22AED1] transition-colors duration-300"
@@ -80,42 +82,10 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="#how-it-works"
-                className="hover:text-[#22AED1] transition-colors duration-300"
-              >
-                How it works
-              </a>
-            </li>
-            <li>
-              <a
-                href="#testimonials"
-                className="hover:text-[#22AED1] transition-colors duration-300"
-              >
-                Testimonials
-              </a>
-            </li>
-            <li>
-              <a
                 href="#pricing"
                 className="hover:text-[#22AED1] transition-colors duration-300"
               >
                 Pricing
-              </a>
-            </li>
-            <li>
-              <a
-                href="#download"
-                className="hover:text-[#22AED1] transition-colors duration-300"
-              >
-                Download
-              </a>
-            </li>
-            <li>
-              <a
-                href="#faqs"
-                className="hover:text-[#22AED1] transition-colors duration-300"
-              >
-                FAQs
               </a>
             </li>
           </ul>
@@ -142,11 +112,13 @@ const Navbar = () => {
           <ul className="flex flex-col space-y-4 text-white/70 text-[14px] font-medium">
             <li>
               <a
-                href="#features"
+                href="#how-it-works"
                 className="block hover:text-[#22AED1] transition-colors"
               >
-                Features
+                How it works
               </a>
+            </li>
+            <li>
               <a
                 href="#roadmap"
                 className="block hover:text-[#22AED1] transition-colors"
@@ -156,42 +128,10 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="#how-it-works"
-                className="block hover:text-[#22AED1] transition-colors"
-              >
-                How it works
-              </a>
-            </li>
-            <li>
-              <a
-                href="#testimonials"
-                className="block hover:text-[#22AED1] transition-colors"
-              >
-                Testimonials
-              </a>
-            </li>
-            <li>
-              <a
                 href="#pricing"
                 className="block hover:text-[#22AED1] transition-colors"
               >
                 Pricing
-              </a>
-            </li>
-            <li>
-              <a
-                href="#download"
-                className="block hover:text-[#22AED1] transition-colors"
-              >
-                Download
-              </a>
-            </li>
-            <li>
-              <a
-                href="#faqs"
-                className="block hover:text-[#22AED1] transition-colors"
-              >
-                FAQs
               </a>
             </li>
           </ul>
