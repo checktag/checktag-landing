@@ -32,9 +32,9 @@ const Faq = () => {
         "Yes. The app reads the code offline and confirms authenticity once you're back online. AI features require an active internet connection.",
     },
     {
-      question: "How do I download the APK for Android?",
+      question: "How do I get CheckTag for Android?",
       answer:
-        "Scroll to the Download section on this page and click the Android download button. The APK will be downloaded directly to your device. Make sure to enable 'Install from Unknown Sources' in your device settings.",
+        "CheckTag is available on the Google Play Store. Scroll to the Download section and tap 'Get it on Google Play', or search for 'CheckTag' in the Play Store, then install it like any other app. An iOS version is coming soon.",
     },
     {
       question: "What if the code won't scan?",

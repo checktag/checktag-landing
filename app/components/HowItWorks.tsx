@@ -228,7 +228,9 @@ const HowItWorks = () => {
             </ul>
             <div className="flex space-x-4">
               <a
-                href="#download"
+                href="https://play.google.com/store/apps/details?id=apk.checktag.io"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-full font-medium text-sm hover:bg-white/10 transition-all duration-300 flex items-center space-x-2"
               >
                 <Image src={googlePlayImage} alt="Google Play" width={80} height={20} loading="lazy" className="brightness-0 invert" />

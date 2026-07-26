@@ -56,10 +56,11 @@ const DownloadApp = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                  {/* Android APK Download */}
+                  {/* Android — Google Play */}
                   <a
-                    href="/checktag-app.apk"
-                    download="CheckTag.apk"
+                    href="https://play.google.com/store/apps/details?id=apk.checktag.io"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex items-center space-x-3 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                   >
                     <div className="w-10 h-10 rounded-xl bg-[#3DDC84]/10 border border-[#3DDC84]/20 flex items-center justify-center">
@@ -69,10 +70,10 @@ const DownloadApp = () => {
                     </div>
                     <div className="text-left">
                       <p className="text-white/40 text-[10px] font-medium uppercase tracking-wider">
-                        Download for
+                        Get it on
                       </p>
                       <p className="text-white font-bold text-lg leading-tight">
-                        Android
+                        Google Play
                       </p>
                     </div>
                     <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -107,11 +108,9 @@ const DownloadApp = () => {
 
                 {/* File info */}
                 <div className="flex items-center gap-6 mt-6 text-white/20 text-xs">
-                  <span>APK v1.0.0</span>
+                  <span>Free on Google Play</span>
                   <span>•</span>
-                  <span>~58 MB</span>
-                  <span>•</span>
-                  <span>Android 6.0+</span>
+                  <span>Android 9.0+</span>
                 </div>
               </div>
 
