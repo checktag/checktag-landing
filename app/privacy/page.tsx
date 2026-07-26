@@ -12,11 +12,13 @@ const sections = [
         title: "1. Information We Collect",
         content: null,
         list: [
-            "Account information: email address provided during sign-up.",
+            "Account information: the email address and/or phone number you provide during sign-up. Phone numbers are used to deliver SMS one-time passcodes.",
             "Authentication data: tokens used to verify your identity securely via Privy.",
             "Wallet addresses: the public Ethereum and Solana addresses of the self-custodial wallet created for your account via Privy. We store only public addresses — never your private keys or recovery phrase, which we cannot access.",
             "On-chain activity: CTAG reward balances and transactions associated with your public wallet address.",
             "Scan data: product scan events including timestamps and product identifiers.",
+            "Report details: information you submit in counterfeit or quality reports, including any purchase location you choose to enter. This is typed in by you — CheckTag does not collect GPS or device location.",
+            "Payout details: if you request a reward withdrawal, the bank account details you provide (account number, bank code, and account name), which are used to set up a transfer recipient with our payment processor.",
             "Device information: device type, operating system, and app version for troubleshooting.",
         ],
     },
@@ -27,6 +29,8 @@ const sections = [
             "To create and manage your CheckTag account.",
             "To authenticate you securely and maintain session integrity.",
             "To process product scan events and deliver relevant content.",
+            "To generate product summaries, health insights, and answer your product questions using AI.",
+            "To process the reward withdrawals and payouts you request.",
             "To improve our services based on usage patterns.",
             "To send transactional communications (e.g., OTP codes).",
         ],
@@ -34,7 +38,7 @@ const sections = [
     {
         title: "3. Data Sharing",
         content:
-            "We do not sell your personal data. We may share data with trusted third-party service providers who assist us in operating our platform, including authentication and embedded-wallet infrastructure (Privy), payment processing (Paystack), cloud infrastructure (Railway), and database services. We may also disclose data when required by applicable law.",
+            "We do not sell your personal data. We share data with trusted third-party service providers who help us operate the platform: authentication and embedded-wallet infrastructure (Privy); payment processing and bank payouts (Paystack); SMS delivery of one-time passcodes (Twilio); email delivery; product identification via barcode lookup providers (Go-UPC, Open Food Facts, Barcode Lookup, and Barcode Spider), to which a scanned product's barcode is sent; AI product summaries and the in-app assistant (xAI / Grok), to which product and scan metadata may be sent to generate summaries and answer your questions; and cloud infrastructure and database hosting (Railway). We may also disclose data when required by applicable law.",
         list: null,
     },
     {
@@ -100,7 +104,7 @@ export default function PrivacyPage() {
                     </p>
                     <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white">Privacy Policy</h1>
                     <p className="text-white/60 text-base max-w-xl mx-auto">
-                        Effective date: <span className="text-white font-medium">March 5, 2026</span>
+                        Effective date: <span className="text-white font-medium">July 27, 2026</span>
                     </p>
                 </div>
             </section>
