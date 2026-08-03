@@ -48,8 +48,8 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        Stop counterfeits.{" "}
-        <span className="gradient-text">Verify in seconds.</span>
+        Scan to know{" "}
+        <span className="gradient-text">what you consume.</span>
       </motion.h1>
 
       <motion.p
@@ -58,8 +58,8 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        CheckTag gives each product a unique, secure code. Brands protect their
-        lines; customers scan to confirm authenticity—powered by AI analysis.
+        Your body and health is worth the scan. Verify a product is genuine, see
+        exactly what&apos;s inside, and earn rewards every time you scan.
       </motion.p>
 
       {/* Animated Hero Phones */}

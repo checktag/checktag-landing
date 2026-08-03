@@ -1,0 +1,32 @@
+/* CheckTag® brand colors — https://checktag.io/brand
+   Canonical palette = the mobile app's UI theme. Navy + Cyan is the brand;
+   the app is a light experience with a small semantic set. */
+:root {
+  /* Brand */
+  --ct-deep-navy: #0C2E72; /* primary-strong */
+  --ct-navy:      #103C8F; /* primary */
+  --ct-cyan:      #14A6C9; /* accent */
+  --ct-navy-soft: #E9EFFB; /* tinted navy surface */
+  --ct-cyan-soft: #E2F5FB; /* tinted cyan surface */
+
+  /* Surfaces — product (light app) */
+  --ct-canvas:      #F6F8FC;
+  --ct-surface:     #FFFFFF;
+  --ct-surface-alt: #F1F4F9;
+  --ct-border:      #E2E8F0;
+  --ct-ink:         #091222; /* primary text */
+  --ct-slate:       #41506A; /* secondary text */
+
+  /* Surfaces — marketing (dark web) */
+  --ct-web-ink:   #020817;
+  --ct-web-deep:  #0A1628;
+  --ct-web-slate: #0D2847;
+
+  /* Semantic */
+  --ct-success: #0E9F6E;
+  --ct-warning: #E08A00;
+  --ct-danger:  #DA4453;
+
+  /* Signature gradient */
+  --ct-gradient-brand: linear-gradient(135deg, #103C8F 0%, #14A6C9 100%);
+}

@@ -204,12 +204,13 @@ const HowItWorks = () => {
               </span>
             </div>
             <h2 className="text-[24px] md:text-[40px] leading-[120%] tracking-[-0.03em] font-bold text-white mb-5">
-              Authenticity pays —{" "}
-              <span className="gradient-text-warm">collect TAG</span> with every scan
+              Scan and Earn —{" "}
+              <span className="gradient-text-warm">collect TAG</span> every time
             </h2>
             <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
-              Earn TAG every time you verify a product—help stop counterfeits
-              while your balance grows and brands get safer data.
+              Verify and earn: every genuine scan adds TAG to your balance—plus
+              streaks, brand campaigns, and referral bonuses. Know what you
+              consume while your rewards grow.
             </p>
             <ul className="space-y-4 mb-8">
               {[
@@ -271,12 +272,12 @@ const HowItWorks = () => {
           >
             <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-[#FF8633]/20 bg-[#FF8633]/5 mb-6">
               <span className="text-[#FF8633] text-xs font-semibold tracking-wide uppercase">
-                AI-Powered • New
+                Know what&apos;s inside • New
               </span>
             </div>
             <h2 className="text-[24px] md:text-[40px] leading-[120%] tracking-[-0.03em] font-bold text-white mb-5">
-              Deep AI analysis{" "}
-              <span className="text-white/40">for every product</span>
+              Know exactly{" "}
+              <span className="text-white/40">what&apos;s inside</span>
             </h2>
             <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
               Smarter than a scan—our AI cross-checks every result with forensic

@@ -103,6 +103,11 @@ const Footer = () => {
                   Download App
                 </Link>
               </li>
+              <li>
+                <Link href="/brand" className="hover:text-white/60 transition-colors">
+                  Brand Kit
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col space-y-4">

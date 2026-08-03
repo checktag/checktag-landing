@@ -14,7 +14,7 @@ const Faq = () => {
     {
       question: "Is the CheckTag app free for consumers?",
       answer:
-        "Yes. Scanning and seeing product info is free, and you don't need an account. You can optionally sign up to track scan history, earn TAG rewards, and access AI-powered features like the product assistant chatbot.",
+        "Yes. Scanning and seeing product info is free, and you don't need an account. You can optionally sign up to track scan history, earn TAG rewards, and access smart features like the product assistant chatbot.",
     },
     {
       question: "What do I see after scanning?",

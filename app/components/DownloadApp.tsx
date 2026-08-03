@@ -50,9 +50,9 @@ const DownloadApp = () => {
                 </h2>
 
                 <p className="text-white/40 text-base leading-[170%] mb-8 max-w-[480px] mx-auto md:mx-0">
-                  Start verifying products instantly. Download our app for
-                  Android or iOS and protect yourself from counterfeits—powered
-                  by AI.
+                  Scan to know what you consume, verify it&apos;s genuine, and earn
+                  rewards with every scan—all from your phone. Your health is
+                  worth the scan.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -132,7 +132,7 @@ const DownloadApp = () => {
                       </div>
                       <div className="text-center">
                         <p className="text-white font-bold text-lg">CheckTag</p>
-                        <p className="text-white/30 text-xs mt-1">Verify. Protect. Earn.</p>
+                        <p className="text-white/30 text-xs mt-1">Scan. Verify. Earn.</p>
                       </div>
                       <div className="flex items-center space-x-1">
                         {[1, 2, 3, 4, 5].map((star) => (

@@ -1,0 +1,8 @@
+{
+  "name": "CheckTag",
+  "brand": { "deepNavy": "#0C2E72", "navy": "#103C8F", "cyan": "#14A6C9", "navySoft": "#E9EFFB", "cyanSoft": "#E2F5FB" },
+  "surfacesLight": { "canvas": "#F6F8FC", "surface": "#FFFFFF", "surfaceAlt": "#F1F4F9", "border": "#E2E8F0", "ink": "#091222", "slate": "#41506A" },
+  "surfacesDark": { "ink": "#020817", "deep": "#0A1628", "slate": "#0D2847" },
+  "semantic": { "success": "#0E9F6E", "warning": "#E08A00", "danger": "#DA4453" },
+  "gradient": { "brand": "linear-gradient(135deg, #103C8F, #14A6C9)" }
+}

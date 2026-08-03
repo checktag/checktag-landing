@@ -67,7 +67,7 @@ const featureCards = [
       </svg>
     ),
     title: "Anti-Counterfeit Shield",
-    description: "Advanced AI detects cloned codes, reprints, and micro-tamper marks. Geo/device anomaly scoring catches suspicious patterns instantly.",
+    description: "Detects cloned codes, reprints, and micro-tamper marks. Geo/device anomaly scoring catches suspicious patterns instantly.",
     gradient: "from-[#10B981]/20 to-[#34D399]/10",
     borderColor: "border-[#10B981]/20",
   },
@@ -114,10 +114,10 @@ const Features = () => {
           </div>
           <h2 className="text-[28px] md:text-[48px] font-bold text-white leading-[120%] tracking-[-0.03em] mb-4">
             Everything you need to{" "}
-            <span className="gradient-text">fight fakes</span>
+            <span className="gradient-text">know what you consume</span>
           </h2>
           <p className="text-white/40 text-base md:text-lg max-w-[600px] mx-auto leading-[160%]">
-            From instant barcode scanning to AI-powered health analysis and real-time chatbot assistance—CheckTag is your complete product intelligence platform.
+            From instant scanning to a full breakdown of ingredients and health impact—see exactly what you&apos;re putting into your body, and stop counterfeits along the way.
           </p>
         </motion.div>
 
