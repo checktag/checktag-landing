@@ -6,14 +6,26 @@ import { Spinner, Toast } from "./_components/ui";
 import Submissions from "./_components/Submissions";
 import Products from "./_components/Products";
 import Payouts from "./_components/Payouts";
-import { ShieldCheck, Inbox, PackageCheck, Coins, LogOut } from "lucide-react";
+import Kyc from "./_components/Kyc";
+import Reviews from "./_components/Reviews";
+import {
+  ShieldCheck,
+  Inbox,
+  PackageCheck,
+  Coins,
+  UserCheck,
+  Gavel,
+  LogOut,
+} from "lucide-react";
 
-type Tab = "submissions" | "products" | "payouts";
+type Tab = "submissions" | "products" | "payouts" | "reviews" | "kyc";
 
 const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
   { key: "submissions", label: "Submissions", icon: Inbox },
   { key: "products", label: "Products", icon: PackageCheck },
+  { key: "reviews", label: "Reviews", icon: Gavel },
   { key: "payouts", label: "CTAG Payouts", icon: Coins },
+  { key: "kyc", label: "Identity", icon: UserCheck },
 ];
 
 export default function AdminDashboard() {
@@ -112,7 +124,9 @@ export default function AdminDashboard() {
 
         {tab === "submissions" && <Submissions notify={notify} />}
         {tab === "products" && <Products notify={notify} />}
+        {tab === "reviews" && <Reviews notify={notify} />}
         {tab === "payouts" && <Payouts notify={notify} />}
+        {tab === "kyc" && <Kyc notify={notify} />}
       </div>
 
       {toast && (
