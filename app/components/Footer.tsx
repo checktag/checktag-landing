@@ -188,9 +188,22 @@ const Footer = () => {
               className="brightness-0 invert opacity-40"
             />
           </div>
-          <p className="text-white/20 text-xs">
-            © {new Date().getFullYear()} CheckTag. All rights reserved.
-          </p>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-white/20 text-xs">
+              © {new Date().getFullYear()} CheckTag. All rights reserved.
+            </p>
+            <p className="text-white/20 text-xs">
+              Powered by{" "}
+              <a
+                href="https://ctts.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#22AED1]/70 hover:text-[#22AED1] font-semibold transition-colors"
+              >
+                CTTS
+              </a>
+            </p>
+          </div>
           <div className="flex items-center space-x-4">
             {/* Social icons */}
             {[
