@@ -48,9 +48,9 @@ const sections = [
         list: null,
     },
     {
-        title: "5. Security & Wallet Custody",
+        title: "5. Rewards, Wallet & Security",
         content:
-            "CheckTag provides a non-custodial (self-hosted) wallet through Privy. Your private keys are generated and secured on your device and are never transmitted to, stored by, or accessible to CheckTag. You retain sole control of your wallet and any digital assets, including CTAG rewards — CheckTag cannot access, transfer, freeze, or recover your keys or funds, and all on-chain transactions are authorized and signed by you on your device. For the data we do process, we implement industry-standard security measures including HTTPS encryption, JWT-based authentication, and access controls. However, no method of data transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
+            "Inside the app you earn reward points for verifying products, redeemable for cash-back to a linked bank account (processed via Paystack). Points are a loyalty balance, not a cryptocurrency, and the app does not buy, trade, or exchange digital assets. Separately, a non-custodial (self-hosted) wallet is provided through Privy; your private keys are generated and secured on your device and are never transmitted to, stored by, or accessible to CheckTag. You retain sole control of your wallet and any digital assets, including CTAG rewards — CheckTag cannot access, transfer, freeze, or recover your keys or funds. Any CTAG redemption or on-chain transfer is performed outside the app, on the CheckTag website, authorized with your Privy sign-in and signed by you on your device. For the data we do process, we implement industry-standard security measures including HTTPS encryption, JWT-based authentication, and access controls. However, no method of data transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
         list: null,
     },
     {
