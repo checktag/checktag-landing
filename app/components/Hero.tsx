@@ -58,8 +58,8 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        Your body and health is worth the scan. Verify a product is genuine, see
-        exactly what&apos;s inside, and earn rewards every time you scan.
+        Your health is worth the scan. Instantly see exactly what&apos;s inside any
+        product, understand what it means for you, and earn rewards every time you scan.
       </motion.p>
 
       {/* Animated Hero Phones */}
@@ -109,7 +109,7 @@ const Hero = () => {
           />
         </motion.div>
 
-        {/* Genuine Product Notification */}
+        {/* Scan-complete Notification */}
         <AnimatePresence>
           {animationStep >= 1 && (
             <motion.div
@@ -134,7 +134,7 @@ const Hero = () => {
             >
               <Image
                 src="/hero/gen-product.svg"
-                alt="Genuine Product"
+                alt="Scan complete"
                 width={180}
                 height={60}
                 className="w-[100px] md:w-[180px] h-auto drop-shadow-2xl"

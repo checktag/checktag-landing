@@ -86,7 +86,7 @@ export default function BrandPage() {
                     </h1>
                     <p className="text-white/60 text-base md:text-lg max-w-xl mx-auto mb-8">
                         Everything you need to represent CheckTag correctly — logo, colors,
-                        type, and usage. &ldquo;The Mark of what&rsquo;s Real.&rdquo;
+                        type, and usage. &ldquo;Know what&rsquo;s really inside.&rdquo;
                     </p>
                     <div className="flex flex-wrap gap-3 justify-center">
                         <a
@@ -258,31 +258,32 @@ export default function BrandPage() {
                     <p className="text-white/50 text-base max-w-2xl mb-8">
                         <span className="text-white font-semibold">Geist</span> is our typeface
                         across product and web; <span className="text-white font-semibold">Geist Mono</span> for
-                        code, wallet addresses, and numeric detail. Both are free under the Open Font License.
+                        code, product codes, and numeric detail. Both are free under the Open Font License.
                     </p>
 
                     <div className="rounded-2xl border border-white/10 bg-[#0A1628] p-8 space-y-6">
                         <div>
                             <p className="text-white/30 text-xs mb-1">Display · 700</p>
-                            <p className="text-white text-4xl md:text-5xl font-bold tracking-tight">The Mark of what&rsquo;s Real</p>
+                            <p className="text-white text-4xl md:text-5xl font-bold tracking-tight">Know what&rsquo;s really inside</p>
                         </div>
                         <div className="h-px bg-white/10" />
                         <div>
                             <p className="text-white/30 text-xs mb-1">Heading · 600</p>
-                            <p className="text-white text-2xl font-semibold">Scan. Verify. Earn.</p>
+                            <p className="text-white text-2xl font-semibold">Scan. Know. Earn.</p>
                         </div>
                         <div className="h-px bg-white/10" />
                         <div>
                             <p className="text-white/30 text-xs mb-1">Body · 400</p>
                             <p className="text-white/70 text-base max-w-xl">
-                                CheckTag turns your phone into a product-authenticity scanner —
-                                instant, trustworthy verdicts backed by brand records and AI.
+                                CheckTag turns your phone into a product-intelligence scanner —
+                                instantly see what&rsquo;s inside any product, understand what it
+                                means for you with AI, and earn rewards as you go.
                             </p>
                         </div>
                         <div className="h-px bg-white/10" />
                         <div>
                             <p className="text-white/30 text-xs mb-1">Geist Mono · 500</p>
-                            <p className="text-[#22AED1] font-mono text-sm">0x7A1c…9F3b · CTAG 1,240 · SN-6156000261201</p>
+                            <p className="text-[#22AED1] font-mono text-sm">SN-6156000261201 · 1,240 pts · 12 Aug 2026</p>
                         </div>
                     </div>
 
@@ -304,13 +305,13 @@ export default function BrandPage() {
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">Tone &amp; tagline</h2>
                     <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#0037A6]/15 to-[#22AED1]/10 p-8 mb-6">
                         <p className="text-white text-2xl md:text-3xl font-bold">
-                            &ldquo;The Mark of what&rsquo;s <span className="gradient-text">Real</span>.&rdquo;
+                            &ldquo;Know what&rsquo;s really <span className="gradient-text">inside</span>.&rdquo;
                         </p>
                     </div>
                     <div className="grid sm:grid-cols-3 gap-5">
                         {[
                             { t: "Trustworthy", d: "Confident and clear. We deal in facts, not hype." },
-                            { t: "Empowering", d: "We put verification — and rewards — in people's hands." },
+                            { t: "Empowering", d: "We put product knowledge — and rewards — in people's hands." },
                             { t: "Sharp", d: "Modern, concise, a little bit tech-forward. Never noisy." },
                         ].map((v) => (
                             <div key={v.t} className="rounded-2xl border border-white/10 bg-white/5 p-6">

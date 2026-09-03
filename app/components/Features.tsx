@@ -12,7 +12,7 @@ const featureCards = [
       </svg>
     ),
     title: "Instant Barcode Scanning",
-    description: "Scan any product barcode and get real-time verification. Know if your product is genuine, suspicious, or expired—in under 800ms.",
+    description: "Scan any product barcode and instantly see what's inside—ingredients, contents, and product details in under 800ms.",
     gradient: "from-[#0037A6]/20 to-[#22AED1]/10",
     borderColor: "border-[#0037A6]/20",
   },
@@ -66,8 +66,8 @@ const featureCards = [
         <path d="M9 12l2 2 4-4" />
       </svg>
     ),
-    title: "Anti-Counterfeit Shield",
-    description: "Detects cloned codes, reprints, and micro-tamper marks. Geo/device anomaly scoring catches suspicious patterns instantly.",
+    title: "Authenticity & Safety Checks",
+    description: "Flags suspicious codes and possible counterfeits, so you can steer clear of fake or unsafe products—one more layer of knowing what you're buying.",
     gradient: "from-[#10B981]/20 to-[#34D399]/10",
     borderColor: "border-[#10B981]/20",
   },
@@ -79,8 +79,8 @@ const featureCards = [
         <path d="M2 12h20" />
       </svg>
     ),
-    title: "Earn TAG Rewards",
-    description: "Every scan earns you TAG tokens. Build streaks, join brand campaigns, and earn referral bonuses—authenticity verification that pays you back.",
+    title: "Earn Cash-Back Rewards",
+    description: "Every scan and contribution earns you reward points. Build streaks, join campaigns, and redeem your points for cash-back rewards—get rewarded for knowing what you consume.",
     gradient: "from-[#F59E0B]/20 to-[#FBBF24]/10",
     borderColor: "border-[#F59E0B]/20",
   },
@@ -117,7 +117,7 @@ const Features = () => {
             <span className="gradient-text">know what you consume</span>
           </h2>
           <p className="text-white/40 text-base md:text-lg max-w-[600px] mx-auto leading-[160%]">
-            From instant scanning to a full breakdown of ingredients and health impact—see exactly what you&apos;re putting into your body, and stop counterfeits along the way.
+            From instant scanning to a full breakdown of ingredients and health impact—see exactly what you&apos;re putting into your body, and get rewarded every time you scan.
           </p>
         </motion.div>
 

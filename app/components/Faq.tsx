@@ -14,12 +14,12 @@ const Faq = () => {
     {
       question: "Is the CheckTag app free for consumers?",
       answer:
-        "Yes. Scanning and seeing product info is free, and you don't need an account. You can optionally sign up to track scan history, earn TAG rewards, and access smart features like the product assistant chatbot.",
+        "Yes. Scanning and seeing product info is free, and you don't need an account. You can optionally sign up to track scan history, earn cash-back rewards, and access smart features like the product assistant chatbot.",
     },
     {
       question: "What do I see after scanning?",
       answer:
-        "A clear status—Genuine, Suspicious, or Expired—plus detailed product information including ingredients, nutritional data, batch/expiry info, and brand details. Our AI also provides a health analysis of every ingredient.",
+        "Detailed product information—ingredients, nutritional data, batch/expiry info, and brand details—plus an AI health analysis of every ingredient. You'll also see a quick safety flag (like Suspicious or Expired) so you can shop with confidence.",
     },
     {
       question: "How does the AI Product Assistant work?",
@@ -29,7 +29,7 @@ const Faq = () => {
     {
       question: "Can I scan offline?",
       answer:
-        "Yes. The app reads the code offline and confirms authenticity once you're back online. AI features require an active internet connection.",
+        "Yes. The app reads the code offline and pulls up the product details once you're back online. AI features require an active internet connection.",
     },
     {
       question: "How do I get CheckTag for Android?",

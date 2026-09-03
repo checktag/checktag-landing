@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CheckTag®: The Mark of what's Real",
+  title: "CheckTag®: Scan to Know What You Consume",
   description:
-    "Scan to know what you consume. Verify a product is genuine, understand what's inside, and earn rewards with every scan — because your health is worth the scan.",
+    "Scan any product to instantly see what's inside, get AI insights on what it means for you, and earn rewards with every scan — because your health is worth the scan.",
 };
 
 export default function RootLayout({

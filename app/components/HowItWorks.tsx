@@ -38,9 +38,9 @@ const HowItWorks = () => {
               <span className="text-white/40">and QA teams</span>
             </h2>
             <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
-              Integrate anti-counterfeit protection directly into your production
-              line. Unit-level serialization, real-time analytics, and automated
-              threat detection.
+              Give every product a digital identity, straight from your production
+              line — unit-level serialization, real-time scan analytics, and
+              product-integrity protection.
             </p>
             <ul className="space-y-4 mb-8">
               {[
@@ -205,18 +205,18 @@ const HowItWorks = () => {
             </div>
             <h2 className="text-[24px] md:text-[40px] leading-[120%] tracking-[-0.03em] font-bold text-white mb-5">
               Scan and Earn —{" "}
-              <span className="gradient-text-warm">collect TAG</span> every time
+              <span className="gradient-text-warm">get rewarded</span> every time
             </h2>
             <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
-              Verify and earn: every genuine scan adds TAG to your balance—plus
-              streaks, brand campaigns, and referral bonuses. Know what you
-              consume while your rewards grow.
+              Every scan and contribution earns you reward points—plus streaks,
+              campaigns, and bonuses. Know what you consume while your cash-back
+              rewards grow.
             </p>
             <ul className="space-y-4 mb-8">
               {[
                 "Look for the CheckTag on the product",
-                "Scan with our app to see if the product is Verified, Suspicious, or Expired",
-                "Earn TAG with every valid scan — plus streaks, brand campaign boosts, and referral bonuses",
+                "Scan with our app to instantly see what's inside the product",
+                "Earn points with every valid scan — plus streaks, campaign boosts, and bonuses",
                 "Report problems in seconds—photos help the brand act",
               ].map((item, i) => (
                 <li key={i} className="flex items-start space-x-3">
@@ -280,9 +280,9 @@ const HowItWorks = () => {
               <span className="text-white/40">what&apos;s inside</span>
             </h2>
             <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
-              Smarter than a scan—our AI cross-checks every result with forensic
-              and provenance signals for trust you can prove. Plus, chat with our
-              AI assistant about any product.
+              Smarter than a scan—our AI breaks down what&apos;s inside every
+              product and what it means for you. Plus, chat with our AI assistant
+              about any product.
             </p>
             <ul className="space-y-4 mb-8">
               {[
@@ -295,12 +295,12 @@ const HowItWorks = () => {
                   text: "Chat with our bot to compare prices, find alternatives, and get personalized recommendations",
                 },
                 {
-                  strong: "Computer-vision forensics:",
-                  text: "Spots cloned codes, reprints, micro-tamper marks, and packaging inconsistencies",
+                  strong: "Safety & authenticity flags:",
+                  text: "Quick flags for suspicious codes, recalls, and expired items so you can steer clear",
                 },
                 {
-                  strong: "Provenance checks:",
-                  text: "Validates batch/lot, geofenced distribution, recall lists, and on-chain attestations",
+                  strong: "Batch & expiry details:",
+                  text: "See batch, lot, and expiry info at a glance, with recall alerts when they matter",
                 },
               ].map((item, i) => (
                 <li key={i} className="flex items-start space-x-3">

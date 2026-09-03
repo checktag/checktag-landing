@@ -6,41 +6,41 @@ import { motion } from "framer-motion";
 
 const testimonials = [
   {
-    text: "We plugged CheckTag into our existing line printers and were generating unique codes per unit in two weeks. Re-scan analytics flagged a reseller cluster we hadn't seen, and legal acted with confidence.",
+    text: "I scan every new skincare product before I use it. CheckTag breaks down the ingredients in plain English and flags what to watch for—then I earn rewards just for checking. It's become a habit.",
     name: "Daniel Koch",
-    role: "Head of Packaging Ops, PureDerm Cosmetics",
+    role: "Skincare shopper",
     image: "/daniel.jpg",
     bg: "bg-gradient-to-br from-[#0A1628] to-[#0D2847]",
     border: "border-[#22AED1]/10",
   },
   {
-    text: "CheckTag gave us unit-level visibility by batch and plant without changing our packaging suppliers. The dashboard highlighted counterfeit hotspots by market, so we tightened distributor routes.",
+    text: "I love seeing exactly what's in the snacks and products I buy for my kids. The AI insights are so clear, and the points I earn add up. Knowing what we consume finally feels easy.",
     name: "Rita Adeyemi",
-    role: "QA Lead, NutriHarvest",
+    role: "Mum of two",
     image: "/ritaAde.jpg",
     bg: "bg-gradient-to-br from-[#0E4654]/80 to-[#0A2E37]",
     border: "border-[#22AED1]/15",
   },
   {
-    text: "The edge verification is fast and the APIs are clean, which helped us automate pharmacy field audits. Geo/device signals surfaced a cloning pattern near one distributor, and we shut it down with evidence.",
+    text: "Before CheckTag I never read labels. Now one scan tells me everything—the ingredients and what they mean for me. Fast, clear, and I get rewarded for it.",
     name: "Miguel Santos",
-    role: "Director of Compliance, VitaPharm",
+    role: "Fitness enthusiast",
     image: "/miguel.jpg",
     bg: "bg-gradient-to-br from-[#FF8633]/10 to-[#1A0D00]",
     border: "border-[#FF8633]/15",
   },
   {
-    text: "By tying scan events to marketplace orders, CheckTag sped up takedowns of counterfeit listings. The consumer report flow funnels photos and receipts straight into a case timeline our team can act on.",
+    text: "I scan groceries as I shop to see what's actually inside. When something's missing from the database, I add it and earn points. It's genuinely useful and a little addictive.",
     name: "Ethan Park",
-    role: "eCommerce Lead, NovaCare Wellness",
+    role: "Home cook",
     image: "/ethan.jpg",
     bg: "bg-gradient-to-br from-[#22AED1]/5 to-[#0A1628]",
     border: "border-white/5",
   },
   {
-    text: "Re-use detection exposed cross-border label swapping during a promotion, and geofenced rules reduced it almost immediately. The recall tooling and SLAs held up during peak season.",
+    text: "The ingredient insights are the clearest I've found, and I love earning rewards for scanning products I'd buy anyway. I recommend CheckTag to everyone I know.",
     name: "Aisha Al-Hassan",
-    role: "COO, DesertSpring Beverages",
+    role: "Wellness blogger",
     image: "/aisha.jpg",
     bg: "bg-gradient-to-br from-[#001642] to-[#0A1628]",
     border: "border-[#0037A6]/15",
@@ -72,12 +72,12 @@ const Testimonials = () => {
             </span>
           </div>
           <h2 className="text-[28px] md:text-[48px] font-bold text-white leading-[120%] tracking-[-0.03em] mb-4">
-            Brands reduce counterfeit complaints by{" "}
-            <span className="gradient-text-warm">up to 62%</span>
+            People love knowing{" "}
+            <span className="gradient-text-warm">what&apos;s really inside</span>
           </h2>
           <p className="text-white/40 text-base md:text-lg max-w-[600px] mx-auto leading-[160%]">
-            See what industry leaders say about implementing CheckTag across
-            their supply chains.
+            See what everyday shoppers say about scanning smarter, learning
+            what&apos;s in their products, and earning as they go.
           </p>
         </motion.div>
 
