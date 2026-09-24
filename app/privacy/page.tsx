@@ -13,12 +13,10 @@ const sections = [
         content: null,
         list: [
             "Account information: the email address and/or phone number you provide during sign-up. Phone numbers are used to deliver SMS one-time passcodes.",
-            "Authentication data: tokens used to verify your identity securely via Privy.",
-            "Wallet addresses: the public Ethereum and Solana addresses of the self-custodial wallet created for your account via Privy. We store only public addresses — never your private keys or recovery phrase, which we cannot access.",
-            "On-chain activity: CTAG reward balances and transactions associated with your public wallet address.",
+            "Authentication data: the one-time verification code we send you, and the session token issued to your device after you sign in.",
             "Scan data: product scan events including timestamps and product identifiers.",
             "Report details: information you submit in counterfeit or quality reports, including any purchase location you choose to enter. This is typed in by you — CheckTag does not collect GPS or device location.",
-            "Payout details: if you request a reward withdrawal, the bank account details you provide (account number, bank code, and account name), which are used to set up a transfer recipient with our payment processor.",
+            "Payout details: if you request a cash-back withdrawal, the payout details you provide (such as account number, bank code, and account name), which are used to set up a transfer recipient with our payment processor.",
             "Device information: device type, operating system, and app version for troubleshooting.",
         ],
     },
@@ -38,7 +36,7 @@ const sections = [
     {
         title: "3. Data Sharing",
         content:
-            "We do not sell your personal data. We share data with trusted third-party service providers who help us operate the platform: authentication and embedded-wallet infrastructure (Privy); payment processing and bank payouts (Paystack); SMS delivery of one-time passcodes (Twilio); email delivery; product identification via barcode lookup providers (Go-UPC, Open Food Facts, Barcode Lookup, and Barcode Spider), to which a scanned product's barcode is sent; AI product summaries and the in-app assistant (xAI / Grok), to which product and scan metadata may be sent to generate summaries and answer your questions; and cloud infrastructure and database hosting (Railway). We may also disclose data when required by applicable law.",
+            "We do not sell your personal data. We share data with trusted third-party service providers who help us operate the platform: email delivery of one-time passcodes and transactional email (Resend); payment processing and payouts (Paystack); SMS delivery of one-time passcodes (Twilio); product identification via barcode lookup providers (Go-UPC, Open Food Facts, Barcode Lookup, and Barcode Spider), to which a scanned product's barcode is sent; AI product summaries and the in-app assistant (xAI / Grok), to which product and scan metadata may be sent to generate summaries and answer your questions; and cloud infrastructure and database hosting (Railway). We may also disclose data when required by applicable law.",
         list: null,
     },
     {
@@ -48,9 +46,9 @@ const sections = [
         list: null,
     },
     {
-        title: "5. Rewards, Wallet & Security",
+        title: "5. Rewards & Security",
         content:
-            "Inside the app you earn reward points for verifying products, redeemable for cash-back to a linked bank account (processed via Paystack). Points are a loyalty balance, not a cryptocurrency, and the app does not buy, trade, or exchange digital assets. Separately, a non-custodial (self-hosted) wallet is provided through Privy; your private keys are generated and secured on your device and are never transmitted to, stored by, or accessible to CheckTag. You retain sole control of your wallet and any digital assets, including CTAG rewards — CheckTag cannot access, transfer, freeze, or recover your keys or funds. Any CTAG redemption or on-chain transfer is performed outside the app, on the CheckTag website, authorized with your Privy sign-in and signed by you on your device. For the data we do process, we implement industry-standard security measures including HTTPS encryption, JWT-based authentication, and access controls. However, no method of data transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
+            "Inside the app you earn reward points for verifying products, redeemable for cash-back (processed via Paystack). Points are a loyalty balance, not a cryptocurrency. The CheckTag app does not create, hold, or provide a cryptocurrency wallet, and does not buy, sell, trade, or exchange digital assets. CheckTag never generates or stores private keys or recovery phrases for you. Any CTAG token activity is a separate, web-only matter handled outside the app on the CheckTag website, where you supply your own external wallet address as the destination — CheckTag does not custody, transfer, freeze, or recover any digital assets on your behalf. For the data we do process, we implement industry-standard security measures including HTTPS encryption, JWT-based authentication, and access controls. However, no method of data transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
         list: null,
     },
     {
@@ -104,7 +102,7 @@ export default function PrivacyPage() {
                     </p>
                     <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white">Privacy Policy</h1>
                     <p className="text-white/60 text-base max-w-xl mx-auto">
-                        Effective date: <span className="text-white font-medium">July 27, 2026</span>
+                        Effective date: <span className="text-white font-medium">September 24, 2026</span>
                     </p>
                 </div>
             </section>

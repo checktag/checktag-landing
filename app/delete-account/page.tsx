@@ -24,14 +24,12 @@ const steps = [
 const deleted = [
     "Your account and profile — email address and username.",
     "Your scan history — all scan events and verification records tied to your account.",
-    "Your rewards data — scan points and the CTAG rewards ledger for your account.",
+    "Your rewards data — the points and cash-back ledger for your account.",
     "Reports you submitted — counterfeit and suspicious-product reports.",
-    "Authentication data — sessions, verification records and sign-in events.",
-    "Your embedded wallet account with our wallet provider (Privy), including the wallet records they hold for you.",
+    "Authentication data — sessions, verification codes and sign-in events.",
 ];
 
 const retained = [
-    "On-chain blockchain data. Any transaction already recorded on a public blockchain is permanent and immutable. CheckTag cannot alter or delete it, and it is not controlled by us. Note that CheckTag never holds your private keys.",
     "Transaction and financial records. Marketplace orders, payments and protection claims may be retained where we are legally required to keep them (for accounting, tax, and fraud-prevention purposes), typically for up to 7 years. These are minimised and de-identified from your account wherever possible.",
     "Encrypted backups. Residual copies may persist in encrypted system backups for up to 30 days after deletion, after which they are permanently purged.",
     "Aggregated, anonymised statistics that can no longer identify you.",
