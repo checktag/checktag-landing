@@ -54,8 +54,26 @@ export async function api<T = any>(
     throw new Error("Session expired. Please sign in again.");
   }
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data?.error || `Request failed (${res.status})`);
+  if (!res.ok) {
+    // Prefer the human-readable `message`; fall back to the error code.
+    throw new Error(data?.message || data?.error || `Request failed (${res.status})`);
+  }
   return data as T;
+}
+
+/**
+ * Unauthenticated GET against a public endpoint (e.g. /api/products/:barcode),
+ * used to enrich admin views with product names. Never sends the admin token
+ * and never signs the admin out; returns null on any failure.
+ */
+export async function publicGet<T = any>(path: string): Promise<T | null> {
+  try {
+    const res = await fetch(`${API_BASE}${path}`);
+    if (!res.ok) return null;
+    return (await res.json()) as T;
+  } catch {
+    return null;
+  }
 }
 
 /** Verify the current token belongs to an admin (admin endpoints 403 otherwise). */

@@ -8,6 +8,7 @@ import Products from "./_components/Products";
 import Payouts from "./_components/Payouts";
 import Kyc from "./_components/Kyc";
 import Reviews from "./_components/Reviews";
+import Community from "./_components/Community";
 import {
   ShieldCheck,
   Inbox,
@@ -15,15 +16,24 @@ import {
   Coins,
   UserCheck,
   Gavel,
+  MessagesSquare,
   LogOut,
 } from "lucide-react";
 
-type Tab = "submissions" | "products" | "payouts" | "reviews" | "kyc";
+type Tab =
+  | "submissions"
+  | "products"
+  | "community"
+  | "payouts"
+  | "reviews"
+  | "kyc";
 
 const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
   { key: "submissions", label: "Submissions", icon: Inbox },
   { key: "products", label: "Products", icon: PackageCheck },
-  { key: "reviews", label: "Reviews", icon: Gavel },
+  { key: "community", label: "Community", icon: MessagesSquare },
+  // Payout (AML) review — not product reviews; those live under Community.
+  { key: "reviews", label: "Payout review", icon: Gavel },
   { key: "payouts", label: "CTAG Payouts", icon: Coins },
   { key: "kyc", label: "Identity", icon: UserCheck },
 ];
@@ -101,7 +111,7 @@ export default function AdminDashboard() {
 
       <div className="mx-auto max-w-6xl px-6 py-8">
         {/* Tabs */}
-        <nav className="mb-8 flex gap-1 rounded-2xl border border-white/10 bg-white/[0.03] p-1.5">
+        <nav className="mb-8 flex gap-1 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.03] p-1.5">
           {TABS.map((t) => {
             const Icon = t.icon;
             const active = tab === t.key;
@@ -110,7 +120,7 @@ export default function AdminDashboard() {
                 key={t.key}
                 onClick={() => setTab(t.key)}
                 className={
-                  "flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition " +
+                  "flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition " +
                   (active
                     ? "bg-cyan-400 text-slate-950 shadow-[0_4px_20px_-6px_rgba(34,174,209,0.6)]"
                     : "text-slate-400 hover:text-slate-200")
@@ -124,6 +134,7 @@ export default function AdminDashboard() {
 
         {tab === "submissions" && <Submissions notify={notify} />}
         {tab === "products" && <Products notify={notify} />}
+        {tab === "community" && <Community notify={notify} />}
         {tab === "reviews" && <Reviews notify={notify} />}
         {tab === "payouts" && <Payouts notify={notify} />}
         {tab === "kyc" && <Kyc notify={notify} />}

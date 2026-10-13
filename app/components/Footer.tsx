@@ -126,6 +126,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link href="/community-guidelines" className="hover:text-white/60 transition-colors">
+                  Community Guidelines
+                </Link>
+              </li>
+              <li>
                 <Link href="/privacy#cookies" className="hover:text-white/60 transition-colors">
                   Cookie Policy
                 </Link>

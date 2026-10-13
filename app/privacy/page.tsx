@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -7,20 +9,42 @@ export const metadata: Metadata = {
     description: "Learn how CheckTag collects, uses, and protects your personal information.",
 };
 
-const sections = [
+const linkClass = "text-[#22AED1] underline underline-offset-2 hover:text-white transition-colors";
+
+const DbIpAttribution = (
+    <a href="https://db-ip.com" target="_blank" rel="noopener noreferrer" className={linkClass}>
+        IP geolocation by DB-IP
+    </a>
+);
+
+const sections: {
+    id: string;
+    title: string;
+    content: ReactNode | null;
+    list: ReactNode[] | null;
+}[] = [
     {
+        id: "information-we-collect",
         title: "1. Information We Collect",
         content: null,
         list: [
             "Account information: the email address and/or phone number you provide during sign-up. Phone numbers are used to deliver SMS one-time passcodes.",
+            "Username: your account is given a pseudonymous username (a generated handle, not your real name). This is the name shown publicly on reviews you post.",
             "Authentication data: the one-time verification code we send you, and the session token issued to your device after you sign in.",
-            "Scan data: product scan events including timestamps and product identifiers.",
+            "Scan data: product scan events including timestamps, product identifiers and, where available, the two-letter country code of the country the scan was made from.",
+            <>
+                Approximate country: we work out the country you are in from your IP address, on our own servers, using a local copy of the DB-IP Lite database ({DbIpAttribution}). Your IP address is not sent to anyone for this and is not stored — only the resulting two-letter country code (for example, &ldquo;NG&rdquo;) is kept. If the IP address gives no answer, your device may send the country of its time-zone setting as a hint. You can change or clear your country at any time in settings. CheckTag never uses GPS or your device&rsquo;s precise location.
+            </>,
+            "Community reviews: the star rating and text of reviews you post, when you posted or edited them, the reviews you mark as helpful, the reports you file (the reason and any note you add), the users you block, and when you accepted the Community Guidelines.",
+            "Label photos: photos of product packaging labels (such as ingredients or nutrition panels) that you choose to submit, the details read from them, and any corrections you make before submitting.",
             "Report details: information you submit in counterfeit or quality reports, including any purchase location you choose to enter. This is typed in by you — CheckTag does not collect GPS or device location.",
             "Payout details: if you request a cash-back withdrawal, the payout details you provide (such as account number, bank code, and account name), which are used to set up a transfer recipient with our payment processor.",
+            "Messaging data: if you use CheckTag through our Telegram bot or mini app, we receive your Telegram user ID and basic profile information (such as your first name) from Telegram, along with the barcodes and messages you send, so we can show you results and link your activity to your CheckTag account.",
             "Device information: device type, operating system, and app version for troubleshooting.",
         ],
     },
     {
+        id: "how-we-use",
         title: "2. How We Use Your Information",
         content: null,
         list: [
@@ -28,55 +52,95 @@ const sections = [
             "To authenticate you securely and maintain session integrity.",
             "To process product scan events and deliver relevant content.",
             "To generate product summaries, health insights, and answer your product questions using AI.",
+            "To show regional information, such as which similar products are popular or available in your country.",
+            "To publish community reviews, screen them for content that breaks our Community Guidelines, act on reports, and keep the community safe.",
+            "To read the label photos you submit and prepare proposed product-information updates for review by our moderators.",
             "To process the reward withdrawals and payouts you request.",
             "To improve our services based on usage patterns.",
             "To send transactional communications (e.g., OTP codes).",
         ],
     },
     {
-        title: "3. Data Sharing",
-        content:
-            "We do not sell your personal data. We share data with trusted third-party service providers who help us operate the platform: email delivery of one-time passcodes and transactional email (Resend); payment processing and payouts (Paystack); SMS delivery of one-time passcodes (Twilio); product identification via barcode lookup providers (Go-UPC, Open Food Facts, Barcode Lookup, and Barcode Spider), to which a scanned product's barcode is sent; AI product summaries and the in-app assistant (xAI / Grok), to which product and scan metadata may be sent to generate summaries and answer your questions; and cloud infrastructure and database hosting (Railway). We may also disclose data when required by applicable law.",
+        id: "community",
+        title: "3. Reviews, Community & Public Information",
+        content: null,
+        list: [
+            "Public reviews: reviews you post are public. Anyone viewing the product — including people who are not signed in — can see your rating, your review text, when it was posted, and your pseudonymous username (and profile picture, if you have one).",
+            <>
+                Moderation: reviews are screened automatically when you post them, and may be checked by AI (see Data Sharing). Reviews that are held by our filters or reported by other users may be reviewed by our moderators, who can see the review, its reports, and your account identifier. Reviews that break our{" "}
+                <Link href="/community-guidelines" className={linkClass}>
+                    Community Guidelines
+                </Link>{" "}
+                are removed, and users who repeatedly or seriously break them can be banned from posting.
+            </>,
+            "Reporting and blocking: if you report a review, its author is not told who reported it. If you block a user, their reviews are hidden from you; they are not notified.",
+            "Your control: you can edit or delete your reviews at any time. A deleted review is removed from public view immediately; we may keep a record of it for moderation and abuse-prevention purposes.",
+            "Live activity feed: we show an anonymised feed of recent scans and aggregated product statistics (such as scan counts by country). These show only the product, the country, and whether a scan earned cash-back — never your name, username, or any other information that identifies you.",
+            "Label photos: label photos you submit are stored as evidence so that a moderator can check the proposed product information against your photo. Nothing is changed in our product catalogue until a moderator approves it. Please photograph only the product packaging, and avoid including people or personal documents.",
+        ],
+    },
+    {
+        id: "data-sharing",
+        title: "4. Data Sharing",
+        content: (
+            <>
+                We do not sell your personal data. We share data with trusted third-party service providers who help us operate the platform: email delivery of one-time passcodes and transactional email (Resend); payment processing and payouts (Paystack); SMS delivery of one-time passcodes (Twilio); product identification via barcode lookup providers (Go-UPC, Open Food Facts, Barcode Lookup, and Barcode Spider), to which a scanned product&rsquo;s barcode is sent; our AI provider (xAI / Grok), to which product and scan metadata may be sent to generate summaries and answer your questions, label photos you submit are sent so the label text can be read, and review text is sent to check it against our Community Guidelines; image storage and delivery for submitted photos (Cloudinary); and cloud infrastructure and database hosting (Railway). If you use our Telegram bot or mini app, your messages pass through Telegram, under Telegram&rsquo;s own privacy policy. Country detection uses a copy of the DB-IP Lite database held on our own servers, so your IP address is not shared with DB-IP or anyone else for that purpose ({DbIpAttribution}). We may also disclose data when required by applicable law.
+            </>
+        ),
         list: null,
     },
     {
-        title: "4. Data Retention",
+        id: "data-retention",
+        title: "5. Data Retention",
         content:
-            "We retain your personal data for as long as your account is active or as needed to provide our services. You may request deletion of your account and all associated data at any time via the app settings or by contacting us at support@checktag.io.",
+            "We retain your personal data for as long as your account is active or as needed to provide our services. Your country code is kept with your account until you change or clear it. Label photos and moderation records are kept as long as needed to review submissions and prevent abuse. You may request deletion of your account and all associated data at any time via the app settings or by contacting us at support@checktag.io.",
         list: null,
     },
     {
-        title: "5. Rewards & Security",
+        id: "rewards-security",
+        title: "6. Rewards & Security",
         content:
             "Inside the app you earn reward points for verifying products, redeemable for cash-back (processed via Paystack). Points are a loyalty balance, not a cryptocurrency. The CheckTag app does not create, hold, or provide a cryptocurrency wallet, and does not buy, sell, trade, or exchange digital assets. CheckTag never generates or stores private keys or recovery phrases for you. Any CTAG token activity is a separate, web-only matter handled outside the app on the CheckTag website, where you supply your own external wallet address as the destination — CheckTag does not custody, transfer, freeze, or recover any digital assets on your behalf. For the data we do process, we implement industry-standard security measures including HTTPS encryption, JWT-based authentication, and access controls. However, no method of data transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
         list: null,
     },
     {
-        title: "6. Children's Privacy",
+        id: "cookies",
+        title: "7. Cookies & Local Storage",
+        content:
+            "This website does not use advertising or third-party tracking cookies. Inside Telegram, the CheckTag mini app stores only your display preferences (such as light or dark mode) on your device.",
+        list: null,
+    },
+    {
+        id: "children",
+        title: "8. Children's Privacy",
         content:
             "CheckTag is not intended for children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us immediately to have it removed.",
         list: null,
     },
     {
-        title: "7. Your Rights",
+        id: "your-rights",
+        title: "9. Your Rights",
         content:
-            "Depending on your jurisdiction, you may have the right to access, correct, or delete the personal data we hold about you, as well as the right to object to or restrict processing. To exercise any of these rights, please contact us at support@checktag.io.",
+            "Depending on your jurisdiction, you may have the right to access, correct, or delete the personal data we hold about you, as well as the right to object to or restrict processing. You can change or clear your country in settings and delete your reviews in the app at any time. To exercise any of your other rights, please contact us at support@checktag.io.",
         list: null,
     },
     {
-        title: "8. Third-Party Links",
+        id: "third-party-links",
+        title: "10. Third-Party Links",
         content:
             "Our app and website may contain links to third-party websites or services. We are not responsible for the privacy practices of those third parties and encourage you to review their respective privacy policies.",
         list: null,
     },
     {
-        title: "9. Changes to This Policy",
+        id: "changes",
+        title: "11. Changes to This Policy",
         content:
             'We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Effective" date at the top of this page. Your continued use of CheckTag after any changes constitutes your acceptance of the updated policy.',
         list: null,
     },
     {
-        title: "10. Contact Us",
+        id: "contact",
+        title: "12. Contact Us",
         content:
             "If you have questions or concerns about this Privacy Policy, please reach out to us at support@checktag.io. We aim to respond within 5 business days.",
         list: null,
@@ -102,7 +166,7 @@ export default function PrivacyPage() {
                     </p>
                     <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white">Privacy Policy</h1>
                     <p className="text-white/60 text-base max-w-xl mx-auto">
-                        Effective date: <span className="text-white font-medium">September 24, 2026</span>
+                        Effective date: <span className="text-white font-medium">October 5, 2026</span>
                     </p>
                 </div>
             </section>
@@ -112,13 +176,13 @@ export default function PrivacyPage() {
                 <p className="text-white/60 text-base leading-relaxed mb-10">
                     Welcome to CheckTag (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;). We are
                     committed to protecting your personal information and your right to privacy. This policy
-                    explains how we collect, use, and safeguard your data when you use our mobile application
-                    and related services.
+                    explains how we collect, use, and safeguard your data when you use our mobile application,
+                    website, Telegram bot and related services.
                 </p>
 
                 <div className="space-y-10">
                     {sections.map((section) => (
-                        <div key={section.title}>
+                        <div key={section.id} id={section.id} className="scroll-mt-28">
                             <h2 className="text-lg font-bold text-white border-l-4 border-[#22AED1] pl-4 mb-3">
                                 {section.title}
                             </h2>
@@ -127,8 +191,8 @@ export default function PrivacyPage() {
                             )}
                             {section.list && (
                                 <ul className="list-disc list-inside space-y-2 text-white/60 text-base leading-relaxed font-normal">
-                                    {section.list.map((item) => (
-                                        <li key={item}>{item}</li>
+                                    {section.list.map((item, i) => (
+                                        <li key={i}>{item}</li>
                                     ))}
                                 </ul>
                             )}
