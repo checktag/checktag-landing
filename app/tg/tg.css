@@ -1,0 +1,135 @@
+/* CheckTag Telegram mini app. Same palette as the mobile app (CTColors),
+   switched by data-theme on <html> (Telegram's light/dark, or the user's
+   choice in Settings). Unlayered, so it overrides the site's dark base. */
+
+html.tg {
+  scroll-behavior: auto;
+  -webkit-tap-highlight-color: transparent;
+  --ct-grad: linear-gradient(135deg, #103c8f 0%, #14a6c9 100%);
+  --ct-bg: #f6f8fc;
+  --ct-surface: #ffffff;
+  --ct-surface-alt: #f1f4f9;
+  --ct-surface-muted: #eaeef5;
+  --ct-border: #e2e8f0;
+  --ct-border-strong: #c6d0de;
+  --ct-text: #091222;
+  --ct-text-2: #41506a;
+  --ct-text-3: #6e7d95;
+  --ct-primary: #103c8f;
+  --ct-primary-soft: #e9effb;
+  --ct-accent: #14a6c9;
+  --ct-accent-soft: #e2f5fb;
+  --ct-good: #0f809b; /* brand cyan, deep enough for white labels */
+  --ct-alert: #103c8f; /* brand navy */
+  --ct-tone: #9baed1; /* pale navy for neutral bars */
+  --ct-on-fill: #ffffff;
+  --ct-warn: #c27600;
+  --ct-warn-soft: #fcf1dd;
+  --ct-danger: #da4453;
+  --ct-danger-soft: #fce7e9;
+  --ct-gold: #f1b44c;
+  --ct-shadow: 0 1px 2px rgba(13, 27, 54, 0.06);
+  color-scheme: light;
+}
+
+html.tg[data-theme="dark"] {
+  --ct-grad: linear-gradient(135deg, #2b4f9e 0%, #1e91b4 100%);
+  --ct-bg: #0a0f1e;
+  --ct-surface: #121829;
+  --ct-surface-alt: #182034;
+  --ct-surface-muted: #1c2438;
+  --ct-border: #243049;
+  --ct-border-strong: #34425f;
+  --ct-text: #edf1fa;
+  --ct-text-2: #9ca9c4;
+  --ct-text-3: #67748f;
+  --ct-primary: #5b8cf0;
+  --ct-primary-soft: #182441;
+  --ct-accent: #3bc6e6;
+  --ct-accent-soft: #11293a;
+  --ct-good: #3bc6e6;
+  --ct-alert: #5b8cf0;
+  --ct-tone: #3a5692;
+  --ct-on-fill: #0a0f1e;
+  --ct-warn: #f1b44c;
+  --ct-warn-soft: #2a2113;
+  --ct-danger: #f1656f;
+  --ct-danger-soft: #2c161a;
+  --ct-gold: #f1b44c;
+  --ct-shadow: none;
+  color-scheme: dark;
+}
+
+html.tg,
+html.tg body {
+  background: var(--ct-bg);
+  color: var(--ct-text);
+  overscroll-behavior: none;
+}
+
+html.tg body {
+  font-feature-settings: "ss01", "cv11";
+}
+
+.ct-grad {
+  background: var(--ct-grad);
+}
+
+.ct-card {
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border);
+  border-radius: 18px;
+  box-shadow: var(--ct-shadow);
+}
+
+.ct-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.ct-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Skeleton shimmer */
+@keyframes ct-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.ct-skel {
+  border-radius: 8px;
+  background: linear-gradient(100deg, var(--ct-surface-muted) 30%, var(--ct-surface-alt) 50%, var(--ct-surface-muted) 70%);
+  background-size: 200% 100%;
+  animation: ct-shimmer 1.4s ease-in-out infinite;
+}
+
+/* Scanner laser */
+@keyframes ct-sweep {
+  0% { top: 6%; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { top: 92%; opacity: 0; }
+}
+.ct-laser {
+  animation: ct-sweep 2.4s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@keyframes ct-spin {
+  to { transform: rotate(360deg); }
+}
+.ct-spin {
+  animation: ct-spin 0.8s linear infinite;
+}
+
+@keyframes ct-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.ct-live {
+  animation: ct-live 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-skel, .ct-laser, .ct-live { animation: none; }
+}
