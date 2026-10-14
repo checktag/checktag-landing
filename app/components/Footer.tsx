@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/app/lib/stores";
 import { motion } from "framer-motion";
 
 const Footer = () => {
@@ -99,9 +100,14 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <Link href="/#download" className="hover:text-white/60 transition-colors">
-                  Download App
-                </Link>
+                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">
+                  App Store (iPhone)
+                </a>
+              </li>
+              <li>
+                <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">
+                  Google Play (Android)
+                </a>
               </li>
               <li>
                 <Link href="/brand" className="hover:text-white/60 transition-colors">

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/app/lib/stores";
 import { motion } from "framer-motion";
 import notificationImage from "/public/notification.svg";
 import googlePlayImage from "/public/googleplay.svg";
@@ -229,7 +230,7 @@ const HowItWorks = () => {
             </ul>
             <div className="flex space-x-4">
               <a
-                href="https://play.google.com/store/apps/details?id=apk.checktag.io"
+                href={PLAY_STORE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-full font-medium text-sm hover:bg-white/10 transition-all duration-300 flex items-center space-x-2"
@@ -237,7 +238,9 @@ const HowItWorks = () => {
                 <Image src={googlePlayImage} alt="Google Play" width={80} height={20} loading="lazy" className="brightness-0 invert" />
               </a>
               <a
-                href="#download"
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center px-6 py-3 bg-white/5 border border-white/10 text-white rounded-full hover:bg-white/10 transition-all duration-300"
               >
                 <Image

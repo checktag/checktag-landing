@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import StoreBadges from "./StoreBadges";
 
 const Hero = () => {
   const [animationStep, setAnimationStep] = useState(0);
@@ -61,6 +62,15 @@ const Hero = () => {
         Your health is worth the scan. Instantly see exactly what&apos;s inside any
         product, understand what it means for you, and earn rewards every time you scan.
       </motion.p>
+
+      <motion.div
+        className="relative z-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.55 }}
+      >
+        <StoreBadges className="items-center justify-center" />
+      </motion.div>
 
       {/* Animated Hero Phones */}
       <div className="relative z-10 w-full md:w-[995px] h-[350px] md:h-[500px] mt-8 md:mt-12">

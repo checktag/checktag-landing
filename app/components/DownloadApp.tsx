@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/app/lib/stores";
 
 const DownloadApp = () => {
   return (
@@ -58,7 +59,7 @@ const DownloadApp = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                   {/* Android — Google Play */}
                   <a
-                    href="https://play.google.com/store/apps/details?id=apk.checktag.io"
+                    href={PLAY_STORE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center space-x-3 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
@@ -87,7 +88,9 @@ const DownloadApp = () => {
 
                   {/* iOS App Store */}
                   <a
-                    href="#"
+                    href={APP_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex items-center space-x-3 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                   >
                     <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
@@ -97,7 +100,7 @@ const DownloadApp = () => {
                     </div>
                     <div className="text-left">
                       <p className="text-white/40 text-[10px] font-medium uppercase tracking-wider">
-                        Coming soon on
+                        Download on the
                       </p>
                       <p className="text-white font-bold text-lg leading-tight">
                         App Store
@@ -108,7 +111,9 @@ const DownloadApp = () => {
 
                 {/* File info */}
                 <div className="flex items-center gap-6 mt-6 text-white/20 text-xs">
-                  <span>Free on Google Play</span>
+                  <span>Free to download</span>
+                  <span>•</span>
+                  <span>iOS 17+</span>
                   <span>•</span>
                   <span>Android 9.0+</span>
                 </div>

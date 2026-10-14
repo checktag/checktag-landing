@@ -34,7 +34,7 @@ const Faq = () => {
     {
       question: "How do I get CheckTag for Android?",
       answer:
-        "CheckTag is available on the Google Play Store. Scroll to the Download section and tap 'Get it on Google Play', or search for 'CheckTag' in the Play Store, then install it like any other app. An iOS version is coming soon.",
+        "CheckTag is free on the App Store for iPhone (iOS 17 or later) and on Google Play for Android (Android 9 or later). Tap the button for your phone in the Download section, or search for 'CheckTag' in your app store, then install it like any other app.",
     },
     {
       question: "What if the code won't scan?",
