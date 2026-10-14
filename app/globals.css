@@ -41,6 +41,31 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Telegram mini app (/tg): the CheckTag app's own palette. Values live in
+     app/tg/tg.css and switch with the light/dark theme. */
+  --color-ct-bg: var(--ct-bg);
+  --color-ct-surface: var(--ct-surface);
+  --color-ct-surface-alt: var(--ct-surface-alt);
+  --color-ct-muted: var(--ct-surface-muted);
+  --color-ct-border: var(--ct-border);
+  --color-ct-border-strong: var(--ct-border-strong);
+  --color-ct-text: var(--ct-text);
+  --color-ct-text-2: var(--ct-text-2);
+  --color-ct-text-3: var(--ct-text-3);
+  --color-ct-primary: var(--ct-primary);
+  --color-ct-primary-soft: var(--ct-primary-soft);
+  --color-ct-accent: var(--ct-accent);
+  --color-ct-accent-soft: var(--ct-accent-soft);
+  --color-ct-good: var(--ct-good);
+  --color-ct-alert: var(--ct-alert);
+  --color-ct-tone: var(--ct-tone);
+  --color-ct-on-fill: var(--ct-on-fill);
+  --color-ct-warn: var(--ct-warn);
+  --color-ct-warn-soft: var(--ct-warn-soft);
+  --color-ct-danger: var(--ct-danger);
+  --color-ct-danger-soft: var(--ct-danger-soft);
+  --color-ct-gold: var(--ct-gold);
 }
 
 :root {
