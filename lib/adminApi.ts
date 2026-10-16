@@ -1,5 +1,7 @@
 // Minimal admin API client. Talks to the CheckTag backend with the admin's
-// Bearer token (from /auth/login), stored in localStorage.
+// Bearer token. Sign-in is two-step (password, then an authenticator code), and
+// the session lives in sessionStorage: it ends when the tab closes, and expires
+// on the server after 8 hours.
 
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_URL || "https://api.checktag.io";
@@ -8,30 +10,51 @@ const TOKEN_KEY = "ct_admin_token";
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_KEY); // drop tokens left by the old sign-in
+  return sessionStorage.getItem(TOKEN_KEY);
 }
 export function setToken(t: string) {
-  localStorage.setItem(TOKEN_KEY, t);
+  sessionStorage.setItem(TOKEN_KEY, t);
 }
 export function clearToken() {
+  sessionStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(TOKEN_KEY);
 }
 
-export async function login(
-  email: string,
-  password: string,
-): Promise<{ token: string; user: { id: string; email: string; role: string } }> {
-  // /auth/org/login issues a JWT carrying role→permissions (admin:* for
-  // SUPER_ADMIN), which is what the /admin endpoints' requireAuth verifies.
-  // (/auth/login returns a session token that requireAuth would reject.)
-  const res = await fetch(`${API_BASE}/auth/org/login`, {
+async function post<T>(path: string, body: unknown, token?: string): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    body: JSON.stringify(body ?? {}),
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data?.error || "Login failed");
-  return data;
+  if (!res.ok) throw new Error(data?.error || `Request failed (${res.status})`);
+  return data as T;
+}
+
+/** Step 1: email + password. Returns whether to set up or enter an authenticator code. */
+export function login(email: string, password: string) {
+  return post<{ step: "setup" | "verify"; challenge: string }>("/auth/admin/login", { email, password });
+}
+
+/** First sign-in only: the secret to add to an authenticator app. */
+export function setupTwoStep(challenge: string) {
+  return post<{ secret: string; otpauthUrl: string }>("/auth/admin/2fa/setup", { challenge });
+}
+
+/** Step 2: an authenticator code (or a backup code). Backup codes come back once, on setup. */
+export function verifyTwoStep(challenge: string, code: string) {
+  return post<{ token: string; user: { id: string; email: string; role: string }; backupCodes?: string[] }>(
+    "/auth/admin/2fa/verify",
+    { challenge, code },
+  );
+}
+
+/** Ends every admin session for this account, on every device. */
+export async function signOutEverywhere() {
+  const token = getToken();
+  if (token) await post("/auth/admin/logout-all", {}, token).catch(() => {});
+  clearToken();
 }
 
 /** Authenticated request against an /admin endpoint. */
