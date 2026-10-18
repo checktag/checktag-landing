@@ -19,7 +19,7 @@ export function Stat({ n, label }: { n: string; label: string }) {
 }
 
 /** Anonymous, country-level stats for this product. */
-export function GlobalSection({ barcode, onLoaded }: { barcode: string; onLoaded?: () => void }) {
+export function GlobalSection({ barcode, onLoaded, bare }: { barcode: string; onLoaded?: () => void; bare?: boolean }) {
   const [d, setD] = useState<GlobalStats | null>(null);
   const [gone, setGone] = useState(false);
   const loaded = useRef(onLoaded);
@@ -44,9 +44,11 @@ export function GlobalSection({ barcode, onLoaded }: { barcode: string; onLoaded
   const pts = Number(cb.pointsEarned) || 0;
   const regs = (d?.topRegions || []).filter((r) => /^[A-Za-z]{2}$/.test(String(r.country || "")));
   const max = Math.max(1, ...regs.map((r) => Number(r.scans) || 0));
+  // `bare`: inside the product screen's "Around the world" row, which supplies the frame and title.
+  const Frame = bare ? "div" : Card;
   return (
-    <Card className="p-4">
-      <SectionTitle title="Around the world" sub="Anonymous · country-level only" right={<Globe2 size={18} className="text-ct-text-3" />} />
+    <Frame className={bare ? undefined : "p-4"}>
+      {!bare && <SectionTitle title="Around the world" sub="Anonymous · country-level only" right={<Globe2 size={18} className="text-ct-text-3" />} />}
       {!d ? (
         <div className="grid grid-cols-3 gap-2">
           {[0, 1, 2].map((i) => (
@@ -100,7 +102,7 @@ export function GlobalSection({ barcode, onLoaded }: { barcode: string; onLoaded
           </p>
         </>
       )}
-    </Card>
+    </Frame>
   );
 }
 
@@ -132,10 +134,10 @@ export function SimilarSection({ barcode }: { barcode: string }) {
             whileTap={{ scale: 0.97 }}
             type="button"
             onClick={() => push({ k: "product", barcode: it.barcode, lookup: true })}
-            className="ct-card w-[156px] shrink-0 p-2.5 text-left"
+            className="ct-card w-[132px] shrink-0 p-2 text-left"
           >
             <div className="relative">
-              <Thumb src={it.imageUrl} size={134} radius={12} className="!w-full bg-white" />
+              <Thumb src={it.imageUrl} size={116} radius={12} className="!w-full bg-white" />
               {it.availableInRegion && (
                 <span className="absolute left-1.5 top-1.5">
                   <Pill tone="alert">In your region</Pill>
@@ -149,7 +151,7 @@ export function SimilarSection({ barcode }: { barcode: string }) {
                 <span className="text-[12px] font-bold text-ct-text-2">{it.rating.toFixed(1)}</span>
               </div>
             )}
-            {it.why && <div className="mt-1 text-[11.5px] leading-snug text-ct-text-3">{it.why}</div>}
+            {it.availableInRegion && <div className="mt-1 text-[11.5px] leading-snug text-ct-text-3">{it.why}</div>}
           </motion.button>
         ))}
       </motion.div>

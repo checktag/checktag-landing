@@ -11,6 +11,7 @@ import Reviews from "./_components/Reviews";
 import Community from "./_components/Community";
 import Activity from "./_components/Activity";
 import Notifications from "./_components/Notifications";
+import News from "./_components/News";
 import {
   ShieldCheck,
   Inbox,
@@ -22,6 +23,7 @@ import {
   LogOut,
   History,
   BellRing,
+  Newspaper,
 } from "lucide-react";
 
 type Tab =
@@ -32,6 +34,7 @@ type Tab =
   | "reviews"
   | "kyc"
   | "notifications"
+  | "news"
   | "activity";
 
 const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
@@ -43,6 +46,7 @@ const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
   { key: "payouts", label: "CTAG Payouts", icon: Coins },
   { key: "kyc", label: "Identity", icon: UserCheck },
   { key: "notifications", label: "Notifications", icon: BellRing },
+  { key: "news", label: "News", icon: Newspaper },
   { key: "activity", label: "Activity", icon: History },
 ];
 
@@ -147,6 +151,7 @@ export default function AdminDashboard() {
         {tab === "payouts" && <Payouts notify={notify} />}
         {tab === "kyc" && <Kyc notify={notify} />}
         {tab === "notifications" && <Notifications notify={notify} />}
+        {tab === "news" && <News notify={notify} />}
         {tab === "activity" && <Activity notify={notify} />}
       </div>
 

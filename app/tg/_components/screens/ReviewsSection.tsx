@@ -17,6 +17,7 @@ import {
   ReviewMenuBody,
   SupportLink,
   useGuidelines,
+  useNameStep,
   useRequireAccount,
   type ComposerProps,
 } from "../sheets/ReviewSheets";
@@ -35,6 +36,7 @@ export function ReviewsSection({ barcode, product, onLoaded }: { barcode: string
   const { openSheet, closeSheet, toast, blocked, block, accountEpoch } = useApp();
   const requireAccount = useRequireAccount();
   const guidelines = useGuidelines();
+  const nameStep = useNameStep();
   const [sort, setSort] = useState<Sort>("recent");
   const [summary, setSummary] = useState<ReviewSummary | null>(null);
   const [items, setItems] = useState<Review[]>([]);
@@ -60,7 +62,8 @@ export function ReviewsSection({ barcode, product, onLoaded }: { barcode: string
       }
       try {
         const off = append ? next || 0 : 0;
-        const d = await api<ReviewPage>(`/api/products/${enc(barcode)}/reviews?sort=${sort}&limit=10&offset=${off}`);
+        // A short first page keeps the product screen light; "Show more" loads the rest.
+        const d = await api<ReviewPage>(`/api/products/${enc(barcode)}/reviews?sort=${sort}&limit=${append ? 10 : 3}&offset=${off}`);
         if (my !== req.current) return;
         setSummary(d.summary || { count: 0, average: null, distribution: {} });
         setItems((prev) => {
@@ -118,7 +121,7 @@ export function ReviewsSection({ barcode, product, onLoaded }: { barcode: string
   const write = () =>
     requireAccount("write a review", () => {
       if (live) openComposer();
-      else guidelines.ensure(openComposer);
+      else guidelines.ensure(() => nameStep(openComposer));
     });
 
   const blockFlow = (r: Review) =>
@@ -191,7 +194,7 @@ export function ReviewsSection({ barcode, product, onLoaded }: { barcode: string
     <Card className="p-4">
       <SectionTitle
         title="Reviews"
-        sub="From people who scanned it"
+        sub={count ? `★ ${(Number(summary?.average) || 0).toFixed(1)} · ${plural(count, "review", "reviews")} from people who scanned it` : "From people who scanned it"}
         right={
           <Button size="sm" variant={live ? "outline" : "primary"} icon={<Pencil size={14} />} onClick={() => (haptic(), write())}>
             {live ? "Edit review" : "Write a review"}
@@ -216,8 +219,7 @@ export function ReviewsSection({ barcode, product, onLoaded }: { barcode: string
         </div>
       ) : (
         <>
-          {count > 0 && <SummaryBlock s={summary} />}
-          {count > 1 && (
+          {count > 3 && (
             <div className="mb-3">
               <Segmented layoutId={`rv-sort-${barcode}`} label="Sort reviews" full value={sort} onChange={(v) => (haptic(), setSort(v))} options={SORTS} />
             </div>
@@ -262,36 +264,6 @@ export function ReviewsSection({ barcode, product, onLoaded }: { barcode: string
         </span>
       </div>
     </Card>
-  );
-}
-
-function SummaryBlock({ s }: { s: ReviewSummary }) {
-  const count = Number(s.count) || 0;
-  const avg = Number(s.average) || 0;
-  return (
-    <div className="mb-4 flex items-center gap-4 rounded-[14px] bg-ct-surface-alt p-3.5">
-      <div className="w-[88px] shrink-0 text-center">
-        <div className="text-[30px] font-extrabold leading-none tracking-tight text-ct-text tabular-nums">{avg.toFixed(1)}</div>
-        <div className="mt-1.5">
-          <Stars value={avg} size={12} />
-        </div>
-        <div className="mt-1 text-[11.5px] text-ct-text-3">{plural(count, "review", "reviews")}</div>
-      </div>
-      <div className="flex-1 space-y-1.5" aria-label="Rating distribution">
-        {[5, 4, 3, 2, 1].map((n) => {
-          const c = Number(s.distribution?.[n] ?? s.distribution?.[String(n)]) || 0;
-          return (
-            <div key={n} className="flex items-center gap-2 text-[11.5px] text-ct-text-3" aria-label={`${n} stars: ${c}`}>
-              <span className="w-2 font-semibold">{n}</span>
-              <div className="flex-1">
-                <Bar frac={count ? c / count : 0} color="var(--ct-primary)" height={6} minVisible={false} />
-              </div>
-              <span className="w-6 text-right tabular-nums">{fmtN(c)}</span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
   );
 }
 
