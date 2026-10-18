@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache, type ReactNode } from "react";
 import { AiNote, Breadcrumbs, CatalogShell, GetCheckTag, JsonLd, ProductImage, RatingBadge } from "../../_catalog/ui";
-import { cautionsOf, cleanCategory, comparePath, getProductPage, isIndexable, productPath, SITE, type Product, type ProductPage } from "@/lib/catalog";
+import { cautionsOf, cleanCategory, comparePath, getProductPage, isIndexable, productPath, SITE, slugify, type Product, type ProductPage } from "@/lib/catalog";
 
 export const revalidate = 3600;
 export const generateStaticParams = async () => [];
@@ -68,13 +68,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const url = `${SITE}${comparePath(a.barcode, b.barcode)}`;
   const title = `${short(a)} vs ${short(b)}: which is better? | CheckTag`;
   const description = `${a.name} or ${b.name}? ${verdictLine(a, b)} Side-by-side ingredients, flagged additives and shopper reviews.`;
+  // Names in the card URL: a corrected name gets a fresh card, not a cached one.
+  const og = `${SITE}/og/compare/${a.barcode}-vs-${b.barcode}?v=${slugify(a.name)}-${slugify(b.name)}`;
   return {
     title,
     description,
     alternates: { canonical: url },
     robots: isIndexable(a) && isIndexable(b) ? undefined : { index: false, follow: true },
-    openGraph: { type: "website", url, title: `${short(a)} vs ${short(b)}`, description, siteName: "CheckTag", images: [{ url: `${SITE}/og/compare/${a.barcode}-vs-${b.barcode}`, width: 1200, height: 630 }] },
-    twitter: { card: "summary_large_image", title: `${short(a)} vs ${short(b)}`, description, images: [`${SITE}/og/compare/${a.barcode}-vs-${b.barcode}`] },
+    openGraph: { type: "website", url, title: `${short(a)} vs ${short(b)}`, description, siteName: "CheckTag", images: [{ url: og, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title: `${short(a)} vs ${short(b)}`, description, images: [og] },
   };
 }
 

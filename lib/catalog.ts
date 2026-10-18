@@ -2,9 +2,11 @@
 // pages. Reads the backend's read-only catalogue (never starts AI work), cached
 // with ISR so pages are fast and crawlers don't hammer the API.
 
+import { slugify } from "./links";
+
+export { comparePath, productPath, SITE, slugify, TELEGRAM_BOT } from "./links";
+
 export const API = process.env.NEXT_PUBLIC_API_URL || "https://api.checktag.io";
-export const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://checktag.io").replace(/\/+$/, "");
-export const TELEGRAM_BOT = process.env.NEXT_PUBLIC_TELEGRAM_BOT || "ChecktagAppBot";
 
 export type Tone = "good" | "warn" | "bad";
 
@@ -90,22 +92,6 @@ async function get<T>(path: string, revalidate = 3600): Promise<T | null> {
 
 export const BARCODE_RE = /^\d{8,14}$/;
 
-export const slugify = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80) || "product";
-
-export const productPath = (p: { barcode: string; name: string }) => `/product/${p.barcode}/${slugify(p.name)}`;
-
-/** One canonical URL per pair: the smaller barcode first. */
-export const comparePath = (a: string, b: string) => {
-  const [x, y] = [a, b].sort();
-  return `/compare/${x}-vs-${y}`;
-};
 
 /** A product page is worth indexing once it has a real analysis. */
 export const isIndexable = (p: Product) => p.aiStatus === "ready" && !!p.aiOverview;
@@ -182,6 +168,10 @@ export function nafdacNumber(p: Product): string | null {
 }
 
 export const GREENBOOK_URL = "https://greenbook.nafdac.gov.ng/";
+
+/** Lagos State Consumer Protection Agency's free line for fake / expired goods (launched Oct 2026). */
+export const LASCOPA_LINE = "0800 0052 726";
+export const LASCOPA_TEL = "08000052726";
 
 /** schema.org GTIN property for a barcode of this length. */
 export const gtinKey = (barcode: string) => (({ 8: "gtin8", 12: "gtin12", 13: "gtin13", 14: "gtin14" }) as Record<number, string>)[barcode.length] || "gtin";

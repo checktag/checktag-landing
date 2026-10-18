@@ -20,7 +20,7 @@ import { api, ApiError, enc, errText } from "../../_lib/api";
 import { useApp, type View } from "../../_lib/app";
 import { nkey, ratingTier } from "../../_lib/format";
 import { haptic, LINK_COPY, notify, shareToChat } from "../../_lib/telegram";
-import { productPath, SITE } from "@/lib/catalog";
+import { productPath, SITE } from "@/lib/links";
 import type { IngredientDetail, Product, ScanResult } from "../../_lib/types";
 import { ActionBar, TopBar } from "../Shell";
 import { GlobalSection, SimilarSection } from "./ProductExtras";
