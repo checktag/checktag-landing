@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/adminApi";
 import { Button, Card, EmptyState, Spinner } from "./ui";
+import CatalogHealth from "./CatalogHealth";
 import { BadgeCheck, RefreshCw } from "lucide-react";
 
 interface Variant {
@@ -57,6 +58,7 @@ export default function Products({
 
   return (
     <div>
+      <CatalogHealth notify={notify} />
       <div className="mb-5 flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold">Products awaiting vetting</h2>

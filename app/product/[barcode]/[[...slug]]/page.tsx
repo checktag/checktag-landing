@@ -9,6 +9,8 @@ import {
   comparePath,
   getProductPage,
   GREENBOOK_URL,
+  LASCOPA_LINE,
+  LASCOPA_TEL,
   gtinKey,
   isIndexable,
   nafdacNumber,
@@ -28,6 +30,10 @@ type Params = Promise<{ barcode: string; slug?: string[] }>;
 
 const load = cache((barcode: string) => getProductPage(barcode));
 
+// The name is in the card's URL so a corrected name gets a fresh card instead
+// of the copy link-preview services cached.
+const ogUrl = (p: Product) => `${SITE}/og/product/${p.barcode}?v=${slugify(p.name)}`;
+
 const titleOf = (p: Product) => `${p.name}${p.brand && !p.name.toLowerCase().includes(p.brand.toLowerCase()) ? ` by ${p.brand}` : ""}`;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
@@ -45,8 +51,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description,
     alternates: { canonical: url },
     robots: isIndexable(p) ? undefined : { index: false, follow: true },
-    openGraph: { type: "website", url, title: titleOf(p), description, siteName: "CheckTag", images: [{ url: `${SITE}/og/product/${p.barcode}`, width: 1200, height: 630 }] },
-    twitter: { card: "summary_large_image", title: titleOf(p), description, images: [`${SITE}/og/product/${p.barcode}`] },
+    openGraph: { type: "website", url, title: titleOf(p), description, siteName: "CheckTag", images: [{ url: ogUrl(p), width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image", title: titleOf(p), description, images: [ogUrl(p)] },
   };
 }
 
@@ -151,14 +157,23 @@ export default async function ProductPage({ params }: { params: Params }) {
       )}
 
       {nafdac && (
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-400/25 bg-emerald-400/[0.06] p-4">
-          <div className="text-sm">
-            <span className="font-semibold text-emerald-200">NAFDAC No. {nafdac}</span>
-            <span className="text-white/60"> is printed on this product&apos;s label.</span>
+        <div className="mt-6 rounded-2xl border border-emerald-400/25 bg-emerald-400/[0.06] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="text-sm">
+              <span className="font-semibold text-emerald-200">NAFDAC No. {nafdac}</span>
+              <span className="text-white/60"> is printed on this product&apos;s label.</span>
+            </div>
+            <a href={GREENBOOK_URL} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-emerald-400/30 px-3 py-1.5 text-sm font-medium text-emerald-200 hover:bg-emerald-400/10">
+              Check it on the NAFDAC Greenbook ↗
+            </a>
           </div>
-          <a href={GREENBOOK_URL} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-emerald-400/30 px-3 py-1.5 text-sm font-medium text-emerald-200 hover:bg-emerald-400/10">
-            Check it on the NAFDAC Greenbook ↗
-          </a>
+          <p className="mt-3 border-t border-emerald-400/15 pt-3 text-sm text-white/60">
+            Bought a fake or expired one in Lagos? Report it free to the Lagos State Consumer Protection Agency (LASCOPA) on{" "}
+            <a href={`tel:${LASCOPA_TEL}`} className="font-semibold text-emerald-200 underline-offset-2 hover:underline">
+              {LASCOPA_LINE}
+            </a>
+            . Keep the receipt and photos of the label.
+          </p>
         </div>
       )}
 
@@ -184,8 +199,8 @@ export default async function ProductPage({ params }: { params: Params }) {
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="text-xl font-bold">{p.consumable ? "Ingredients" : "What it's made of"}</h2>
             <span className="text-sm text-white/50">
-              {p.ingredientsDetailed.length} listed{cautions.length ? ` · ${cautions.length} flagged` : ""}
-              {verified.has("ingredients") ? " · read from the label" : ""}
+              {p.ingredientsDetailed.length} listed{cautions.length ? ` · ${cautions.length} flagged` : ""} ·{" "}
+              {verified.has("ingredients") ? "✓ read from the label" : "estimated by AI, check the label"}
             </span>
           </div>
           <ul className="mt-4 grid gap-2 md:grid-cols-2">
