@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import { api, ApiError, enc, errText } from "../../_lib/api";
 import { useApp } from "../../_lib/app";
 import { fmtN, initialOf } from "../../_lib/format";
-import { closeApp, haptic, LINK_COPY, notify, SUPPORT } from "../../_lib/telegram";
+import { closeApp, getTG, haptic, LINK_COPY, notify, SUPPORT } from "../../_lib/telegram";
 import type { BlockedUser, Guidelines, Product, Review } from "../../_lib/types";
 import { Button, Skel, cx, spring } from "../ui";
 
@@ -162,6 +162,117 @@ function GuidelinesBody({ g, mode, then }: { g: Guidelines; mode: "read" | "acce
             Close
           </Button>
         )}
+      </Buttons>
+    </>
+  );
+}
+
+// ------------------------------------------------------------------ username
+
+const NAME_ASKED = "ct_name_asked";
+const asked = () => {
+  try {
+    return localStorage.getItem(NAME_ASKED) === "1";
+  } catch {
+    return false;
+  }
+};
+const markAsked = () => {
+  try {
+    localStorage.setItem(NAME_ASKED, "1");
+  } catch {}
+};
+
+/**
+ * Before a first review: if they're still on the automatic name ("user-k3x9"),
+ * offer to pick one — prefilled from their email or Telegram @username — or
+ * keep it. Asked once; any failure just skips the question.
+ */
+export function useNameStep() {
+  const { openSheet } = useApp();
+  return useCallback(
+    async (then: () => void) => {
+      if (asked()) return then();
+      let info: { name: string | null; isDefault: boolean; suggestion: string | null };
+      try {
+        info = await api("/api/me/username");
+      } catch {
+        return then();
+      }
+      if (!info.isDefault) {
+        markAsked();
+        return then();
+      }
+      const tgName = (getTG()?.initDataUnsafe?.user?.username || "").toLowerCase().replace(/[^a-z0-9._-]/g, "");
+      const suggestion = info.suggestion || (tgName.length >= 3 ? tgName : "");
+      openSheet({
+        title: "How should we show your name?",
+        body: (
+          <NameBody
+            current={info.name || "your current name"}
+            suggestion={suggestion}
+            onDone={() => {
+              markAsked();
+              then();
+            }}
+          />
+        ),
+      });
+    },
+    [openSheet],
+  );
+}
+
+function NameBody({ current, suggestion, onDone }: { current: string; suggestion: string; onDone(): void }) {
+  const { toast } = useApp();
+  const [name, setName] = useState(suggestion);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const save = async () => {
+    const v = name.trim().toLowerCase();
+    if (v.length < 2) return setErr("Use at least 2 characters.");
+    haptic();
+    setBusy(true);
+    setErr("");
+    try {
+      await api("/api/me/username", { method: "PUT", json: { name: v } });
+      notify("success");
+      toast(`You'll appear as ${v}`);
+      onDone();
+    } catch (e) {
+      setBusy(false);
+      setErr(errText(e, "Couldn’t save that name. Try another."));
+    }
+  };
+  return (
+    <>
+      <Lead>
+        Reviews show a username. Right now you appear as <b className="text-ct-text">{current}</b>. Pick a name you like, or keep that one to stay anonymous.
+      </Lead>
+      <FieldError text={err} />
+      <label htmlFor="rv-name" className="mb-1.5 block text-[13px] font-semibold text-ct-text-2">
+        Username
+      </label>
+      <input
+        id="rv-name"
+        value={name}
+        maxLength={30}
+        autoCapitalize="none"
+        autoCorrect="off"
+        spellCheck={false}
+        onChange={(e) => (setName(e.target.value.replace(/[^a-zA-Z0-9._-]/g, "")), setErr(""))}
+        onKeyDown={(e) => e.key === "Enter" && save()}
+        placeholder="e.g. ada.obi"
+        className="mb-1.5 h-11 w-full rounded-[14px] border border-ct-border bg-ct-surface-alt px-3.5 text-[16px] text-ct-text outline-none placeholder:text-ct-text-3 focus:border-ct-accent"
+      />
+      <p className="mb-4 text-[12.5px] text-ct-text-3">Lowercase letters, numbers, and . _ -</p>
+      <Buttons>
+        <Button block busy={busy} onClick={save}>
+          Use this name
+        </Button>
+        <Button block variant="outline" disabled={busy} onClick={() => (haptic(), onDone())}>
+          Keep {current}
+        </Button>
       </Buttons>
     </>
   );

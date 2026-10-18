@@ -7,13 +7,14 @@ type Notice = "success" | "warning" | "error";
 
 export interface TelegramWebApp {
   initData: string;
-  initDataUnsafe?: { user?: { id: number; first_name?: string }; start_param?: string };
+  initDataUnsafe?: { user?: { id: number; first_name?: string; username?: string }; start_param?: string };
   colorScheme?: "light" | "dark";
   version?: string;
   ready(): void;
   expand(): void;
   close(): void;
   openLink?(url: string): void;
+  openTelegramLink?(url: string): void;
   setHeaderColor?(color: string): void;
   setBackgroundColor?(color: string): void;
   setBottomBarColor?(color: string): void;
@@ -66,6 +67,16 @@ export function openLink(url: string) {
     if (tg?.openLink && tg.initData) return tg.openLink(url);
   } catch {}
   window.open(url, "_blank", "noopener");
+}
+
+/** Share a link to a Telegram chat of the user's choosing (Telegram's share picker). */
+export function shareToChat(url: string, text: string) {
+  const share = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+  const tg = getTG();
+  try {
+    if (tg?.openTelegramLink && tg.initData) return tg.openTelegramLink(share);
+  } catch {}
+  window.open(share, "_blank", "noopener");
 }
 
 /** Back to the bot chat (where accounts are linked). */

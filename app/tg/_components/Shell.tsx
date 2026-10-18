@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useDragControls, type PanInfo } from "framer-motion";
-import { ChevronLeft, Coins, History, Settings, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Coins, History, Menu, Settings, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, type ReactNode } from "react";
 import { useApp } from "../_lib/app";
@@ -26,8 +26,8 @@ export function ScreenFrame({ visible, depth, children }: { visible: boolean; de
 }
 
 /** Sticky top bar: the brand on the root screen, a back arrow elsewhere. */
-export function TopBar({ title }: { title?: string }) {
-  const { stack, pop, push } = useApp();
+export function TopBar({ title, right }: { title?: string; right?: ReactNode }) {
+  const { stack, pop, openSheet } = useApp();
   const root = !title;
   return (
     <header
@@ -38,17 +38,9 @@ export function TopBar({ title }: { title?: string }) {
         <>
           <Image src="/icon-192.png" alt="" width={34} height={34} className="rounded-[10px]" priority />
           <div className="text-[19px] font-extrabold tracking-[-0.02em] text-ct-text">CheckTag</div>
-          <div className="ml-auto flex gap-2">
-            <IconButton label="Your cash-back" onClick={() => push({ k: "cashback" })}>
-              <Coins size={18} strokeWidth={1.9} />
-            </IconButton>
-            <IconButton label="Scan history" onClick={() => push({ k: "history" })}>
-              <History size={18} strokeWidth={1.9} />
-            </IconButton>
-            <IconButton label="Settings" onClick={() => push({ k: "settings" })}>
-              <Settings size={18} strokeWidth={1.9} />
-            </IconButton>
-          </div>
+          <IconButton label="Menu" className="ml-auto" onClick={() => (haptic(), openSheet({ title: "Menu", body: <MenuBody /> }))}>
+            <Menu size={19} strokeWidth={2} />
+          </IconButton>
         </>
       ) : (
         <>
@@ -57,10 +49,44 @@ export function TopBar({ title }: { title?: string }) {
               <ChevronLeft size={20} strokeWidth={2.2} />
             </IconButton>
           )}
-          <h1 className="truncate text-[18px] font-bold tracking-[-0.01em] text-ct-text">{title}</h1>
+          <h1 className="min-w-0 flex-1 truncate text-[18px] font-bold tracking-[-0.01em] text-ct-text">{title}</h1>
+          {right}
         </>
       )}
     </header>
+  );
+}
+
+/** Everything that isn't scanning lives here, one tap from the home screen. */
+function MenuBody() {
+  const { push, closeSheet } = useApp();
+  const rows = [
+    { k: "history" as const, icon: <History size={18} />, title: "Scan history", sub: "Everything you've scanned" },
+    { k: "cashback" as const, icon: <Coins size={18} />, title: "Cash-back", sub: "Your points and what they're worth" },
+    { k: "settings" as const, icon: <Settings size={18} />, title: "Settings", sub: "Region, theme and account" },
+  ];
+  return (
+    <div className="divide-y divide-ct-border pb-1">
+      {rows.map((r) => (
+        <button
+          key={r.k}
+          type="button"
+          onClick={() => {
+            haptic();
+            closeSheet();
+            push({ k: r.k });
+          }}
+          className="flex w-full items-center gap-3 py-3.5 text-left"
+        >
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-ct-primary-soft text-ct-primary">{r.icon}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[15px] font-semibold text-ct-text">{r.title}</span>
+            <span className="block text-[13px] text-ct-text-3">{r.sub}</span>
+          </span>
+          <ChevronRight size={18} className="text-ct-text-3" />
+        </button>
+      ))}
+    </div>
   );
 }
 

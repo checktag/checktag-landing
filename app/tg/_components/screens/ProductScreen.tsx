@@ -8,25 +8,24 @@ import {
   Check,
   ChevronDown,
   ChevronRight,
-  Info,
   Link2,
   Loader2,
   PartyPopper,
   ScanLine,
   Search,
-  Sparkles,
-  Users,
+  Share2,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { api, ApiError, enc, errText } from "../../_lib/api";
 import { useApp, type View } from "../../_lib/app";
 import { nkey, ratingTier } from "../../_lib/format";
-import { haptic, LINK_COPY, notify } from "../../_lib/telegram";
+import { haptic, LINK_COPY, notify, shareToChat } from "../../_lib/telegram";
+import { productPath, SITE } from "@/lib/catalog";
 import type { IngredientDetail, Product, ScanResult } from "../../_lib/types";
 import { ActionBar, TopBar } from "../Shell";
 import { GlobalSection, SimilarSection } from "./ProductExtras";
 import { ReviewsSection } from "./ReviewsSection";
-import { Bar, Button, Card, Empty, Pill, RatingRing, Skel, Stars, Thumb, cx, ease, itemVariants, listVariants, spring } from "../ui";
+import { Bar, Button, Card, Empty, Pill, RatingRing, Skel, Thumb, cx, ease, itemVariants, listVariants, spring } from "../ui";
 
 export function ProductScreen({ barcode, lookup, view, visible }: { barcode: string; lookup?: boolean; view?: View; visible: boolean }) {
   const { popTo, push, toast } = useApp();
@@ -105,40 +104,56 @@ export function ProductScreen({ barcode, lookup, view, visible }: { barcode: str
         ) : !p ? (
           <ProductSkeleton />
         ) : (
-          <motion.div variants={listVariants} initial="hidden" animate="show" className="space-y-4">
+          // One summary, the verdict, then everything else folded away until asked for.
+          <motion.div variants={listVariants} initial="hidden" animate="show" className="space-y-3">
             <motion.div variants={itemVariants}>
-              <Hero p={p} />
+              <Summary p={p} d={data!} onLink={() => toast(LINK_COPY)} />
             </motion.div>
             <motion.div variants={itemVariants}>
-              <Chips d={data!} onLink={() => toast(LINK_COPY)} />
-            </motion.div>
-            {typeof p.rating === "number" && (
-              <motion.div variants={itemVariants}>
-                <RatingCard p={p} />
-              </motion.div>
-            )}
-            <motion.div variants={itemVariants}>
-              <Analysis p={p} />
+              <Verdict p={p} />
             </motion.div>
             <motion.div variants={itemVariants}>
-              <LabelRow onOpen={() => push({ k: "label", barcode, name: p.name })} />
+              <Details
+                p={p}
+                barcode={barcode}
+                globalOpen={view === "cashback"}
+                globalRef={globalRef}
+                onGlobalLoaded={() => scrollTo("cashback")}
+                onLabel={() => push({ k: "label", barcode, name: p.name })}
+              />
             </motion.div>
-            <div ref={reviewsRef} className="scroll-mt-20">
+            <div ref={reviewsRef} className="scroll-mt-20 pt-1">
               <ReviewsSection barcode={barcode} product={p} onLoaded={() => scrollTo("reviews")} />
             </div>
-            <div ref={globalRef} className="scroll-mt-20">
-              <GlobalSection barcode={barcode} onLoaded={() => scrollTo("cashback")} />
+            <div className="pt-2">
+              <SimilarSection barcode={barcode} />
             </div>
-            <SimilarSection barcode={barcode} />
           </motion.div>
         )}
       </div>
       <AnimatePresence>
         {visible && (
           <ActionBar>
-            <Button block size="lg" icon={<ScanLine size={18} />} onClick={() => (haptic(), popTo("scan"))}>
-              Scan another product
-            </Button>
+            <div className="flex gap-2">
+              <Button block size="lg" icon={<ScanLine size={18} />} onClick={() => (haptic(), popTo("scan"))}>
+                Scan another
+              </Button>
+              {p && (
+                <Button
+                  size="lg"
+                  variant="outline"
+                  aria-label="Share this product"
+                  icon={<Share2 size={18} />}
+                  className="shrink-0 px-5"
+                  onClick={() => {
+                    haptic();
+                    shareToChat(`${SITE}${productPath(p)}`, typeof p.rating === "number" ? `${p.name}: ${p.rating.toFixed(1)}/5 on CheckTag` : `${p.name} on CheckTag`);
+                  }}
+                >
+                  Share
+                </Button>
+              )}
+            </div>
           </ActionBar>
         )}
       </AnimatePresence>
@@ -148,17 +163,36 @@ export function ProductScreen({ barcode, lookup, view, visible }: { barcode: str
 
 // ------------------------------------------------------------------ pieces
 
-function Hero({ p }: { p: Product }) {
+/** Photo, name and how it rates — the whole answer at a glance. */
+function Summary({ p, d, onLink }: { p: Product; d: ScanResult; onLink: () => void }) {
+  const rated = typeof p.rating === "number";
+  const hasReviews = (p.reviewCount || 0) > 0 && typeof p.communityRating === "number";
   return (
-    <div className="flex items-center gap-4 pt-1">
-      <Thumb src={p.imageUrl} size={92} radius={20} className="bg-white" />
-      <div className="min-w-0">
-        <h2 className="text-[21px] font-extrabold leading-tight tracking-[-0.02em] text-ct-text [overflow-wrap:anywhere]">{p.name || "Unknown product"}</h2>
-        {(p.brand || p.category) && (
-          <p className="mt-1 text-[13.5px] text-ct-text-2">{[p.brand, p.category].filter(Boolean).join(" · ")}</p>
-        )}
+    <Card className="p-4">
+      <div className="flex items-center gap-4">
+        <Thumb src={p.imageUrl} size={84} radius={18} className="bg-white" />
+        <div className="min-w-0 flex-1">
+          <h2 className="text-[19px] font-extrabold leading-tight tracking-[-0.02em] text-ct-text [overflow-wrap:anywhere]">{p.name || "Unknown product"}</h2>
+          {p.brand && <p className="mt-0.5 truncate text-[13.5px] text-ct-text-2">{p.brand}</p>}
+          {rated && (
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              {/* The server's verdict, so the app, website and bots all use the same word. */}
+              <Pill tone="soft" className="px-2.5 py-1 text-[13px]">
+                {p.verdict || ratingTier(p.rating!)}
+              </Pill>
+              {hasReviews && (
+                <span className="text-[12.5px] font-semibold text-ct-text-3">
+                  ★ {p.communityRating!.toFixed(1)} · {p.reviewCount} review{p.reviewCount === 1 ? "" : "s"}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+        {rated && <RatingRing value={p.rating!} size={52} stroke={4.5} />}
       </div>
-    </div>
+      {p.ratingSummary && <p className="mt-3 text-[13.5px] leading-snug text-ct-text-2">{p.ratingSummary}</p>}
+      <Chips d={d} onLink={onLink} />
+    </Card>
   );
 }
 
@@ -168,7 +202,7 @@ function Chips({ d, onLink }: { d: ScanResult; onLink: () => void }) {
   const guest = d.fromScan && !d.signedIn;
   if (!pending && !earned && !guest) return null;
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="mt-3 flex flex-wrap gap-2">
       {earned && (
         <motion.span initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={spring}>
           <Pill tone="soft" className="px-3 py-1.5 text-[12.5px]" icon={<PartyPopper size={14} />}>
@@ -192,118 +226,118 @@ function Chips({ d, onLink }: { d: ScanResult; onLink: () => void }) {
   );
 }
 
-function RatingCard({ p }: { p: Product }) {
-  const r = p.rating!;
-  const hasReviews = (p.reviewCount || 0) > 0 && typeof p.communityRating === "number";
-  const title = hasReviews ? (typeof p.aiRating === "number" ? "Overall rating" : "Shopper rating") : p.consumable ? "Health rating" : "Product rating";
-  const reviews = `${p.reviewCount} review${p.reviewCount === 1 ? "" : "s"}`;
+/** What CheckTag thinks, in plain words, plus any real safety warning. */
+function Verdict({ p }: { p: Product }) {
+  if (!p.aiOverview && !p.safetyWarning) {
+    if (p.aiStatus !== "pending") return null;
+    return (
+      <Card className="space-y-2.5 p-4">
+        <Skel className="h-3.5 w-11/12" />
+        <Skel className="h-3.5 w-4/5" />
+        <Skel className="h-3.5 w-2/3" />
+      </Card>
+    );
+  }
   return (
-    <Card className="flex items-center gap-4 p-4">
-      <RatingRing value={r} />
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="truncate text-[16.5px] font-bold text-ct-text">{title}</span>
-          <Pill tone="soft">{ratingTier(r)}</Pill>
+    <Card className="space-y-3 p-4">
+      {p.aiOverview && <p className="text-[15px] leading-relaxed text-ct-text">{p.aiOverview}</p>}
+      {p.safetyWarning && (
+        // Real safety warnings keep their warm signal colour.
+        <div className="flex gap-2.5 rounded-[14px] bg-ct-warn-soft p-3.5">
+          <AlertTriangle size={18} className="mt-0.5 shrink-0 text-ct-warn" />
+          <p className="text-[14px] leading-relaxed text-ct-text">{p.safetyWarning}</p>
         </div>
-        <div className="mt-1.5">
-          <Stars value={r} />
-        </div>
-        {hasReviews && (
-          <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[12.5px] font-semibold text-ct-text-2">
-            {typeof p.aiRating === "number" && (
-              <span className="inline-flex items-center gap-1">
-                <Sparkles size={13} className="text-ct-text-3" />
-                {p.consumable ? "Health score" : "AI score"} {p.aiRating.toFixed(1)}
-              </span>
-            )}
-            <span className="inline-flex items-center gap-1">
-              <Users size={13} className="text-ct-text-3" />
-              Shoppers {p.communityRating!.toFixed(1)} · {reviews}
-            </span>
-          </div>
-        )}
-        {p.ratingSummary && <p className="mt-1.5 text-[13px] leading-snug text-ct-text-3">{p.ratingSummary}</p>}
-      </div>
+      )}
     </Card>
   );
 }
 
-// ------------------------------------------------------------------ analysis tabs
-
-type TabKey = "ov" | "ing" | "nut" | "cert";
+// ------------------------------------------------------------------ details
 
 const hasFacts = (p: Product) =>
-  !!(p.netQuantity || p.servingSize || (p.details && Object.keys(p.details).length) || (p.consumable !== false && p.allergens?.length));
+  !!(p.netQuantity || p.servingSize || (p.details && Object.keys(p.details).length) || p.certifications?.length || (p.consumable !== false && p.allergens?.length));
 
-function Analysis({ p }: { p: Product }) {
-  const tabs = useMemo(() => {
-    const t: { k: TabKey; l: string }[] = [];
-    if (p.aiOverview || p.safetyWarning || hasFacts(p)) t.push({ k: "ov", l: "Overview" });
-    if (p.ingredientsDetailed?.length || p.ingredients?.length) t.push({ k: "ing", l: p.consumable === false ? "Materials" : "Ingredients" });
-    if (p.consumable !== false && p.nutrition && Object.keys(p.nutrition).length) t.push({ k: "nut", l: "Nutrition" });
-    if (p.certifications?.length) t.push({ k: "cert", l: "Certifications" });
-    return t;
-  }, [p]);
-  const [tab, setTab] = useState<TabKey>("ov");
-  const active = tabs.some((t) => t.k === tab) ? tab : tabs[0]?.k;
-
-  if (!tabs.length) {
-    return (
-      <Card className="p-4">
-        {p.aiStatus === "pending" ? (
-          <div className="space-y-2.5">
-            <Skel className="h-3.5 w-11/12" />
-            <Skel className="h-3.5 w-4/5" />
-            <Skel className="h-3.5 w-2/3" />
-          </div>
-        ) : (
-          <Empty icon={<Search size={20} />} text="We don’t have details for this product yet." />
-        )}
-      </Card>
-    );
-  }
-
+/** One tap-to-open row. Closed rows cost nothing: content mounts on open. */
+function Fold({ title, meta, open: initial = false, children }: { title: string; meta?: ReactNode; open?: boolean; children: ReactNode }) {
+  const [open, setOpen] = useState(initial);
   return (
     <div>
-      <div className="ct-scroll -mx-4 mb-3 flex gap-2 overflow-x-auto px-4">
-        {tabs.map((t) => {
-          const on = t.k === active;
-          return (
-            <button
-              key={t.k}
-              type="button"
-              onClick={() => {
-                if (on) return;
-                haptic();
-                setTab(t.k);
-              }}
-              className={cx(
-                "relative isolate shrink-0 rounded-full border px-4 py-2 text-[13.5px] font-semibold transition-colors",
-                on ? "border-transparent text-white" : "border-ct-border bg-ct-surface text-ct-text-2",
-              )}
-            >
-              {on && <motion.span layoutId="analysis-tab" transition={spring} className="ct-grad absolute inset-0 -z-10 rounded-full" />}
-              {t.l}
-            </button>
-          );
-        })}
-      </div>
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={active}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -4 }}
-          transition={{ duration: 0.2, ease }}
-        >
-          {active === "ov" && <OverviewPanel p={p} />}
-          {active === "ing" && <IngredientsPanel p={p} />}
-          {active === "nut" && <NutritionPanel p={p} />}
-          {active === "cert" && <CertPanel p={p} />}
-        </motion.div>
+      <button type="button" aria-expanded={open} onClick={() => (haptic(), setOpen((o) => !o))} className="flex w-full items-center gap-3 px-4 py-3.5 text-left">
+        <span className="min-w-0 flex-1 text-[15px] font-semibold text-ct-text">{title}</span>
+        {meta && <span className="shrink-0 text-[12.5px] font-medium text-ct-text-3">{meta}</span>}
+        <motion.span animate={{ rotate: open ? 180 : 0 }} className="text-ct-text-3">
+          <ChevronDown size={17} />
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease }} className="overflow-hidden">
+            <div className="px-4 pb-4">{children}</div>
+          </motion.div>
+        )}
       </AnimatePresence>
-      {(active === "ing" || active === "nut") && <AiNotice consumable={p.consumable !== false} />}
     </div>
+  );
+}
+
+function Details({
+  p,
+  barcode,
+  globalOpen,
+  globalRef,
+  onGlobalLoaded,
+  onLabel,
+}: {
+  p: Product;
+  barcode: string;
+  globalOpen: boolean;
+  globalRef: React.RefObject<HTMLDivElement | null>;
+  onGlobalLoaded: () => void;
+  onLabel: () => void;
+}) {
+  const ings = p.ingredientsDetailed?.length ? p.ingredientsDetailed : (p.ingredients || []).map(parseRaw);
+  const flagged = ings.filter((i) => i.tone === "warn" || i.tone === "bad").length;
+  const consumable = p.consumable !== false;
+  const nutrition = consumable && p.nutrition && Object.keys(p.nutrition).length > 0;
+  return (
+    <Card className="divide-y divide-ct-border overflow-hidden">
+      {ings.length > 0 && (
+        <Fold title={consumable ? "Ingredients" : "Materials"} meta={`${ings.length}${flagged ? ` · ${flagged} flagged` : ""}`}>
+          <IngredientsPanel p={p} />
+          <AiNotice consumable={consumable} />
+        </Fold>
+      )}
+      {nutrition && (
+        <Fold title="Nutrition">
+          <NutritionPanel p={p} />
+          <AiNotice consumable />
+        </Fold>
+      )}
+      {hasFacts(p) && (
+        <Fold title="From the label" meta={p.verifiedFields?.length ? "✓ verified" : undefined}>
+          <OverviewPanel p={p} />
+          {!!p.certifications?.length && (
+            <div className="mt-4">
+              <SubHead title="Certifications" verified={p.verifiedFields?.includes("certifications")} />
+              <CertPanel p={p} />
+            </div>
+          )}
+        </Fold>
+      )}
+      <div ref={globalRef} className="scroll-mt-20">
+        <Fold title="Around the world" meta="Scans & cash-back" open={globalOpen}>
+          <GlobalSection barcode={barcode} onLoaded={onGlobalLoaded} bare />
+        </Fold>
+      </div>
+      <button type="button" onClick={() => (haptic(), onLabel())} className="flex w-full items-center gap-3 px-4 py-3.5 text-left">
+        <Camera size={17} className="shrink-0 text-ct-primary" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-semibold text-ct-text">Update from label</span>
+          <span className="block text-[12.5px] text-ct-text-3">Photograph the label, earn points when it’s approved</span>
+        </span>
+        <ChevronRight size={17} className="text-ct-text-3" />
+      </button>
+    </Card>
   );
 }
 
@@ -324,15 +358,7 @@ function OverviewPanel({ p }: { p: Product }) {
   if (p.servingSize) rows.push(["Serving size", p.servingSize, vf.includes("servingSize")]);
   for (const [k, v] of Object.entries(p.details || {})) if (v != null && String(v).trim()) rows.push([k, String(v), vf.includes("extraFields")]);
   return (
-    <Card className="space-y-4 p-4">
-      {p.aiOverview && <p className="text-[15px] leading-relaxed text-ct-text">{p.aiOverview}</p>}
-      {p.safetyWarning && (
-        // Real safety warnings keep their warm signal colour.
-        <div className="flex gap-2.5 rounded-[14px] bg-ct-warn-soft p-3.5">
-          <AlertTriangle size={18} className="mt-0.5 shrink-0 text-ct-warn" />
-          <p className="text-[14px] leading-relaxed text-ct-text">{p.safetyWarning}</p>
-        </div>
-      )}
+    <div className="space-y-4">
       {p.consumable !== false && !!p.allergens?.length && (
         <div>
           <SubHead title="Allergens" verified={vf.includes("allergens")} />
@@ -361,7 +387,7 @@ function OverviewPanel({ p }: { p: Product }) {
           </div>
         </div>
       )}
-    </Card>
+    </div>
   );
 }
 
@@ -400,19 +426,14 @@ function parseRaw(raw: string): IngredientDetail {
 function IngredientsPanel({ p }: { p: Product }) {
   const items: IngredientDetail[] = (p.ingredientsDetailed?.length ? p.ingredientsDetailed : (p.ingredients || []).map(parseRaw)).slice(0, 40);
   const [open, setOpen] = useState<Set<number>>(new Set());
-  const noun = p.consumable === false ? "material" : "ingredient";
   return (
-    <Card className="p-4">
+    <div>
       <VerifiedMark show={!!p.verifiedFields?.includes("ingredients")} />
       {p.consumable !== false && !!p.allergens?.length && (
         <p className="mb-3 text-[13.5px] text-ct-text-2">
           <b className="text-ct-text">Allergens:</b> {p.allergens.join(", ")}
         </p>
       )}
-      <div className="mb-1 text-[14px] font-semibold text-ct-text">
-        {items.length} {noun}
-        {items.length === 1 ? "" : "s"} analysed
-      </div>
       <ul>
         {items.map((it, i) => {
           const v = verdictOf(it);
@@ -471,7 +492,7 @@ function IngredientsPanel({ p }: { p: Product }) {
           );
         })}
       </ul>
-    </Card>
+    </div>
   );
 }
 
@@ -514,7 +535,7 @@ function NutritionPanel({ p }: { p: Product }) {
   }
   known.sort((a, b) => ORDER.indexOf(a.key) - ORDER.indexOf(b.key));
   return (
-    <Card className="p-4">
+    <div>
       <VerifiedMark show={!!p.verifiedFields?.includes("nutrition")} />
       {p.servingSize && (
         <p className="mb-3 text-[13.5px] text-ct-text-2">
@@ -565,14 +586,13 @@ function NutritionPanel({ p }: { p: Product }) {
           ))}
         </div>
       )}
-    </Card>
+    </div>
   );
 }
 
 function CertPanel({ p }: { p: Product }) {
   return (
-    <Card className="p-4">
-      <VerifiedMark show={!!p.verifiedFields?.includes("certifications")} />
+    <div>
       <div className="flex flex-wrap gap-2">
         {(p.certifications || []).map((c) => (
           <span key={c} className="inline-flex items-center gap-1.5 rounded-full bg-ct-primary-soft px-3 py-1.5 text-[13px] font-semibold text-ct-primary">
@@ -581,43 +601,19 @@ function CertPanel({ p }: { p: Product }) {
           </span>
         ))}
       </div>
-    </Card>
+    </div>
   );
 }
 
 function AiNotice({ consumable }: { consumable: boolean }) {
   return (
-    <div className="mt-3 flex gap-2.5 rounded-[14px] border border-ct-border bg-ct-surface-alt p-3">
-      <Info size={16} className="mt-0.5 shrink-0 text-ct-primary" />
-      <p className="text-[12.5px] leading-relaxed text-ct-text-2">
+    <div className="mt-3">
+      <p className="text-[12px] leading-relaxed text-ct-text-3">
         {consumable
           ? "AI-generated from available data — a guide, not a diagnosis. Always check ingredients and allergens on the product’s own label."
           : "AI-generated from available data — a guide, not a guarantee. Always check the details on the product’s own label."}
       </p>
     </div>
-  );
-}
-
-function LabelRow({ onOpen }: { onOpen: () => void }) {
-  const { signedIn } = useApp();
-  return (
-    <motion.button
-      type="button"
-      whileTap={{ scale: 0.985 }}
-      onClick={onOpen}
-      className="ct-card flex w-full items-center gap-3 p-4 text-left"
-    >
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-ct-primary-soft text-ct-primary">
-        <Camera size={19} />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-semibold text-ct-text">Update from label</span>
-        <span className="block text-[13px] leading-snug text-ct-text-2">
-          {signedIn ? "Photograph the ingredients or nutrition panel. Earn points when it’s approved." : "Link your account to send label updates and earn points."}
-        </span>
-      </span>
-      <ChevronRight size={18} className="text-ct-text-3" />
-    </motion.button>
   );
 }
 

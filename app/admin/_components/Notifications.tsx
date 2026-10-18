@@ -7,8 +7,9 @@ import { BellRing, Megaphone, RefreshCw, ShieldAlert, Smartphone } from "lucide-
 // Push health, product safety alerts and announcements.
 //  • Safety alert: everyone who scanned the product in the last year, top priority,
 //    even in quiet hours. Always check the count first; there's no undo.
-//  • Announcement: every inbox; pushed only to people who turned on Tips & news.
-//    Send a test to yourself first. One real announcement per hour.
+//  • Announcement: every inbox; pushed only to people who turned on Tips & news
+//    ("Important" pushes to everyone with notifications on — once a day, max).
+//    Send a test first (to any account's email). One announcement per hour.
 
 interface Status {
   pushConfigured: boolean;
@@ -217,18 +218,26 @@ function Announcement({ notify }: { notify: (m: string, k: "success" | "error") 
   const [body, setBody] = useState("");
   const [category, setCategory] = useState<"News" | "Tips">("News");
   const [country, setCountry] = useState("");
+  const [important, setImportant] = useState(false);
+  const [testEmail, setTestEmail] = useState("");
   const [reach, setReach] = useState<number | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
-  const payload = () => ({ title: title.trim(), body: body.trim(), category, country: country.trim() || undefined });
+  const payload = () => ({ title: title.trim(), body: body.trim(), category, country: country.trim() || undefined, important });
   const ready = title.trim() && body.trim() && title.length <= 65 && body.length <= 240;
 
   async function run(kind: "test" | "check" | "send") {
-    if (kind === "send" && !confirm(`Send this announcement to ${reach} ${reach === 1 ? "person" : "people"}${country ? ` in ${country.toUpperCase()}` : ""}?`)) return;
+    if (
+      kind === "send" &&
+      !confirm(
+        `Send this announcement to ${reach} ${reach === 1 ? "person" : "people"}${country ? ` in ${country.toUpperCase()}` : ""}?${important ? "\n\nImportant: it pushes to everyone with notifications on, not just Tips & news." : ""}`,
+      )
+    )
+      return;
     setBusy(kind);
     try {
       if (kind === "test") {
-        await api("/admin/notifications/broadcast", { method: "POST", body: JSON.stringify({ ...payload(), test: true }) });
-        notify("Test sent to you — check your phone and inbox", "success");
+        await api("/admin/notifications/broadcast", { method: "POST", body: JSON.stringify({ ...payload(), test: true, testEmail: testEmail.trim() || undefined }) });
+        notify(`Test sent to ${testEmail.trim() || "your account"} — check the phone and inbox`, "success");
       } else if (kind === "check") {
         const r = await api<{ wouldReach: number }>("/admin/notifications/broadcast", { method: "POST", body: JSON.stringify({ ...payload(), dryRun: true }) });
         setReach(r.wouldReach);
@@ -253,7 +262,7 @@ function Announcement({ notify }: { notify: (m: string, k: "success" | "error") 
         <div>
           <h3 className="font-semibold">Announcement</h3>
           <p className="text-sm text-slate-400">
-            Goes to every inbox; pushed only to people who turned on Tips &amp; news. One announcement per hour.
+            Goes to every inbox; pushed to people who turned on Tips &amp; news. One announcement per hour.
           </p>
         </div>
       </div>
@@ -289,10 +298,21 @@ function Announcement({ notify }: { notify: (m: string, k: "success" | "error") 
           <span className={label}>Country (optional, 2 letters)</span>
           <input className={`${field} uppercase`} maxLength={2} value={country} onChange={(e) => (setCountry(e.target.value.replace(/[^a-z]/gi, "")), setReach(null))} placeholder="All countries" />
         </label>
+        <label className="flex items-start gap-2.5 text-sm text-slate-300 md:col-span-2">
+          <input type="checkbox" checked={important} onChange={(e) => setImportant(e.target.checked)} className="mt-0.5 h-4 w-4 accent-cyan-400" />
+          <span>
+            Important — push to everyone with notifications on, not only Tips &amp; news. Once a day at most; save it for things people
+            would want to hear about.
+          </span>
+        </label>
+        <label className="block md:col-span-2">
+          <span className={label}>Send the test to (email of the account on your phone — blank for your admin account)</span>
+          <input className={field} type="email" value={testEmail} onChange={(e) => setTestEmail(e.target.value)} placeholder="you@example.com" />
+        </label>
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <Button variant="outline" size="sm" disabled={!ready} loading={busy === "test"} onClick={() => run("test")}>
-          Send a test to me
+          Send a test
         </Button>
         <Button variant="outline" size="sm" disabled={!ready} loading={busy === "check"} onClick={() => run("check")}>
           Check audience
