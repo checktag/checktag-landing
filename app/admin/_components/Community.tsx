@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/adminApi";
 import { cn } from "@/lib/utils";
-import { Button, Card, EmptyState, Spinner } from "./ui";
+import { Button, Card, EmptyState, Filters, PAGE_SIZE, Pager, SearchBox, Spinner, Toggle, useDebounced } from "./ui";
 import { useProducts } from "./useProducts";
 import {
   Ban,
@@ -68,7 +68,6 @@ const STATUSES: { key: Status; label: string; hint: string }[] = [
   },
 ];
 
-const QUEUE_LIMIT = 50; // the backend returns at most 50 per status
 
 const REASON_LABELS: Record<string, string> = {
   spam: "Spam",
@@ -173,6 +172,11 @@ export default function Community({
   notify: (m: string, k: "success" | "error") => void;
 }) {
   const [status, setStatus] = useState<Status>("pending");
+  const [search, setSearch] = useState("");
+  const q = useDebounced(search.trim());
+  const [reported, setReported] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [total, setTotal] = useState(0);
   const [rows, setRows] = useState<CommunityReview[]>([]);
   const [loading, setLoading] = useState(true);
   const [counts, setCounts] = useState<Partial<Record<Status, number>>>({});
@@ -189,10 +193,10 @@ export default function Community({
     const entries = await Promise.all(
       (["pending", "hidden"] as const).map(async (s) => {
         try {
-          const d = await api<{ items: CommunityReview[] }>(
-            `/admin/reviews?status=${s}`,
+          const d = await api<{ items: CommunityReview[]; total?: number }>(
+            `/admin/reviews?status=${s}&limit=1`,
           );
-          return [s, d.items?.length ?? 0] as const;
+          return [s, d.total ?? d.items?.length ?? 0] as const;
         } catch {
           return [s, undefined] as const;
         }
@@ -205,10 +209,12 @@ export default function Community({
     async (s: Status, opts: { quiet?: boolean } = {}) => {
       if (!opts.quiet) setLoading(true);
       try {
-        const data = await api<{ items: CommunityReview[] }>(
-          `/admin/reviews?status=${s}`,
-        );
+        const qs = new URLSearchParams({ status: s, limit: String(PAGE_SIZE), offset: String(offset) });
+        if (q) qs.set("q", q);
+        if (reported) qs.set("reported", "1");
+        const data = await api<{ items: CommunityReview[]; total?: number }>(`/admin/reviews?${qs}`);
         setRows(data.items || []);
+        setTotal(data.total ?? data.items?.length ?? 0);
       } catch (e: any) {
         notify(e.message, "error");
       } finally {
@@ -218,8 +224,11 @@ export default function Community({
     },
     // `notify` is recreated by the parent on every render and is only called
     // here, so it's deliberately left out to keep `load` stable.
-    [loadCounts],
+    [loadCounts, offset, q, reported],
   );
+
+  // A different queue or filter starts again at page one.
+  useEffect(() => setOffset(0), [status, q, reported]);
 
   useEffect(() => {
     setRemoving(null);
@@ -327,14 +336,19 @@ export default function Community({
                       : "bg-white/10 text-slate-300",
                   )}
                 >
-                  {n >= QUEUE_LIMIT ? `${QUEUE_LIMIT}+` : n}
+                  {n}
                 </span>
               )}
             </button>
           );
         })}
       </div>
-      <p className="mb-5 text-xs text-slate-500">{current.hint}</p>
+      <p className="mb-4 text-xs text-slate-500">{current.hint}</p>
+
+      <Filters>
+        <SearchBox value={search} onChange={setSearch} placeholder="Review text, author or barcode" />
+        <Toggle label="Reported only" on={reported} onChange={setReported} />
+      </Filters>
 
       {loading ? (
         <div className="grid place-items-center py-20">
@@ -605,6 +619,7 @@ export default function Community({
           })}
         </div>
       )}
+      <Pager offset={offset} pageSize={PAGE_SIZE} total={total} onChange={setOffset} />
     </div>
   );
 }

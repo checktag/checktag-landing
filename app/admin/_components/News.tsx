@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/adminApi";
-import { Button, Card, EmptyState, Spinner } from "./ui";
+import { Button, Card, EmptyState, Filters, Pager, SearchBox, Select, Spinner, Toggle, useAdminList, useDebounced } from "./ui";
 import { Eye, EyeOff, Newspaper, Pencil, RefreshCw, Rss, Trash2 } from "lucide-react";
 
 // The app's News section: short posts about what's happening at CheckTag.
@@ -257,20 +257,24 @@ interface Story {
  * food, drink, medicine and counterfeit news. Hide anything that slipped in.
  */
 function OutletStories({ notify }: { notify: (m: string, k: "success" | "error") => void }) {
-  const [items, setItems] = useState<Story[] | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
-
-  async function load() {
-    try {
-      setItems((await api<{ items: Story[] }>("/admin/news/articles")).items);
-    } catch (e: any) {
-      notify(e.message, "error");
-    }
-  }
-  useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [search, setSearch] = useState("");
+  const q = useDebounced(search.trim());
+  const [source, setSource] = useState("");
+  const [alerts, setAlerts] = useState(false);
+  const [shown, setShown] = useState<"" | "0" | "1">("");
+  const [sources, setSources] = useState<string[]>([]);
+  const list = useAdminList<Story>(
+    "/admin/news/articles",
+    { q, source, alert: alerts ? "1" : undefined, hidden: shown || undefined },
+    (d) => {
+      setSources(d.sources || []);
+      return d.items;
+    },
+    notify,
+  );
+  const items = list.loading && !list.items.length ? null : list.items;
+  const load = list.reload;
 
   async function fetchNow() {
     setBusy("fetch");
@@ -289,7 +293,7 @@ function OutletStories({ notify }: { notify: (m: string, k: "success" | "error")
     setBusy(s.id);
     try {
       await api(`/admin/news/articles/${s.id}`, { method: "POST", body: JSON.stringify({ hidden: !s.hidden }) });
-      setItems((list) => list?.map((x) => (x.id === s.id ? { ...x, hidden: !s.hidden } : x)) ?? null);
+      list.setItems((rows) => rows.map((x) => (x.id === s.id ? { ...x, hidden: !s.hidden } : x)));
     } catch (e: any) {
       notify(e.message, "error");
     } finally {
@@ -313,6 +317,23 @@ function OutletStories({ notify }: { notify: (m: string, k: "success" | "error")
         <Button variant="outline" size="sm" loading={busy === "fetch"} onClick={fetchNow}>
           <RefreshCw className="h-4 w-4" /> Fetch now
         </Button>
+      </div>
+      <div className="px-5 pt-4">
+        <Filters>
+          <SearchBox value={search} onChange={setSearch} placeholder="Search headlines" />
+          <Select label="Outlet" value={source} onChange={setSource} options={[{ value: "", label: "All" }, ...sources.map((x) => ({ value: x, label: x }))]} />
+          <Select
+            label="Show"
+            value={shown}
+            onChange={setShown}
+            options={[
+              { value: "", label: "Visible & hidden" },
+              { value: "0", label: "Visible in the app" },
+              { value: "1", label: "Hidden" },
+            ]}
+          />
+          <Toggle label="Alerts only" on={alerts} onChange={setAlerts} />
+        </Filters>
       </div>
       {!items ? (
         <div className="grid place-items-center py-10">
@@ -344,6 +365,9 @@ function OutletStories({ notify }: { notify: (m: string, k: "success" | "error")
           ))}
         </ul>
       )}
+      <div className="px-5 pb-4">
+        <Pager offset={list.offset} pageSize={list.pageSize} total={list.total} onChange={list.setOffset} />
+      </div>
     </Card>
   );
 }

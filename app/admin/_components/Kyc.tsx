@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/adminApi";
-import { Badge, Button, Card, EmptyState, Spinner } from "./ui";
+import { Badge, Button, Card, EmptyState, Filters, Pager, SearchBox, Spinner, useAdminList, useDebounced } from "./ui";
 import { RefreshCw, ShieldCheck, ShieldX } from "lucide-react";
 
 interface KycUser {
@@ -21,28 +21,14 @@ export default function Kyc({
 }: {
   notify: (m: string, k: "success" | "error") => void;
 }) {
-  const [rows, setRows] = useState<KycUser[]>([]);
-  const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
   const [filter, setFilter] = useState<(typeof FILTERS)[number] | "">("");
-
-  async function load() {
-    setLoading(true);
-    try {
-      const q = filter ? `?status=${filter}` : "";
-      const data = await api<{ users: KycUser[] }>(`/admin/kyc${q}`);
-      setRows(data.users || []);
-    } catch (e: any) {
-      notify(e.message, "error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  const [search, setSearch] = useState("");
+  const q = useDebounced(search.trim());
+  const list = useAdminList<KycUser>("/admin/kyc", { status: filter || undefined, q }, (d) => d.users, notify);
+  const rows = list.items;
+  const loading = list.loading;
+  const load = list.reload;
 
   async function override(id: string, status: "verified" | "rejected") {
     setBusy(id + status);
@@ -74,6 +60,9 @@ export default function Kyc({
         </Button>
       </div>
 
+      <Filters>
+        <SearchBox value={search} onChange={setSearch} placeholder="Email or name" />
+      </Filters>
       <div className="mb-5 flex gap-1.5">
         {["", ...FILTERS].map((f) => (
           <button
@@ -166,6 +155,7 @@ export default function Kyc({
           </div>
         </Card>
       )}
+      <Pager offset={list.offset} pageSize={list.pageSize} total={list.total} onChange={list.setOffset} />
     </div>
   );
 }

@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/adminApi";
 import { safeHttpUrl } from "@/lib/utils";
-import { Badge, Button, Card, EmptyState, Spinner } from "./ui";
+import { Badge, Button, Card, EmptyState, Filters, Pager, SearchBox, Select, Spinner, useAdminList, useDebounced } from "./ui";
 import { useProducts } from "./useProducts";
 import { isLabelScan, LabelScanReview, LabelScanTag } from "./LabelScanReview";
+import { ChangePreview } from "./ChangePreview";
 import { Check, X, RefreshCw, ImageIcon } from "lucide-react";
 
 interface Report {
@@ -26,37 +27,31 @@ export default function Submissions({
 }: {
   notify: (m: string, k: "success" | "error") => void;
 }) {
-  const [rows, setRows] = useState<Report[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState<"PENDING" | "APPROVED" | "REJECTED" | "ALL">("PENDING");
+  const [type, setType] = useState<"ALL" | "ADD" | "UPDATE" | "REPORT">("ALL");
+  const [sort, setSort] = useState<"newest" | "oldest">("newest");
+  const [search, setSearch] = useState("");
+  const q = useDebounced(search.trim());
+  const list = useAdminList<Report>("/admin/reports", { status, type, sort, q }, (d) => d.reports, notify);
+  const rows = list.items;
+  const loading = list.loading;
+  const load = list.reload;
   const [busy, setBusy] = useState<string | null>(null);
   // Label scans carry only the fields — look up the product they're for.
   const products = useProducts(
     rows.filter((r) => isLabelScan(r.payload)).map((r) => r.barcode),
   );
 
-  async function load() {
-    setLoading(true);
-    try {
-      const data = await api<{ reports: Report[] }>(
-        "/admin/reports?status=PENDING",
-      );
-      setRows(data.reports || []);
-    } catch (e: any) {
-      notify(e.message, "error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    load();
-  }, []);
-
   async function act(id: string, action: "approve" | "reject") {
     setBusy(id + action);
     try {
       await api(`/admin/reports/${id}/${action}`, { method: "POST" });
-      setRows((r) => r.filter((x) => x.id !== id));
+      if (status === "PENDING") {
+        list.setItems((r) => r.filter((x) => x.id !== id));
+        list.setTotal((t) => Math.max(0, t - 1));
+      } else {
+        list.reload();
+      }
       notify(
         action === "approve" ? "Approved & rewarded" : "Submission rejected",
         "success",
@@ -72,7 +67,7 @@ export default function Submissions({
     <div>
       <div className="mb-5 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">Pending submissions</h2>
+          <h2 className="text-lg font-semibold">Submissions</h2>
           <p className="text-sm text-slate-400">
             Approve to apply the change & pay the reward, or reject.
           </p>
@@ -82,13 +77,40 @@ export default function Submissions({
         </Button>
       </div>
 
+      <Filters>
+        <SearchBox value={search} onChange={setSearch} placeholder="Barcode, product name or details" />
+        <Select
+          label="Status"
+          value={status}
+          onChange={setStatus}
+          options={[
+            { value: "PENDING", label: "Pending" },
+            { value: "APPROVED", label: "Approved" },
+            { value: "REJECTED", label: "Rejected" },
+            { value: "ALL", label: "All" },
+          ]}
+        />
+        <Select
+          label="Type"
+          value={type}
+          onChange={setType}
+          options={[
+            { value: "ALL", label: "All" },
+            { value: "ADD", label: "New product" },
+            { value: "UPDATE", label: "Improve details" },
+            { value: "REPORT", label: "Report" },
+          ]}
+        />
+        <Select label="Sort" value={sort} onChange={setSort} options={[{ value: "newest", label: "Newest first" }, { value: "oldest", label: "Oldest first" }]} />
+      </Filters>
+
       {loading ? (
         <div className="grid place-items-center py-20">
           <Spinner className="h-6 w-6 text-cyan-400" />
         </div>
       ) : rows.length === 0 ? (
         <Card>
-          <EmptyState label="No pending submissions. All caught up." />
+          <EmptyState label={status === "PENDING" && !q && type === "ALL" ? "No pending submissions. All caught up." : "Nothing matches these filters."} />
         </Card>
       ) : (
         <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
@@ -139,7 +161,7 @@ export default function Submissions({
                       )}
                       {r.userId && <span>By: {r.userId.slice(0, 8)}…</span>}
                     </div>
-                    {!labelScan && images.length > 0 && (
+                    {!labelScan && r.reason.toUpperCase() === "REPORT" && images.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-2">
                         {images.map((src, i) => (
                           // eslint-disable-next-line @next/next/no-img-element
@@ -164,6 +186,9 @@ export default function Submissions({
                     )}
                   </div>
 
+                  {r.status !== "PENDING" ? (
+                    <Badge value={r.status} />
+                  ) : (
                   <div className="flex shrink-0 gap-2">
                     <Button
                       variant="success"
@@ -182,15 +207,18 @@ export default function Submissions({
                       <X className="h-4 w-4" /> Reject
                     </Button>
                   </div>
+                  )}
                 </div>
                 {labelScan && r.payload && (
                   <LabelScanReview payload={r.payload} product={product} />
                 )}
+                {!labelScan && ["ADD", "UPDATE"].includes(r.reason.toUpperCase()) && <ChangePreview reportId={r.id} />}
               </Card>
             );
           })}
         </div>
       )}
+      <Pager offset={list.offset} pageSize={list.pageSize} total={list.total} onChange={list.setOffset} />
     </div>
   );
 }
