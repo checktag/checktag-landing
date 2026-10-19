@@ -1,6 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+// Brand kit: white wordmark on dark, gradient mark.
+import checktagWordmark from "/public/brand/checktag-wordmark-white.png";
+import checktagMark from "/public/brand/checktag-mark-gradient.svg";
 import { getToken, clearToken, verifyAdmin } from "@/lib/adminApi";
 import { Spinner, Toast } from "./_components/ui";
 import Submissions from "./_components/Submissions";
@@ -13,7 +17,6 @@ import Activity from "./_components/Activity";
 import Notifications from "./_components/Notifications";
 import News from "./_components/News";
 import {
-  ShieldCheck,
   Inbox,
   PackageCheck,
   Coins,
@@ -94,23 +97,18 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      {/* ambient */}
-      <div className="pointer-events-none fixed -top-40 right-0 h-[30rem] w-[30rem] rounded-full bg-cyan-500/10 blur-[130px]" />
+    <div className="min-h-screen bg-[#020817] text-slate-100">
+      {/* ambient (brand navy / cyan) */}
+      <div className="pointer-events-none fixed -top-40 right-0 h-[30rem] w-[30rem] rounded-full bg-[#14A6C9]/10 blur-[130px]" />
+      <div className="pointer-events-none fixed -bottom-48 -left-40 h-[30rem] w-[30rem] rounded-full bg-[#103C8F]/20 blur-[140px]" />
 
       {/* Top bar */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#020817]/75 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2.5">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600">
-              <ShieldCheck className="h-5 w-5 text-slate-950" />
-            </div>
-            <div>
-              <p className="text-sm font-bold leading-none">
-                CheckTag <span className="text-cyan-400">Admin</span>
-              </p>
-              <p className="mt-0.5 text-[11px] text-slate-500">Control center</p>
-            </div>
+          <div className="flex items-center gap-3">
+            <Image src={checktagMark} alt="" width={32} height={32} className="rounded-lg" />
+            <Image src={checktagWordmark} alt="CheckTag" priority className="h-5 w-auto" />
+            <span className="rounded-full border border-[#22AED1]/30 bg-[#22AED1]/10 px-2.5 py-0.5 text-xs font-semibold text-[#22AED1]">Admin</span>
           </div>
           <button
             onClick={logout}
