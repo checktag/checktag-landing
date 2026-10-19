@@ -99,12 +99,42 @@ export async function publicGet<T = any>(path: string): Promise<T | null> {
   }
 }
 
-/** Verify the current token belongs to an admin (admin endpoints 403 otherwise). */
-export async function verifyAdmin(): Promise<boolean> {
+export type AdminArea =
+  | "submissions"
+  | "products"
+  | "community"
+  | "payouts"
+  | "ctag"
+  | "identity"
+  | "announcements"
+  | "news"
+  | "activity"
+  | "team";
+
+export interface AdminMe {
+  id: string;
+  email: string | null;
+  role: string;
+  roleLabel: string;
+  /** The parts of the dashboard this admin's role can use. */
+  areas: AdminArea[];
+}
+
+/** The signed-in admin and what their role can use, or null if the session isn't an admin one. */
+export async function verifyAdmin(): Promise<AdminMe | null> {
   try {
-    await api("/admin/reports?status=PENDING");
-    return true;
+    return await api<AdminMe>("/admin/me");
   } catch {
-    return false;
+    return null;
   }
+}
+
+/** Who a set-password link is for (invite or reset). Throws if it's expired or used. */
+export function checkInvite(token: string) {
+  return post<{ email: string; role: string | null; summary: string | null; kind: "invite" | "reset" }>("/auth/admin/invite/check", { token });
+}
+
+/** Sets the password from an invite / reset link. */
+export function acceptInvite(token: string, password: string) {
+  return post<{ email: string }>("/auth/admin/invite/accept", { token, password });
 }

@@ -21,6 +21,13 @@ const NAMES: [RegExp, string][] = [
   [/^admin\.login\.backup_code$/, "Signed in with a backup code"],
   [/^admin\.2fa\.enabled$/, "Turned on two-step sign-in"],
   [/^admin\.logout_all$/, "Signed out on every device"],
+  [/^admin\.invite\.accepted$/, "Joined the team (set a password)"],
+  [/^admin\.password\.reset$/, "Set a new password from a link"],
+  [/team\/invite$/, "Invited someone to the team"],
+  [/team\/:id\/link$/, "Sent a team member a new link"],
+  [/team\/:id\/reset-authenticator$/, "Reset a team member's authenticator"],
+  [/^PATCH \/admin\/team\/:id$/, "Changed a team member's role"],
+  [/^DELETE \/admin\/team\/:id$/, "Removed someone from the team"],
   [/reports\/:id\/approve$/, "Approved a submission"],
   [/reports\/:id\/reject$/, "Rejected a submission"],
   [/payout-reviews\/:id\/approve$/, "Approved a held payout"],
@@ -99,6 +106,7 @@ export default function Activity({ notify }: { notify: (m: string, k: "success" 
             { value: "/news", label: "News" },
             { value: "/notifications", label: "Announcements" },
             { value: "/alerts", label: "Safety alerts" },
+            { value: "/team", label: "Team" },
           ]}
         />
       </Filters>

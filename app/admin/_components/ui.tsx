@@ -252,7 +252,7 @@ export function Select<T extends string>({ label, value, options, onChange }: { 
   return (
     <label className="flex items-center gap-2 text-xs text-slate-400">
       {label}
-      <select value={value} onChange={(e) => onChange(e.target.value as T)} className={control}>
+      <select value={value} onChange={(e) => onChange(e.target.value as T)} className={cn(control, "ct-select")}>
         {options.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}
