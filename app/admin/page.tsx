@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 // Brand kit: white wordmark on dark, gradient mark.
 import checktagWordmark from "/public/brand/checktag-wordmark-white.png";
 import checktagMark from "/public/brand/checktag-mark-gradient.svg";
-import { getToken, clearToken, verifyAdmin } from "@/lib/adminApi";
+import { getToken, clearToken, verifyAdmin, type AdminArea, type AdminMe } from "@/lib/adminApi";
 import { Spinner, Toast } from "./_components/ui";
 import Submissions from "./_components/Submissions";
 import Products from "./_components/Products";
@@ -16,6 +16,7 @@ import Community from "./_components/Community";
 import Activity from "./_components/Activity";
 import Notifications from "./_components/Notifications";
 import News from "./_components/News";
+import Team from "./_components/Team";
 import {
   Inbox,
   PackageCheck,
@@ -27,6 +28,7 @@ import {
   History,
   BellRing,
   Newspaper,
+  Users,
 } from "lucide-react";
 
 type Tab =
@@ -38,24 +40,28 @@ type Tab =
   | "kyc"
   | "notifications"
   | "news"
-  | "activity";
+  | "activity"
+  | "team";
 
-const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
-  { key: "submissions", label: "Submissions", icon: Inbox },
-  { key: "products", label: "Products", icon: PackageCheck },
-  { key: "community", label: "Community", icon: MessagesSquare },
+// Each tab belongs to one area of the dashboard; an admin sees the tabs their
+// role includes (the server enforces the same split).
+const TABS: { key: Tab; label: string; icon: React.ElementType; area: AdminArea }[] = [
+  { key: "submissions", label: "Submissions", icon: Inbox, area: "submissions" },
+  { key: "products", label: "Products", icon: PackageCheck, area: "products" },
+  { key: "community", label: "Community", icon: MessagesSquare, area: "community" },
   // Payout (AML) review — not product reviews; those live under Community.
-  { key: "reviews", label: "Payout review", icon: Gavel },
-  { key: "payouts", label: "CTAG Payouts", icon: Coins },
-  { key: "kyc", label: "Identity", icon: UserCheck },
-  { key: "notifications", label: "Notifications", icon: BellRing },
-  { key: "news", label: "News", icon: Newspaper },
-  { key: "activity", label: "Activity", icon: History },
+  { key: "reviews", label: "Payout review", icon: Gavel, area: "payouts" },
+  { key: "payouts", label: "CTAG Payouts", icon: Coins, area: "ctag" },
+  { key: "kyc", label: "Identity", icon: UserCheck, area: "identity" },
+  { key: "notifications", label: "Notifications", icon: BellRing, area: "announcements" },
+  { key: "news", label: "News", icon: Newspaper, area: "news" },
+  { key: "activity", label: "Activity", icon: History, area: "activity" },
+  { key: "team", label: "Team", icon: Users, area: "team" },
 ];
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const [ready, setReady] = useState(false);
+  const [me, setMe] = useState<AdminMe | null>(null);
   const [tab, setTab] = useState<Tab>("submissions");
   const [toast, setToast] = useState<{
     message: string;
@@ -73,22 +79,26 @@ export default function AdminDashboard() {
         router.replace("/admin/login");
         return;
       }
-      const ok = await verifyAdmin();
-      if (!ok) {
+      const who = await verifyAdmin();
+      if (!who) {
         clearToken();
         router.replace("/admin/login");
         return;
       }
-      setReady(true);
+      const first = TABS.find((t) => who.areas.includes(t.area));
+      if (first) setTab(first.key);
+      setMe(who);
     })();
   }, [router]);
+
+  const tabs = me ? TABS.filter((t) => me.areas.includes(t.area)) : [];
 
   function logout() {
     clearToken();
     router.replace("/admin/login");
   }
 
-  if (!ready) {
+  if (!me) {
     return (
       <div className="grid min-h-screen place-items-center bg-slate-950">
         <Spinner className="h-7 w-7 text-cyan-400" />
@@ -110,19 +120,30 @@ export default function AdminDashboard() {
             <Image src={checktagWordmark} alt="CheckTag" priority className="h-5 w-auto" />
             <span className="rounded-full border border-[#22AED1]/30 bg-[#22AED1]/10 px-2.5 py-0.5 text-xs font-semibold text-[#22AED1]">Admin</span>
           </div>
+          <div className="flex items-center gap-3">
+          <span className="hidden text-right text-xs leading-tight text-slate-400 sm:block">
+            {me.email}
+            <br />
+            <span className="text-slate-500">{me.roleLabel}</span>
+          </span>
           <button
             onClick={logout}
             className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm text-slate-300 transition hover:bg-white/5"
           >
             <LogOut className="h-4 w-4" /> Sign out
           </button>
+          </div>
         </div>
       </header>
 
       <div className="mx-auto max-w-6xl px-6 py-8">
         {/* Tabs */}
-        <nav className="mb-8 flex gap-1 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.03] p-1.5">
-          {TABS.map((t) => {
+        {/* One scrolling row on small screens; on wide ones, two even rows when there are many tabs. */}
+        <nav
+          style={{ "--tab-cols": tabs.length > 8 ? Math.ceil(tabs.length / 2) : tabs.length } as React.CSSProperties}
+          className="mb-8 flex gap-1 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.03] p-1.5 lg:grid lg:overflow-visible lg:[grid-template-columns:repeat(var(--tab-cols),minmax(0,1fr))]"
+        >
+          {tabs.map((t) => {
             const Icon = t.icon;
             const active = tab === t.key;
             return (
@@ -151,6 +172,10 @@ export default function AdminDashboard() {
         {tab === "notifications" && <Notifications notify={notify} />}
         {tab === "news" && <News notify={notify} />}
         {tab === "activity" && <Activity notify={notify} />}
+        {tab === "team" && <Team notify={notify} />}
+        {tabs.length === 0 && (
+          <p className="py-20 text-center text-sm text-slate-400">Your admin role doesn&apos;t include any part of the dashboard yet. Ask an Owner.</p>
+        )}
       </div>
 
       {toast && (

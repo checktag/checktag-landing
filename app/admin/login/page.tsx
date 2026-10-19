@@ -40,6 +40,12 @@ export default function AdminLogin() {
     if (step === "credentials") setPassword("");
   }, [step]);
 
+  // Arriving from a set-password link: the email is already filled in.
+  useEffect(() => {
+    const e = new URLSearchParams(window.location.search).get("email");
+    if (e) setEmail(e);
+  }, []);
+
   async function run(fn: () => Promise<void>) {
     setError(null);
     setLoading(true);
