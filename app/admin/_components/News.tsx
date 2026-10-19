@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/adminApi";
 import { Button, Card, EmptyState, Spinner } from "./ui";
-import { Newspaper, Pencil, RefreshCw, Trash2 } from "lucide-react";
+import { Eye, EyeOff, Newspaper, Pencil, RefreshCw, Rss, Trash2 } from "lucide-react";
 
 // The app's News section: short posts about what's happening at CheckTag.
 // Drafts are only visible here. Publishing can also drop the post in everyone's
@@ -232,6 +232,118 @@ export default function News({ notify }: { notify: (m: string, k: "success" | "e
           </ul>
         )}
       </Card>
+
+      <OutletStories notify={notify} />
     </div>
+  );
+}
+
+// ------------------------------------------------------------------ outlets
+
+interface Story {
+  id: string;
+  source: string;
+  title: string;
+  url: string;
+  region: string | null;
+  alert: boolean;
+  hidden: boolean;
+  publishedAt: string;
+}
+
+/**
+ * Stories the app's News section shows from regulators (NAFDAC's recalls and
+ * safety alerts) and news outlets, picked up every 30 minutes and filtered to
+ * food, drink, medicine and counterfeit news. Hide anything that slipped in.
+ */
+function OutletStories({ notify }: { notify: (m: string, k: "success" | "error") => void }) {
+  const [items, setItems] = useState<Story[] | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+
+  async function load() {
+    try {
+      setItems((await api<{ items: Story[] }>("/admin/news/articles")).items);
+    } catch (e: any) {
+      notify(e.message, "error");
+    }
+  }
+  useEffect(() => {
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function fetchNow() {
+    setBusy("fetch");
+    try {
+      const r = await api<{ added: number; failed: string[] }>("/admin/news/articles/refresh", { method: "POST" });
+      notify(`${r.added} new stor${r.added === 1 ? "y" : "ies"}${r.failed.length ? ` · couldn't reach ${r.failed.join(", ")}` : ""}`, r.failed.length ? "error" : "success");
+      load();
+    } catch (e: any) {
+      notify(e.message, "error");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function toggle(s: Story) {
+    setBusy(s.id);
+    try {
+      await api(`/admin/news/articles/${s.id}`, { method: "POST", body: JSON.stringify({ hidden: !s.hidden }) });
+      setItems((list) => list?.map((x) => (x.id === s.id ? { ...x, hidden: !s.hidden } : x)) ?? null);
+    } catch (e: any) {
+      notify(e.message, "error");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  return (
+    <Card className="overflow-hidden">
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/5 p-5">
+        <div className="flex items-start gap-3">
+          <Rss className="mt-0.5 h-5 w-5 text-cyan-300" />
+          <div>
+            <h3 className="font-semibold">From regulators and news outlets</h3>
+            <p className="text-sm text-slate-400">
+              NAFDAC recalls and safety alerts, and food, drink, medicine and counterfeit stories from Punch, Vanguard, Premium Times, Daily Trust,
+              Channels TV, Nairametrics, BusinessDay and Leadership. Picked up every 30 minutes; headlines link to the outlet.
+            </p>
+          </div>
+        </div>
+        <Button variant="outline" size="sm" loading={busy === "fetch"} onClick={fetchNow}>
+          <RefreshCw className="h-4 w-4" /> Fetch now
+        </Button>
+      </div>
+      {!items ? (
+        <div className="grid place-items-center py-10">
+          <Spinner className="h-6 w-6 text-cyan-400" />
+        </div>
+      ) : !items.length ? (
+        <EmptyState label="No stories yet — they appear within 30 minutes of a deploy, or use Fetch now." />
+      ) : (
+        <ul className="max-h-[560px] divide-y divide-white/5 overflow-y-auto">
+          {items.map((s) => (
+            <li key={s.id} className={"flex items-start gap-3 px-5 py-3 " + (s.hidden ? "opacity-50" : "")}>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                  <span className="font-semibold text-slate-300">{s.source}</span>
+                  <span>{new Date(s.publishedAt).toLocaleDateString()}</span>
+                  {s.region && <span>{s.region}</span>}
+                  {s.alert && <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 font-semibold text-amber-300">Alert</span>}
+                  {s.hidden && <span className="rounded-full border border-white/15 px-2 py-0.5">Hidden</span>}
+                </div>
+                <a href={s.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 block text-sm text-slate-100 hover:text-cyan-300">
+                  {s.title}
+                </a>
+              </div>
+              <Button variant="ghost" size="sm" loading={busy === s.id} onClick={() => toggle(s)} aria-label={s.hidden ? `Show ${s.title}` : `Hide ${s.title}`}>
+                {s.hidden ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                {s.hidden ? "Show" : "Hide"}
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Card>
   );
 }
