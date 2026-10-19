@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/adminApi";
-import { Badge, Button, Card, EmptyState, Spinner } from "./ui";
+import { Badge, Button, Card, EmptyState, Filters, Pager, SearchBox, Select, Spinner, useAdminList, useDebounced } from "./ui";
 import { RefreshCw, Check, X, ShieldAlert } from "lucide-react";
 
 interface Review {
@@ -32,33 +32,21 @@ export default function Reviews({
 }: {
   notify: (m: string, k: "success" | "error") => void;
 }) {
-  const [rows, setRows] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
-
-  async function load() {
-    setLoading(true);
-    try {
-      const data = await api<{ reviews: Review[] }>(
-        "/admin/payout-reviews?status=PENDING",
-      );
-      setRows(data.reviews || []);
-    } catch (e: any) {
-      notify(e.message, "error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    load();
-  }, []);
+  const [status, setStatus] = useState<"PENDING" | "APPROVED" | "REJECTED" | "ALL">("PENDING");
+  const [search, setSearch] = useState("");
+  const q = useDebounced(search.trim());
+  const list = useAdminList<Review>("/admin/payout-reviews", { status, q }, (d) => d.reviews, notify);
+  const rows = list.items;
+  const loading = list.loading;
+  const load = list.reload;
 
   async function act(id: string, action: "approve" | "reject") {
     setBusy(id + action);
     try {
       await api(`/admin/payout-reviews/${id}/${action}`, { method: "POST" });
-      setRows((r) => r.filter((x) => x.id !== id));
+      list.setItems((r) => r.filter((x) => x.id !== id));
+      list.setTotal((t) => Math.max(0, t - 1));
       notify(action === "approve" ? "Approved & paid" : "Rejected & refunded", "success");
     } catch (e: any) {
       notify(e.message, "error");
@@ -81,13 +69,28 @@ export default function Reviews({
         </Button>
       </div>
 
+      <Filters>
+        <SearchBox value={search} onChange={setSearch} placeholder="Email or account name" />
+        <Select
+          label="Status"
+          value={status}
+          onChange={setStatus}
+          options={[
+            { value: "PENDING", label: "Awaiting review" },
+            { value: "APPROVED", label: "Approved" },
+            { value: "REJECTED", label: "Rejected" },
+            { value: "ALL", label: "All" },
+          ]}
+        />
+      </Filters>
+
       {loading ? (
         <div className="grid place-items-center py-20">
           <Spinner className="h-6 w-6 text-cyan-400" />
         </div>
       ) : rows.length === 0 ? (
         <Card>
-          <EmptyState label="No withdrawals awaiting review." />
+          <EmptyState label={status === "PENDING" && !q ? "No withdrawals awaiting review." : "Nothing matches these filters."} />
         </Card>
       ) : (
         <div className="grid gap-4">
@@ -128,6 +131,9 @@ export default function Reviews({
                     </div>
                   )}
                 </div>
+                {r.status !== "PENDING" ? (
+                  <Badge value={r.status} />
+                ) : (
                 <div className="flex shrink-0 gap-2">
                   <Button
                     variant="success"
@@ -146,11 +152,13 @@ export default function Reviews({
                     <X className="h-4 w-4" /> Reject
                   </Button>
                 </div>
+                )}
               </div>
             </Card>
           ))}
         </div>
       )}
+      <Pager offset={list.offset} pageSize={list.pageSize} total={list.total} onChange={list.setOffset} />
     </div>
   );
 }

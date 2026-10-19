@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { api } from "@/lib/adminApi";
 import { Loader2 } from "lucide-react";
 import React from "react";
 
@@ -124,5 +125,157 @@ export function Toast({
     >
       {message}
     </div>
+  );
+}
+
+// ------------------------------------------------------------------ lists
+// Paged, filterable admin lists. Every admin list endpoint takes ?limit and
+// ?offset and answers with its rows plus `total`.
+
+export const PAGE_SIZE = 25;
+
+/** [value], but only after it stops changing for [ms] — for search boxes. */
+export function useDebounced<T>(value: T, ms = 350): T {
+  const [v, setV] = React.useState(value);
+  React.useEffect(() => {
+    const t = setTimeout(() => setV(value), ms);
+    return () => clearTimeout(t);
+  }, [value, ms]);
+  return v;
+}
+
+type Params = Record<string, string | number | boolean | undefined | null>;
+
+/**
+ * Loads one page of [path] with [params]. Changing a filter goes back to page
+ * one (in the same render, so it fetches once).
+ */
+export function useAdminList<T>(
+  path: string,
+  params: Params,
+  pick: (data: any) => T[],
+  notify: (m: string, k: "success" | "error") => void,
+  pageSize = PAGE_SIZE,
+) {
+  const key = JSON.stringify(params);
+  const [page, setPage] = React.useState({ key, offset: 0 });
+  const offset = page.key === key ? page.offset : 0;
+  const [items, setItems] = React.useState<T[]>([]);
+  const [total, setTotal] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
+  const pickRef = React.useRef(pick);
+  pickRef.current = pick;
+  const notifyRef = React.useRef(notify);
+  notifyRef.current = notify;
+
+  const load = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const qs = new URLSearchParams();
+      for (const [k, v] of Object.entries(JSON.parse(key) as Params)) {
+        if (v !== undefined && v !== null && v !== "" && v !== false) qs.set(k, String(v));
+      }
+      qs.set("limit", String(pageSize));
+      qs.set("offset", String(offset));
+      const data = await api<any>(`${path}?${qs}`);
+      const rows = pickRef.current(data) || [];
+      setItems(rows);
+      setTotal(Number(data?.total ?? rows.length));
+    } catch (e: any) {
+      notifyRef.current(e.message, "error");
+    } finally {
+      setLoading(false);
+    }
+  }, [path, key, offset, pageSize]);
+
+  React.useEffect(() => {
+    load();
+  }, [load]);
+
+  return {
+    items,
+    setItems,
+    total,
+    setTotal,
+    loading,
+    offset,
+    pageSize,
+    setOffset: (o: number) => setPage({ key, offset: Math.max(0, o) }),
+    reload: load,
+  };
+}
+
+/** "1–25 of 132" with Previous / Next. Hidden when everything fits on one page. */
+export function Pager({ offset, pageSize, total, onChange }: { offset: number; pageSize: number; total: number; onChange: (offset: number) => void }) {
+  if (total <= pageSize && offset === 0) return total ? <p className="mt-4 text-xs text-slate-500">{total} in total</p> : null;
+  const from = total ? offset + 1 : 0;
+  const to = Math.min(offset + pageSize, total);
+  return (
+    <div className="mt-4 flex items-center justify-between gap-3 text-sm text-slate-400">
+      <span className="tabular-nums">
+        {from}–{to} of {total}
+      </span>
+      <div className="flex gap-2">
+        <Button variant="outline" size="sm" disabled={offset === 0} onClick={() => onChange(offset - pageSize)}>
+          Previous
+        </Button>
+        <Button variant="outline" size="sm" disabled={to >= total} onClick={() => onChange(offset + pageSize)}>
+          Next
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+const control =
+  "rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-600 focus:border-cyan-400/50";
+
+/** A row of filters above a list. */
+export function Filters({ children }: { children: React.ReactNode }) {
+  return <div className="mb-4 flex flex-wrap items-center gap-2">{children}</div>;
+}
+
+export function SearchBox({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
+  return (
+    <input
+      type="search"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      aria-label={placeholder}
+      className={cn(control, "min-w-0 flex-1 sm:max-w-xs")}
+    />
+  );
+}
+
+export function Select<T extends string>({ label, value, options, onChange }: { label: string; value: T; options: { value: T; label: string }[]; onChange: (v: T) => void }) {
+  return (
+    <label className="flex items-center gap-2 text-xs text-slate-400">
+      {label}
+      <select value={value} onChange={(e) => onChange(e.target.value as T)} className={control}>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+/** A filter that's on or off, shown as a pill. */
+export function Toggle({ label, on, onChange }: { label: string; on: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={on}
+      onClick={() => onChange(!on)}
+      className={cn(
+        "rounded-full border px-3 py-1.5 text-xs font-semibold transition",
+        on ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-200" : "border-white/10 text-slate-400 hover:text-slate-200",
+      )}
+    >
+      {label}
+    </button>
   );
 }

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { api, signOutEverywhere } from "@/lib/adminApi";
-import { Button, Card, EmptyState, Spinner } from "./ui";
+import { Button, Card, EmptyState, Filters, Pager, SearchBox, Select, Spinner, useAdminList, useDebounced } from "./ui";
 import { LogOut, RefreshCw } from "lucide-react";
 
 interface Entry {
@@ -31,30 +31,31 @@ const NAMES: [RegExp, string][] = [
   [/ctag\/batch\/:id\/submitted$/, "Marked a CTAG batch submitted"],
   [/ctag\/batch\/:id\/confirmed$/, "Marked a CTAG batch confirmed"],
   [/ctag\/withdrawal\/:id\/fail$/, "Failed a CTAG withdrawal (refunded)"],
+  [/^DELETE \/admin\/products\/:barcode$/, "Deleted a product"],
+  [/catalog\/cleanup$/, "Applied the catalogue clean-up"],
+  [/catalog\/visibility$/, "Hid or showed a product on public pages"],
+  [/news\/articles\/refresh$/, "Fetched news stories"],
+  [/news\/articles\/:id$/, "Hid or showed a news story"],
+  [/^POST \/admin\/news$/, "Created a news post"],
+  [/^PATCH \/admin\/news\/:id$/, "Edited a news post"],
+  [/^DELETE \/admin\/news\/:id$/, "Deleted a news post"],
+  [/notifications\/broadcast$/, "Sent an announcement"],
+  [/alerts\/product$/, "Sent a product safety alert"],
+  [/reviews\/:id\/approve$/, "Approved a review"],
+  [/reviews\/:id\/remove$/, "Removed a review"],
+  [/review-ban$/, "Changed someone's review ban"],
 ];
 const describe = (a: string) => NAMES.find(([re]) => re.test(a))?.[1] ?? a;
 
 export default function Activity({ notify }: { notify: (m: string, k: "success" | "error") => void }) {
   const router = useRouter();
-  const [rows, setRows] = useState<Entry[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  async function load() {
-    setLoading(true);
-    try {
-      const data = await api<{ entries: Entry[] }>("/admin/audit?limit=300");
-      setRows(data.entries || []);
-    } catch (e: any) {
-      notify(e.message, "error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [action, setAction] = useState("");
+  const [search, setSearch] = useState("");
+  const q = useDebounced(search.trim());
+  const list = useAdminList<Entry>("/admin/audit", { action, q }, (d) => d.entries, notify, 50);
+  const rows = list.items;
+  const loading = list.loading;
+  const load = list.reload;
 
   async function everywhere() {
     if (!confirm("Sign out of the admin dashboard on every device, including this one?")) return;
@@ -78,6 +79,29 @@ export default function Activity({ notify }: { notify: (m: string, k: "success" 
           </Button>
         </div>
       </div>
+
+      <Filters>
+        <SearchBox value={search} onChange={setSearch} placeholder="Target or admin email" />
+        <Select
+          label="What"
+          value={action}
+          onChange={setAction}
+          options={[
+            { value: "", label: "Everything" },
+            { value: "admin.", label: "Sign-ins & security" },
+            { value: "/reports", label: "Submissions" },
+            { value: "/payout-reviews", label: "Held payouts" },
+            { value: "/ctag", label: "CTAG payouts" },
+            { value: "/kyc", label: "Identity" },
+            { value: "/products", label: "Products" },
+            { value: "/catalog", label: "Catalogue clean-up" },
+            { value: "/reviews", label: "Community reviews" },
+            { value: "/news", label: "News" },
+            { value: "/notifications", label: "Announcements" },
+            { value: "/alerts", label: "Safety alerts" },
+          ]}
+        />
+      </Filters>
 
       {loading ? (
         <div className="grid place-items-center py-20">
@@ -122,6 +146,7 @@ export default function Activity({ notify }: { notify: (m: string, k: "success" 
           </div>
         </Card>
       )}
+      <Pager offset={list.offset} pageSize={list.pageSize} total={list.total} onChange={list.setOffset} />
     </div>
   );
 }
