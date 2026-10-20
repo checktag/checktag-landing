@@ -71,7 +71,7 @@ export default function Kyc({
             className={
               "rounded-lg px-3 py-1.5 text-xs font-semibold capitalize transition " +
               (filter === f
-                ? "bg-cyan-400 text-slate-950"
+                ? "bg-gradient-to-r from-brand-navy to-brand-cyan text-white"
                 : "bg-white/5 text-slate-400 hover:text-slate-200")
             }
           >
@@ -82,7 +82,7 @@ export default function Kyc({
 
       {loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : rows.length === 0 ? (
         <Card>

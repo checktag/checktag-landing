@@ -106,7 +106,7 @@ export default function Submissions({
 
       {loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : rows.length === 0 ? (
         <Card>
@@ -131,7 +131,7 @@ export default function Submissions({
                       )}
                       {typeof r.rewardPoints === "number" &&
                         r.rewardPoints > 0 && (
-                          <span className="text-xs font-semibold text-cyan-300">
+                          <span className="text-xs font-semibold text-brand-sky">
                             +{r.rewardPoints} pts on approval
                           </span>
                         )}

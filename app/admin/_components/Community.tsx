@@ -151,7 +151,7 @@ function Pill({
     amber: "border-amber-400/20 bg-amber-400/10 text-amber-200",
     rose: "border-rose-400/20 bg-rose-400/10 text-rose-200",
     emerald: "border-emerald-400/20 bg-emerald-400/10 text-emerald-200",
-    cyan: "border-cyan-400/20 bg-cyan-400/10 text-cyan-200",
+    cyan: "border-brand-accent/20 bg-brand-accent/10 text-brand-cyan-soft",
   };
   return (
     <span
@@ -332,7 +332,7 @@ export default function Community({
                   className={cn(
                     "rounded-full px-1.5 text-[11px] font-semibold tabular-nums",
                     active
-                      ? "bg-cyan-400/20 text-cyan-200"
+                      ? "bg-brand-accent/20 text-brand-cyan-soft"
                       : "bg-white/10 text-slate-300",
                   )}
                 >
@@ -352,7 +352,7 @@ export default function Community({
 
       {loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : rows.length === 0 ? (
         <Card>
@@ -560,7 +560,7 @@ export default function Community({
                       maxLength={200}
                       rows={2}
                       placeholder="Optional note, e.g. off-topic, spam link"
-                      className="w-full resize-y rounded-lg border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-rose-300/40 focus:outline-none"
+                      className="w-full resize-y rounded-lg border border-white/10 bg-brand-ink/60 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-rose-300/40 focus:outline-none"
                     />
                     <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                       <span className="text-[11px] tabular-nums text-slate-500">

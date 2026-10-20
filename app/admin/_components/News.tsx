@@ -24,7 +24,7 @@ type Draft = { title: string; body: string; imageUrl: string; linkUrl: string; l
 const EMPTY: Draft = { title: "", body: "", imageUrl: "", linkUrl: "", linkLabel: "", country: "" };
 
 const field =
-  "w-full rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2.5 text-sm outline-none placeholder:text-slate-600 focus:border-cyan-400/50";
+  "w-full rounded-xl border border-white/10 bg-brand-raised px-3 py-2.5 text-sm outline-none placeholder:text-slate-600 focus:border-brand-accent/50";
 const label = "mb-1.5 block text-xs font-medium text-slate-400";
 const https = (s: string) => !s.trim() || /^https:\/\/\S+$/.test(s.trim());
 
@@ -120,7 +120,7 @@ export default function News({ notify }: { notify: (m: string, k: "success" | "e
 
       <Card className="p-5">
         <div className="mb-4 flex items-center gap-3">
-          <Newspaper className="h-5 w-5 text-cyan-300" />
+          <Newspaper className="h-5 w-5 text-brand-sky" />
           <h3 className="font-semibold">{current ? "Edit post" : "New post"}</h3>
           {current && (
             <button type="button" onClick={() => edit(null)} className="ml-auto text-sm text-slate-400 hover:text-slate-200">
@@ -156,7 +156,7 @@ export default function News({ notify }: { notify: (m: string, k: "success" | "e
             </label>
             {!current?.publishedAt && (
               <label className="flex items-center gap-2.5 self-end pb-2.5 text-sm text-slate-300">
-                <input type="checkbox" checked={announce} onChange={(e) => setAnnounce(e.target.checked)} className="h-4 w-4 accent-cyan-400" />
+                <input type="checkbox" checked={announce} onChange={(e) => setAnnounce(e.target.checked)} className="h-4 w-4 accent-brand-accent" />
                 Also send to inboxes when published
               </label>
             )}
@@ -165,16 +165,16 @@ export default function News({ notify }: { notify: (m: string, k: "success" | "e
           {/* Roughly how it reads in the app */}
           <div>
             <span className={label}>Preview</span>
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950">
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-brand-ink">
               {/^https:\/\/\S+$/.test(d.imageUrl.trim()) && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={d.imageUrl.trim()} alt="" className="aspect-[16/9] w-full object-cover" />
               )}
               <div className="p-4">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-cyan-300">News{d.country ? ` · ${d.country.toUpperCase()}` : ""}</div>
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-brand-sky">News{d.country ? ` · ${d.country.toUpperCase()}` : ""}</div>
                 <div className="mt-1 font-semibold text-slate-100">{d.title || "Your title"}</div>
                 <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-slate-400">{d.body || "What's happening, in a few sentences."}</p>
-                {d.linkUrl && <div className="mt-3 inline-block rounded-lg bg-cyan-400/15 px-3 py-1.5 text-sm font-semibold text-cyan-200">{d.linkLabel || "Open"}</div>}
+                {d.linkUrl && <div className="mt-3 inline-block rounded-lg bg-brand-accent/15 px-3 py-1.5 text-sm font-semibold text-brand-cyan-soft">{d.linkLabel || "Open"}</div>}
               </div>
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function News({ notify }: { notify: (m: string, k: "success" | "e
       <Card className="overflow-hidden">
         {!items ? (
           <div className="grid place-items-center py-10">
-            <Spinner className="h-6 w-6 text-cyan-400" />
+            <Spinner className="h-6 w-6 text-brand-accent" />
           </div>
         ) : !items.length ? (
           <EmptyState label="No posts yet" />
@@ -305,7 +305,7 @@ function OutletStories({ notify }: { notify: (m: string, k: "success" | "error")
     <Card className="overflow-hidden">
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/5 p-5">
         <div className="flex items-start gap-3">
-          <Rss className="mt-0.5 h-5 w-5 text-cyan-300" />
+          <Rss className="mt-0.5 h-5 w-5 text-brand-sky" />
           <div>
             <h3 className="font-semibold">From regulators and news outlets</h3>
             <p className="text-sm text-slate-400">
@@ -337,7 +337,7 @@ function OutletStories({ notify }: { notify: (m: string, k: "success" | "error")
       </div>
       {!items ? (
         <div className="grid place-items-center py-10">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : !items.length ? (
         <EmptyState label="No stories yet — they appear within 30 minutes of a deploy, or use Fetch now." />
@@ -353,7 +353,7 @@ function OutletStories({ notify }: { notify: (m: string, k: "success" | "error")
                   {s.alert && <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 font-semibold text-amber-300">Alert</span>}
                   {s.hidden && <span className="rounded-full border border-white/15 px-2 py-0.5">Hidden</span>}
                 </div>
-                <a href={s.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 block text-sm text-slate-100 hover:text-cyan-300">
+                <a href={s.url} target="_blank" rel="noopener noreferrer" className="mt-0.5 block text-sm text-slate-100 hover:text-brand-sky">
                   {s.title}
                 </a>
               </div>

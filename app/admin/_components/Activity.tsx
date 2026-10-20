@@ -113,7 +113,7 @@ export default function Activity({ notify }: { notify: (m: string, k: "success" 
 
       {loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : rows.length === 0 ? (
         <Card>

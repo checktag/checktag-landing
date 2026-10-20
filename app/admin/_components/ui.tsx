@@ -22,7 +22,7 @@ export function Button({
 }) {
   const variants: Record<string, string> = {
     primary:
-      "bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_4px_20px_-4px_rgba(34,174,209,0.5)]",
+      "bg-gradient-to-r from-brand-navy to-brand-cyan text-white hover:brightness-110 shadow-[0_8px_24px_-10px_rgba(20,166,201,0.6)]",
     success: "bg-emerald-500 text-white hover:bg-emerald-400",
     danger: "bg-rose-500/90 text-white hover:bg-rose-500",
     outline:
@@ -67,13 +67,13 @@ export function Card({
 
 const badgeStyles: Record<string, string> = {
   PENDING: "bg-amber-400/10 text-amber-300 border-amber-400/20",
-  BATCHED: "bg-sky-400/10 text-sky-300 border-sky-400/20",
-  SUBMITTED: "bg-indigo-400/10 text-indigo-300 border-indigo-400/20",
+  BATCHED: "bg-brand-cyan/10 text-brand-sky border-brand-cyan/20",
+  SUBMITTED: "bg-brand-blue/10 text-brand-blue border-brand-blue/20",
   CONFIRMED: "bg-emerald-400/10 text-emerald-300 border-emerald-400/20",
   APPROVED: "bg-emerald-400/10 text-emerald-300 border-emerald-400/20",
   REJECTED: "bg-rose-400/10 text-rose-300 border-rose-400/20",
   FAILED: "bg-rose-400/10 text-rose-300 border-rose-400/20",
-  ADD: "bg-cyan-400/10 text-cyan-300 border-cyan-400/20",
+  ADD: "bg-brand-accent/10 text-brand-sky border-brand-accent/20",
   UPDATE: "bg-violet-400/10 text-violet-300 border-violet-400/20",
   REPORT: "bg-slate-400/10 text-slate-300 border-slate-400/20",
 };
@@ -228,7 +228,7 @@ export function Pager({ offset, pageSize, total, onChange }: { offset: number; p
 }
 
 const control =
-  "rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-600 focus:border-cyan-400/50";
+  "rounded-xl border border-white/10 bg-brand-raised px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-600 focus:border-brand-accent/50";
 
 /** A row of filters above a list. */
 export function Filters({ children }: { children: React.ReactNode }) {
@@ -272,7 +272,7 @@ export function Toggle({ label, on, onChange }: { label: string; on: boolean; on
       onClick={() => onChange(!on)}
       className={cn(
         "rounded-full border px-3 py-1.5 text-xs font-semibold transition",
-        on ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-200" : "border-white/10 text-slate-400 hover:text-slate-200",
+        on ? "border-brand-accent/40 bg-brand-cyan/15 text-brand-cyan-soft" : "border-white/10 text-slate-400 hover:text-slate-200",
       )}
     >
       {label}

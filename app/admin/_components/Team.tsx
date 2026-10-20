@@ -37,11 +37,11 @@ interface LinkResult {
 }
 
 const control =
-  "rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-600 focus:border-cyan-400/50";
+  "rounded-xl border border-white/10 bg-brand-raised px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-600 focus:border-brand-accent/50";
 
 const STATUS: Record<Status, { label: string; cls: string }> = {
   invited: { label: "Invited", cls: "border-amber-400/20 bg-amber-400/10 text-amber-300" },
-  needs_authenticator: { label: "No authenticator yet", cls: "border-sky-400/20 bg-sky-400/10 text-sky-300" },
+  needs_authenticator: { label: "No authenticator yet", cls: "border-brand-cyan/20 bg-brand-cyan/10 text-brand-sky" },
   active: { label: "Active", cls: "border-emerald-400/20 bg-emerald-400/10 text-emerald-300" },
 };
 
@@ -175,7 +175,7 @@ export default function Team({ notify }: { notify: (m: string, k: "success" | "e
         </p>
 
         {result && (
-          <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/50 p-4">
+          <div className="mt-4 rounded-xl border border-white/10 bg-brand-ink/50 p-4">
             <p className="text-sm text-slate-200">
               {result.emailed
                 ? `We emailed ${result.kind === "invite" ? "an invite" : "a set-password link"} to ${result.email}.`
@@ -202,7 +202,7 @@ export default function Team({ notify }: { notify: (m: string, k: "success" | "e
 
       {loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : (
         <Card className="overflow-hidden">

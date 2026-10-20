@@ -24,7 +24,7 @@ interface Hidden {
 }
 
 const field =
-  "rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2 text-sm outline-none placeholder:text-slate-600 focus:border-cyan-400/50";
+  "rounded-xl border border-white/10 bg-brand-raised px-3 py-2 text-sm outline-none placeholder:text-slate-600 focus:border-brand-accent/50";
 
 export default function CatalogHealth({ notify }: { notify: (m: string, k: "success" | "error") => void }) {
   const [changes, setChanges] = useState<Change[] | null>(null);
@@ -103,7 +103,7 @@ export default function CatalogHealth({ notify }: { notify: (m: string, k: "succ
       <Card className="p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <Sparkles className="mt-0.5 h-5 w-5 text-cyan-300" />
+            <Sparkles className="mt-0.5 h-5 w-5 text-brand-sky" />
             <div>
               <h3 className="font-semibold">Catalogue clean-up</h3>
               <p className="text-sm text-slate-400">Finds wrong names, mixed-up records and products that shouldn&apos;t be public. Nothing changes until you apply.</p>
@@ -135,7 +135,7 @@ export default function CatalogHealth({ notify }: { notify: (m: string, k: "succ
                       {changes.map((c) => (
                         <tr key={c.barcode} className="align-top">
                           <td className="px-3 py-2">
-                            <input type="checkbox" className="h-4 w-4 accent-cyan-400" checked={picked.has(c.barcode)} onChange={() => toggle(c.barcode)} aria-label={`Include ${c.barcode}`} />
+                            <input type="checkbox" className="h-4 w-4 accent-brand-accent" checked={picked.has(c.barcode)} onChange={() => toggle(c.barcode)} aria-label={`Include ${c.barcode}`} />
                           </td>
                           <td className="px-3 py-2 font-mono text-xs text-slate-400">{c.barcode}</td>
                           <td className="px-3 py-2 text-slate-400">
@@ -144,7 +144,7 @@ export default function CatalogHealth({ notify }: { notify: (m: string, k: "succ
                           </td>
                           <td className="px-3 py-2 text-slate-100">
                             {c.to.name}
-                            {c.to.category !== c.from.category && <div className="text-xs text-cyan-300">{c.to.category ?? "no category"}</div>}
+                            {c.to.category !== c.from.category && <div className="text-xs text-brand-sky">{c.to.category ?? "no category"}</div>}
                             {c.to.hidden && !c.from.hidden && (
                               <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-amber-400/10 px-2 py-0.5 text-xs text-amber-300">
                                 <EyeOff className="h-3 w-3" /> hidden: {c.hideReason}
@@ -186,7 +186,7 @@ export default function CatalogHealth({ notify }: { notify: (m: string, k: "succ
         </div>
         {!hidden ? (
           <div className="grid place-items-center py-6">
-            <Spinner className="h-5 w-5 text-cyan-400" />
+            <Spinner className="h-5 w-5 text-brand-accent" />
           </div>
         ) : hidden.length === 0 ? (
           <p className="mt-3 text-sm text-slate-500">Nothing hidden.</p>

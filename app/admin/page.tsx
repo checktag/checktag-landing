@@ -100,8 +100,8 @@ export default function AdminDashboard() {
 
   if (!me) {
     return (
-      <div className="grid min-h-screen place-items-center bg-slate-950">
-        <Spinner className="h-7 w-7 text-cyan-400" />
+      <div className="grid min-h-screen place-items-center bg-brand-ink">
+        <Spinner className="h-7 w-7 text-brand-accent" />
       </div>
     );
   }
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
                 className={
                   "flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition " +
                   (active
-                    ? "bg-cyan-400 text-slate-950 shadow-[0_4px_20px_-6px_rgba(34,174,209,0.6)]"
+                    ? "bg-gradient-to-r from-brand-navy to-brand-cyan text-white shadow-[0_8px_24px_-10px_rgba(20,166,201,0.6)]"
                     : "text-slate-400 hover:text-slate-200")
                 }
               >

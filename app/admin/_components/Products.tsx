@@ -62,7 +62,7 @@ export default function Products({ notify }: { notify: (m: string, k: "success" 
 
       {list.loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : list.items.length === 0 ? (
         <Card>
@@ -74,7 +74,7 @@ export default function Products({ notify }: { notify: (m: string, k: "success" 
             const img = safeHttpUrl(p.imageUrl);
             return (
               <button key={p.barcode} type="button" onClick={() => setOpen(p.barcode)} className="text-left">
-                <Card className="flex items-center gap-4 p-4 transition hover:border-cyan-400/30">
+                <Card className="flex items-center gap-4 p-4 transition hover:border-brand-accent/30">
                   {img ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={img} alt="" className="h-14 w-14 shrink-0 rounded-lg border border-white/10 bg-white object-contain" />
@@ -231,7 +231,7 @@ function ProductPanel({
 
         {!d ? (
           <div className="grid place-items-center py-20">
-            <Spinner className="h-6 w-6 text-cyan-400" />
+            <Spinner className="h-6 w-6 text-brand-accent" />
           </div>
         ) : (
           <div className="space-y-6 text-sm">
@@ -349,7 +349,7 @@ function ProductPanel({
                     value={confirm}
                     onChange={(e) => setConfirm(e.target.value.trim())}
                     placeholder={`Type ${d.barcode} to confirm`}
-                    className="min-w-0 flex-1 rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2 font-mono text-sm outline-none focus:border-rose-400/50"
+                    className="min-w-0 flex-1 rounded-xl border border-white/10 bg-brand-raised px-3 py-2 font-mono text-sm outline-none focus:border-rose-400/50"
                   />
                   <Button variant="danger" size="sm" disabled={confirm !== d.barcode} loading={busy === "delete"} onClick={remove}>
                     <Trash2 className="h-4 w-4" /> Delete product

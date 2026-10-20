@@ -86,7 +86,7 @@ export default function Reviews({
 
       {loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : rows.length === 0 ? (
         <Card>
@@ -99,7 +99,7 @@ export default function Reviews({
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex flex-wrap items-center gap-2">
-                    <span className="text-lg font-bold text-cyan-300">
+                    <span className="text-lg font-bold text-brand-sky">
                       ${(r.amountCents / 100).toFixed(2)}
                     </span>
                     <Badge value={r.kycStatus === "verified" ? "VERIFIED" : "UNVERIFIED"} />

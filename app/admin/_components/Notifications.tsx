@@ -27,7 +27,7 @@ const STATUS_LABELS: [string, string][] = [
 ];
 
 const field =
-  "w-full rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2.5 text-sm outline-none placeholder:text-slate-600 focus:border-cyan-400/50";
+  "w-full rounded-xl border border-white/10 bg-brand-raised px-3 py-2.5 text-sm outline-none placeholder:text-slate-600 focus:border-brand-accent/50";
 const label = "mb-1.5 block text-xs font-medium text-slate-400";
 
 export default function Notifications({ notify }: { notify: (m: string, k: "success" | "error") => void }) {
@@ -65,7 +65,7 @@ export default function Notifications({ notify }: { notify: (m: string, k: "succ
       <Card className="p-5">
         {loading || !status ? (
           <div className="grid place-items-center py-8">
-            <Spinner className="h-6 w-6 text-cyan-400" />
+            <Spinner className="h-6 w-6 text-brand-accent" />
           </div>
         ) : (
           <div className="grid gap-5 md:grid-cols-[1fr_2fr]">
@@ -258,7 +258,7 @@ function Announcement({ notify }: { notify: (m: string, k: "success" | "error") 
   return (
     <Card className="p-5">
       <div className="mb-4 flex items-start gap-3">
-        <Megaphone className="mt-0.5 h-5 w-5 text-cyan-300" />
+        <Megaphone className="mt-0.5 h-5 w-5 text-brand-sky" />
         <div>
           <h3 className="font-semibold">Announcement</h3>
           <p className="text-sm text-slate-400">
@@ -286,7 +286,7 @@ function Announcement({ notify }: { notify: (m: string, k: "success" | "error") 
                 aria-pressed={category === k}
                 className={
                   "flex-1 rounded-xl border px-3 py-2.5 text-sm font-semibold transition " +
-                  (category === k ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-200" : "border-white/10 text-slate-400 hover:text-slate-200")
+                  (category === k ? "border-brand-accent/40 bg-brand-cyan/15 text-brand-cyan-soft" : "border-white/10 text-slate-400 hover:text-slate-200")
                 }
               >
                 {k === "Tips" ? "Tip" : "News"}
@@ -299,7 +299,7 @@ function Announcement({ notify }: { notify: (m: string, k: "success" | "error") 
           <input className={`${field} uppercase`} maxLength={2} value={country} onChange={(e) => (setCountry(e.target.value.replace(/[^a-z]/gi, "")), setReach(null))} placeholder="All countries" />
         </label>
         <label className="flex items-start gap-2.5 text-sm text-slate-300 md:col-span-2">
-          <input type="checkbox" checked={important} onChange={(e) => setImportant(e.target.checked)} className="mt-0.5 h-4 w-4 accent-cyan-400" />
+          <input type="checkbox" checked={important} onChange={(e) => setImportant(e.target.checked)} className="mt-0.5 h-4 w-4 accent-brand-accent" />
           <span>
             Important — push to everyone with notifications on, not only Tips &amp; news. Once a day at most; save it for things people
             would want to hear about.

@@ -3,6 +3,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* CheckTag brand palette (public/brand/checktag-colors.css) as Tailwind
+   colours: bg-brand-navy, text-brand-accent, from-brand-navy … */
+@theme {
+  --color-brand-navy: #103C8F;      /* primary */
+  --color-brand-deep: #0C2E72;      /* primary, strong */
+  --color-brand-cyan: #14A6C9;      /* accent */
+  --color-brand-accent: #22AED1;    /* accent on the dark web surfaces */
+  --color-brand-sky: #7ACEE3;       /* light cyan — text on dark */
+  --color-brand-cyan-soft: #E2F5FB; /* lightest cyan */
+  --color-brand-blue: #5B8CF0;      /* primary on dark (the app's dark theme) */
+  --color-brand-ink: #020817;       /* page */
+  --color-brand-raised: #0A1628;    /* raised surfaces, fields */
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -334,6 +348,6 @@ html, body {
   opacity: 0.6;
 }
 .ct-select option {
-  background-color: #0f172a;
+  background-color: #0A1628;
   color: #e2e8f0;
 }

@@ -168,7 +168,7 @@ export default function Payouts({
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Total CTAG
               </p>
-              <p className="text-2xl font-bold text-cyan-400">
+              <p className="text-2xl font-bold text-brand-accent">
                 {total.toLocaleString()}
               </p>
             </div>
@@ -196,10 +196,10 @@ export default function Payouts({
 
       {/* Active batch panel */}
       {batch && (
-        <Card className="mb-5 border-cyan-400/20 bg-cyan-400/[0.04] p-5">
+        <Card className="mb-5 border-brand-accent/20 bg-brand-accent/[0.04] p-5">
           <div className="mb-3 flex items-center justify-between">
             <div>
-              <p className="font-semibold text-cyan-200">
+              <p className="font-semibold text-brand-cyan-soft">
                 Batch ready · {batch.count} transfers · {batch.totalAmount} CTAG
               </p>
               <p className="font-mono text-xs text-slate-400">
@@ -234,7 +234,7 @@ export default function Payouts({
               value={txHash}
               onChange={(e) => setTxHash(e.target.value)}
               placeholder="0x… transaction hash"
-              className="min-w-[16rem] flex-1 rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2.5 font-mono text-sm outline-none focus:border-cyan-400/50"
+              className="min-w-[16rem] flex-1 rounded-xl border border-white/10 bg-brand-raised px-3 py-2.5 font-mono text-sm outline-none focus:border-brand-accent/50"
             />
             <Button
               size="sm"
@@ -260,7 +260,7 @@ export default function Payouts({
       {/* Pending list */}
       {loading ? (
         <div className="grid place-items-center py-20">
-          <Spinner className="h-6 w-6 text-cyan-400" />
+          <Spinner className="h-6 w-6 text-brand-accent" />
         </div>
       ) : rows.length === 0 ? (
         <Card>
@@ -286,7 +286,7 @@ export default function Payouts({
                     key={w.id}
                     className="border-b border-white/5 last:border-0 hover:bg-white/[0.02]"
                   >
-                    <td className="px-5 py-3 font-semibold text-cyan-300">
+                    <td className="px-5 py-3 font-semibold text-brand-sky">
                       {w.amount.toLocaleString()} CTAG
                     </td>
                     <td className="px-5 py-3 font-mono text-xs text-slate-300">

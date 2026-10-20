@@ -91,7 +91,7 @@ export function ChangePreview({ reportId }: { reportId: string }) {
   }
 
   return (
-    <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/40 p-4">
+    <div className="mt-4 rounded-xl border border-white/10 bg-brand-ink/40 p-4">
       <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
         {p.isNew ? "New to CheckTag — everything below will be added" : "What approving changes"}
       </p>
@@ -119,7 +119,7 @@ export function ChangePreview({ reportId }: { reportId: string }) {
                     </td>
                   )}
                   <td className="py-2">
-                    <div className="rounded-md bg-cyan-400/10 px-2 py-1">
+                    <div className="rounded-md bg-brand-accent/10 px-2 py-1">
                       <Show v={c.after} />
                     </div>
                   </td>
