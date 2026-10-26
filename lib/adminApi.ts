@@ -111,6 +111,7 @@ export type AdminArea =
   | "activity"
   | "support"
   | "brands"
+  | "growth"
   | "team";
 
 export interface AdminMe {
