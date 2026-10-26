@@ -3,76 +3,75 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const plans = [
+// Brands are all on a free pilot for now. List only what the brand portal does
+// today; anything planned is marked "coming later". No prices until they're set.
+const plans: {
+  name: string;
+  description: string;
+  price: string;
+  priceNote?: string;
+  includes: string;
+  features: { text: string; later?: boolean }[];
+  cta: string;
+  highlight: boolean;
+  bg: string;
+  border: string;
+  ctaStyle: string;
+}[] = [
   {
-    name: "Starter",
-    description: "Best for small teams or pilots getting live in <2 weeks",
-    price: "To Be Announced",
-    includes: "Includes",
+    name: "Pilot",
+    description: "For brands joining during early access.",
+    price: "Free",
+    priceNote: "during early access",
+    includes: "Included today",
     features: [
-      "Up to 100k unit codes / month",
-      "Dashboard for product, batch/lot & plant setup",
-      "Instant verification API (<800ms typical)",
-      "Anti-reuse basics (duplicate scan detection)",
-      "Consumer app pages (no-code editor)",
-      "Reports intake (photo uploads, notifications)",
-      "Basic analytics (scan counts, top locations)",
-      "2 seats (role-based), 1 plant",
-      "Email support (next-business-day)",
+      { text: "Verified brand badge on your products" },
+      { text: "Claim products and keep their details right" },
+      { text: "Scan analytics by country, results and top products" },
+      { text: "Reviews, with public replies from your brand" },
+      { text: "Shopper reports, with their photos" },
+      { text: "Serialised, signed QR codes (up to 50,000 per batch)" },
+      { text: "Clone alerts when a code looks copied" },
+      { text: "Recalls and safety notices to everyone who scanned" },
+      { text: "Team roles, with two-step sign-in for everyone" },
     ],
-    overages: "Overages: $5 per additional 1k codes",
-    cta: "Start a pilot",
-    highlight: false,
-    bg: "glass-card",
-    border: "border-white/5",
-    ctaStyle:
-      "border border-white/20 text-white hover:bg-white/10",
-  },
-  {
-    name: "Growth",
-    description: "Best for brands rolling out across multiple SKUs and regions",
-    price: "To Be Announced",
-    includes: "Everything in Starter, plus",
-    features: [
-      "Up to 1M unit codes / month (tiered discounts)",
-      "Advanced anti-clone (geo/time anomaly scoring)",
-      "Recall tools (batch/lot targeting; in-app alerts)",
-      "Carton ↔ unit linking (hierarchical serialization)",
-      "10 seats, up to 5 plants, approval workflows",
-      "Custom fields on scan page",
-      "Analytics Pro (cohort trends, hotspot map, CSV)",
-      "Webhooks & SDKs (connect ERP/WMS/CRM)",
-      "SLA support (business hours, 4h first response)",
-    ],
-    overages: "Overages: lower $/1k after cap",
-    cta: "Contact sales",
+    cta: "Apply for early access",
     highlight: true,
     bg: "bg-gradient-to-b from-[#22AED1]/15 to-[#22AED1]/5",
     border: "border-[#22AED1]/30",
-    ctaStyle:
-      "bg-[#22AED1] text-white hover:bg-[#1A9AB8] shadow-lg shadow-[#22AED1]/20",
+    ctaStyle: "bg-[#22AED1] text-white hover:bg-[#1A9AB8] shadow-lg shadow-[#22AED1]/20",
   },
   {
-    name: "Enterprise",
-    description: "Best for regulated, multi-country operations with strict SLAs",
-    price: "To Be Announced",
-    includes: "Everything in Growth, plus",
+    name: "Growth",
+    description: "For brands rolling out codes across many products and regions",
+    price: "To be announced",
+    includes: "Everything in the pilot, plus",
     features: [
-      "Unlimited codes (committed annual volume)",
-      "Multi-tenant & multi-brand workspaces",
-      "SSO / SAML, SCIM user provisioning",
-      "Compliance pack (audit logs, IP allowlists)",
-      "Batch anchoring (optional blockchain)",
-      "Fine-grained policies (geo-fencing, device rules)",
-      "Premium support (24×7, dedicated manager)",
-      "On-site/virtual onboarding & packaging guidance",
+      { text: "Deeper analytics: trends over time and CSV export", later: true },
+      { text: "Carton ↔ unit linking", later: true },
+      { text: "API and webhooks to connect your ERP or WMS", later: true },
     ],
-    cta: "Contact sales",
+    cta: "Apply for early access",
     highlight: false,
     bg: "glass-card",
     border: "border-white/5",
-    ctaStyle:
-      "border border-white/20 text-white hover:bg-white/10",
+    ctaStyle: "border border-white/20 text-white hover:bg-white/10",
+  },
+  {
+    name: "Enterprise",
+    description: "For regulated, multi-country operations",
+    price: "To be announced",
+    includes: "Everything in Growth, plus",
+    features: [
+      { text: "Several brands under one company account", later: true },
+      { text: "Single sign-on (SSO / SAML) and SCIM provisioning", later: true },
+      { text: "Help with onboarding and packaging", later: true },
+    ],
+    cta: "Apply for early access",
+    highlight: false,
+    bg: "glass-card",
+    border: "border-white/5",
+    ctaStyle: "border border-white/20 text-white hover:bg-white/10",
   },
 ];
 
@@ -102,12 +101,12 @@ const Pricing = () => {
             </span>
           </div>
           <h2 className="text-[28px] md:text-[48px] font-bold text-white leading-[120%] tracking-[-0.03em] mb-4">
-            Scale from pilot to{" "}
-            <span className="gradient-text">global rollout</span>
+            Start with a{" "}
+            <span className="gradient-text">free pilot</span>
           </h2>
           <p className="text-white/40 text-base md:text-lg max-w-[550px] mx-auto leading-[160%]">
-            Choose a plan that matches your stage. Scanning for consumers
-            remains free forever.
+            The brand portal is in early access, and free for every brand in the
+            pilot. Checking products stays free for shoppers.
           </p>
         </motion.div>
 
@@ -125,7 +124,7 @@ const Pricing = () => {
             >
               {plan.highlight && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#22AED1] text-white text-[10px] font-bold uppercase tracking-wider">
-                  Most Popular
+                  Open now
                 </div>
               )}
 
@@ -137,7 +136,8 @@ const Pricing = () => {
               </div>
 
               <div className="mb-6">
-                <span className="text-4xl font-bold text-white">{plan.price}</span>
+                <span className={`font-bold text-white ${plan.price.length > 8 ? "text-2xl" : "text-4xl"}`}>{plan.price}</span>
+                {plan.priceNote && <span className="ml-2 text-sm text-white/50">{plan.priceNote}</span>}
               </div>
 
               <div className="flex-1 mb-8">
@@ -147,36 +147,46 @@ const Pricing = () => {
                 <ul className="space-y-3">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-start space-x-2.5">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke={plan.highlight ? "#22AED1" : "#ffffff40"}
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="mt-0.5 flex-shrink-0"
-                      >
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                      <span className="text-white/50 text-[13px] leading-[150%]">
-                        {feature}
+                      {feature.later ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff30" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0" aria-hidden="true">
+                          <circle cx="12" cy="12" r="9" />
+                          <path d="M12 7v5l3 2" />
+                        </svg>
+                      ) : (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke={plan.highlight ? "#22AED1" : "#ffffff40"}
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="mt-0.5 flex-shrink-0"
+                          aria-hidden="true"
+                        >
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                      )}
+                      <span className={`text-[13px] leading-[150%] ${feature.later ? "text-white/35" : "text-white/60"}`}>
+                        {feature.text}
+                        {feature.later && (
+                          <span className="ml-2 whitespace-nowrap rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/40">
+                            Coming later
+                          </span>
+                        )}
                       </span>
                     </li>
                   ))}
                 </ul>
-                {plan.overages && (
-                  <p className="text-white/30 text-xs mt-4 italic">{plan.overages}</p>
-                )}
               </div>
 
-              <button
-                disabled
-                className={`w-full py-3.5 rounded-full font-medium text-sm transition-all duration-300 opacity-65 cursor-not-allowed ${plan.ctaStyle.replace('hover:bg-white/10', '').replace('hover:bg-[#1A9AB8]', '')}`}
+              <a
+                href="/business#apply"
+                className={`w-full py-3.5 rounded-full font-medium text-sm text-center transition-all duration-300 ${plan.ctaStyle}`}
               >
-                Coming soon
-              </button>
+                {plan.cta}
+              </a>
             </motion.div>
           ))}
         </div>

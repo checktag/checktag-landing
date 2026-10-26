@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
+import { BadgeCheck, Siren } from "lucide-react";
 import { cache } from "react";
 import { AiNote, Breadcrumbs, CatalogShell, GetCheckTag, JsonLd, ProductImage, RatingBadge } from "../../../_catalog/ui";
 import {
@@ -69,6 +70,9 @@ export default async function ProductPage({ params }: { params: Params }) {
   const cautions = cautionsOf(p);
   const nafdac = nafdacNumber(p);
   const verified = new Set(p.verifiedFields || []);
+  // Fields the product's verified brand wrote itself, labelled "Provided by <brand>".
+  const owner = p.brandOwner?.name;
+  const provided = new Set(owner ? p.brandProvided || [] : []);
   const labelFacts: { label: string; value: string; verified?: boolean }[] = [
     p.netQuantity && { label: "Net quantity", value: p.netQuantity, verified: verified.has("netQuantity") },
     p.servingSize && { label: "Serving size", value: p.servingSize, verified: verified.has("servingSize") },
@@ -128,15 +132,38 @@ export default async function ProductPage({ params }: { params: Params }) {
       <JsonLd data={jsonLd} />
       <Breadcrumbs items={crumbs} />
 
+      {p.recall && <RecallBanner recall={p.recall} />}
+
       {/* Summary */}
       <header className="flex flex-col gap-6 sm:flex-row sm:items-start">
-        <ProductImage src={p.imageUrl} alt={p.name} size={168} />
+        <div className="shrink-0">
+          <ProductImage src={p.imageUrl} alt={p.name} size={168} />
+          {provided.has("imageUrl") && p.imageUrl && <ProvidedBy brand={owner!} what="Photo" className="mt-1.5 block" />}
+        </div>
         <div className="min-w-0 flex-1">
-          {p.brand && <div className="text-sm font-medium uppercase tracking-wider text-[#22AED1]">{p.brand}</div>}
+          {(p.brand || owner) && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-medium uppercase tracking-wider text-[#22AED1]">{p.brand || owner}</span>
+              {p.brandOwner && (
+                <span
+                  title={`${owner} is verified by CheckTag and manages this product's page`}
+                  className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-300"
+                >
+                  <BadgeCheck className="h-3.5 w-3.5" /> {sameBrand(p.brand, owner) ? "Verified brand" : `Verified: ${owner}`}
+                </span>
+              )}
+            </div>
+          )}
           <h1 className="mt-1 text-3xl font-bold leading-tight md:text-4xl" style={{ textWrap: "balance" }}>
             {p.name}
           </h1>
+          {provided.has("name") && <ProvidedBy brand={owner!} what="Name" className="mt-1 block" />}
           <div className="mt-1 font-mono text-sm text-white/40">Barcode {p.barcode}</div>
+          {provided.has("category") && category && (
+            <div className="mt-1 text-sm text-white/50">
+              Category: <Link href={`/category/${category.slug}`} className="text-white/75 hover:text-white">{category.name}</Link> <ProvidedBy brand={owner!} />
+            </div>
+          )}
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <RatingBadge rating={p.rating} verdict={p.verdict} tone={p.verdictTone} size="lg" />
             {reviews.count > 0 && reviews.average != null && (
@@ -177,6 +204,24 @@ export default async function ProductPage({ params }: { params: Params }) {
         </div>
       )}
 
+      {/* The brand's own description (other descriptions aren't shown: they're unchecked). */}
+      {provided.has("description") && p.description && (
+        <section className="mt-10">
+          <h2 className="text-xl font-bold">
+            About this product <ProvidedBy brand={owner!} className="ml-1 text-sm font-normal" />
+          </h2>
+          <div className="mt-3 max-w-3xl space-y-3 leading-relaxed text-white/80">
+            {p.description
+              .split(/\n{2,}/)
+              .map((para) => para.trim())
+              .filter(Boolean)
+              .map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+          </div>
+        </section>
+      )}
+
       {/* What CheckTag found */}
       {p.aiOverview && (
         <section className="mt-10">
@@ -200,7 +245,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             <h2 className="text-xl font-bold">{p.consumable ? "Ingredients" : "What it's made of"}</h2>
             <span className="text-sm text-white/50">
               {p.ingredientsDetailed.length} listed{cautions.length ? ` · ${cautions.length} flagged` : ""} ·{" "}
-              {verified.has("ingredients") ? "✓ read from the label" : "estimated by AI, check the label"}
+              {provided.has("ingredients") ? `provided by ${owner}` : verified.has("ingredients") ? "✓ read from the label" : "estimated by AI, check the label"}
             </span>
           </div>
           <ul className="mt-4 grid gap-2 md:grid-cols-2">
@@ -278,6 +323,12 @@ export default async function ProductPage({ params }: { params: Params }) {
                   {r.author}
                   {r.verifiedScan && " · scanned it"}
                 </figcaption>
+                {r.brandReply?.body && (
+                  <div className="mt-3 rounded-xl border border-[#22AED1]/20 bg-[#22AED1]/[0.06] p-3">
+                    <div className="text-xs font-semibold text-[#7ACEE3]">Response from {r.brandReply.brand}</div>
+                    <p className="mt-1 text-sm leading-relaxed text-white/80">{r.brandReply.body}</p>
+                  </div>
+                )}
               </figure>
             ))}
           </div>
@@ -317,5 +368,48 @@ export default async function ProductPage({ params }: { params: Params }) {
       <GetCheckTag barcode={p.barcode} />
       <AiNote />
     </CatalogShell>
+  );
+}
+
+/** Whether the catalogue's brand text names the verified owner ("Nestlé" / "Nestlé Nigeria Plc"). */
+function sameBrand(brand: string | undefined, owner: string | undefined) {
+  const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "");
+  if (!brand || !owner) return true;
+  const [a, b] = [norm(brand), norm(owner)];
+  return !!a && !!b && (a.includes(b) || b.includes(a));
+}
+
+/** "Provided by <brand>": the product's verified brand wrote this field itself. */
+function ProvidedBy({ brand, what, className = "" }: { brand: string; what?: string; className?: string }) {
+  return <span className={`text-xs text-[#7ACEE3] ${className}`}>{what ? `${what} provided by ${brand}` : `· Provided by ${brand}`}</span>;
+}
+
+const RECALL_TITLE: Record<string, string> = { recall: "Recall", safety_notice: "Safety notice", counterfeit_warning: "Counterfeit warning" };
+
+/** A recall or safety notice the brand published (CheckTag checked it first). */
+function RecallBanner({ recall }: { recall: NonNullable<Product["recall"]> }) {
+  return (
+    <section role="alert" className="mb-8 rounded-2xl border border-rose-400/40 bg-rose-500/[0.12] p-5">
+      <div className="flex items-start gap-3">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-rose-500 text-white">
+          <Siren className="h-5 w-5" />
+        </span>
+        <div className="min-w-0">
+          <div className="text-xs font-bold uppercase tracking-wider text-rose-200">{RECALL_TITLE[recall.kind] || "Recall"}</div>
+          <h2 className="mt-0.5 text-lg font-bold leading-snug">{recall.title}</h2>
+          <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-white/85">{recall.body}</p>
+          <p className="mt-2 text-sm font-semibold text-rose-100">
+            {recall.lots.length ? `Affected lots: ${recall.lots.join(", ")}. Check the lot number on your pack.` : "Every pack of this product is affected."}
+          </p>
+          {(recall.brand || recall.publishedAt) && (
+            <p className="mt-1 text-xs text-white/50">
+              {[recall.brand && `From ${recall.brand}`, recall.publishedAt && `published ${new Date(recall.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`]
+                .filter(Boolean)
+                .join(", ")}
+            </p>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }

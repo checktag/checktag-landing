@@ -39,31 +39,31 @@ const HowItWorks = () => {
               <span className="text-white/40">and QA teams</span>
             </h2>
             <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
-              Give every product a digital identity, straight from your production
-              line — unit-level serialization, real-time scan analytics, and
-              product-integrity protection.
+              Give every pack its own code, see where your products are scanned,
+              and reach shoppers when something&apos;s wrong. The brand portal is
+              in a free pilot now.
             </p>
             <ul className="space-y-4 mb-8">
               {[
                 {
                   strong: "Unit-level serialization:",
-                  text: "Every item has a unique identity.",
+                  text: "Every pack gets its own signed QR code.",
                 },
                 {
                   strong: "Instant verification:",
-                  text: "<800ms API checks at global edge.",
+                  text: "Shoppers check a pack with any phone camera or the CheckTag app.",
                 },
                 {
-                  strong: "Cloning & reuse detection:",
-                  text: "Flag suspicious re-scans by time/geo/device.",
+                  strong: "Clone detection:",
+                  text: "Alerts when one code shows up in two countries or with too many people.",
                 },
                 {
                   strong: "Recall & batch tools:",
-                  text: "Push precise safety notices by batch/lot.",
+                  text: "Send safety notices by product and lot to everyone who scanned.",
                 },
                 {
                   strong: "Analytics:",
-                  text: "Heatmaps of scan locations and counterfeit hotspots.",
+                  text: "Scans by country, what shoppers saw, and your top products.",
                 },
               ].map((item, i) => (
                 <li key={i} className="flex items-start space-x-3">
@@ -89,10 +89,10 @@ const HowItWorks = () => {
               ))}
             </ul>
             <a
-              href="mailto:hello@checktag.io?subject=Join the CheckTag Waitlist"
+              href="/business#apply"
               className="inline-block px-8 py-3.5 bg-[#22AED1] hover:bg-[#1A9AB8] text-white rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-[#22AED1]/20 transition-all duration-300"
             >
-              Join the waitlist
+              Apply for early access
             </a>
           </motion.div>
           <motion.div
@@ -209,15 +209,15 @@ const HowItWorks = () => {
               <span className="gradient-text-warm">get rewarded</span> every time
             </h2>
             <p className="text-white/40 text-[15px] leading-[170%] mb-8 max-w-[480px]">
-              Every scan and contribution earns you reward points—plus streaks,
-              campaigns, and bonuses. Know what you consume while your cash-back
-              rewards grow.
+              Every scan and contribution earns you reward points—plus bonuses
+              for new products and friends you invite. Know what you consume
+              while your cash-back rewards grow.
             </p>
             <ul className="space-y-4 mb-8">
               {[
                 "Look for the CheckTag on the product",
                 "Scan with our app to instantly see what's inside the product",
-                "Earn points with every valid scan — plus streaks, campaign boosts, and bonuses",
+                "Earn points with every valid scan — plus bonuses for new finds and invites",
                 "Report problems in seconds—photos help the brand act",
               ].map((item, i) => (
                 <li key={i} className="flex items-start space-x-3">

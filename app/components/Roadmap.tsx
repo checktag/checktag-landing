@@ -3,10 +3,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-type Status = "LIVE" | "NEXT" | "PLANNED" | "HORIZON";
+type Status = "LIVE" | "PILOT" | "NEXT" | "PLANNED" | "HORIZON";
 
 const statusStyles: Record<Status, string> = {
   LIVE: "border-[#22AED1]/40 bg-[#22AED1]/10 text-[#22AED1]",
+  PILOT: "border-[#22AED1]/40 bg-[#22AED1]/10 text-[#22AED1]",
   NEXT: "border-[#22AED1]/25 bg-[#22AED1]/5 text-[#22AED1]/80",
   PLANNED: "border-white/15 bg-white/5 text-white/45",
   HORIZON: "border-white/10 bg-white/[0.03] text-white/30",
@@ -47,15 +48,15 @@ const phases: {
   },
   {
     n: "03",
-    status: "PLANNED",
+    status: "PILOT",
     title: "The Brand Layer",
     tagline: "Every product gets a digital identity.",
     points: [
-      "Manufacturer portal — unit-level serialization at the production line",
-      "Supply-chain provenance from factory to shelf",
-      "Real-time counterfeit intelligence and gray-market detection",
-      "Instant recall alerts pushed to everyone who scanned the batch",
-      "Verified brand campaigns and consumer analytics",
+      "Brand portal, now in a free pilot: verified brands keep their product details right",
+      "Serialised, signed QR codes for every pack, with clone alerts",
+      "Recall notices pushed to everyone who scanned the product",
+      "Scan analytics by country, review replies and shopper reports",
+      "Later: supply-chain provenance from factory to shelf, and verified brand campaigns",
     ],
   },
   {
@@ -148,12 +149,12 @@ const Roadmap = () => {
                   >
                     {/* Node */}
                     <div className="relative z-10 flex-none md:absolute md:left-1/2 md:-translate-x-1/2 md:top-6">
-                      {p.status === "LIVE" && (
+                      {(p.status === "LIVE" || p.status === "PILOT") && (
                         <div className="absolute inset-0 rounded-full bg-[#22AED1]/30 blur-md" />
                       )}
                       <div
                         className={`relative w-10 h-10 rounded-full flex items-center justify-center text-[11px] font-bold tracking-wide ${
-                          p.status === "LIVE"
+                          p.status === "LIVE" || p.status === "PILOT"
                             ? "bg-gradient-to-br from-[#0037A6] to-[#22AED1] text-white border border-white/20"
                             : p.status === "NEXT"
                             ? "bg-[#0037A6]/30 text-[#22AED1] border border-[#22AED1]/40"
@@ -204,7 +205,7 @@ const Roadmap = () => {
                                   cy="2.5"
                                   r="2.5"
                                   fill={
-                                    p.status === "LIVE" || p.status === "NEXT"
+                                    p.status === "LIVE" || p.status === "PILOT" || p.status === "NEXT"
                                       ? "#22AED1"
                                       : "rgba(255,255,255,0.25)"
                                   }
@@ -233,7 +234,7 @@ const Roadmap = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          Phases ship in sequence, not all at once. Health and financial features are
+          Phases roll out step by step and can overlap. Health and financial features are
           released only where we can do so responsibly — and, where required, with
           licensed partners.
         </motion.p>

@@ -73,18 +73,18 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3 text-white/30 text-sm">
               <li>
-                <Link href="/#pricing" className="hover:text-white/60 transition-colors">
-                  Starter Plan
+                <Link href="/business" className="hover:text-white/60 transition-colors">
+                  For brands
                 </Link>
               </li>
               <li>
-                <Link href="/#pricing" className="hover:text-white/60 transition-colors">
-                  Growth Plan
+                <Link href="/business#apply" className="hover:text-white/60 transition-colors">
+                  Apply for early access
                 </Link>
               </li>
               <li>
-                <Link href="/#pricing" className="hover:text-white/60 transition-colors">
-                  Enterprise Plan
+                <Link href="/portal/login" className="hover:text-white/60 transition-colors">
+                  Brand portal sign-in
                 </Link>
               </li>
             </ul>
