@@ -42,6 +42,10 @@ const sections: {
             "Payout details: if you request a cash-back withdrawal, the payout details you provide (such as account number, bank code, and account name), which are used to set up a transfer recipient with our payment processor.",
             "Messaging data: if you use CheckTag through our Telegram bot or mini app, we receive your Telegram user ID and basic profile information (such as your first name) from Telegram, along with the barcodes and messages you send, so we can show you results and link your activity to your CheckTag account.",
             "Device information: device type, operating system, and app version for troubleshooting.",
+            "Progress and missions: the XP, levels, badges, streak days, mission progress, league and team you take part in, worked out from your scans and other activity. To count streak days in your own time zone, the app sends your device's offset from UTC (for example \u201c+60 minutes\u201d); this is not your location.",
+            "Your reasons for checking products: if you tell us why you check products (for example health, value or authenticity), we keep that choice to order product information and suggest missions. You can change it at any time.",
+            "Creator programme: if you apply, the social media handle, platform, topic, audience size and note you provide, so our team can review your application.",
+            "Family profiles stay on your phone: the names, allergies and diets you add in Family profiles are stored only on your device and are never sent to CheckTag.",
         ],
     },
     {
@@ -78,6 +82,7 @@ const sections: {
             "Your control: you can edit or delete your reviews at any time. A deleted review is removed from public view immediately; we may keep a record of it for moderation and abuse-prevention purposes.",
             "Brands on CheckTag: brands we have verified can use the CheckTag brand portal for their own products. There they see how often those products were scanned and their codes checked, counted by country only, and the public reviews posted on them. Brands never see who scanned or checked a product, or any location finer than the country. A verified brand can reply publicly to reviews of its products; its reply appears under the review as a “Response from” the brand.",
             "Reports and brands: if you report a problem with a product (for example a suspected fake or an expired pack), the product’s verified brand can see the text and photos of your report in the brand portal. It never sees your name, username or email address.",
+            "Leaderboards and teams: league and team leaderboards show your username, profile picture and XP for the week to other people in the same league or team. You can turn leaderboards off in the app; you are then shown as \u201cPrivate member\u201d. Teams show their name and member count to their members.",
             "Live activity feed: we show an anonymised feed of recent scans and aggregated product statistics (such as scan counts by country). These show only the product, the country, and whether a scan earned cash-back — never your name, username, or any other information that identifies you.",
             "Label photos: label photos you submit are stored as evidence so that a moderator can check the proposed product information against your photo. Nothing is changed in our product catalogue until a moderator approves it. Please photograph only the product packaging, and avoid including people or personal documents.",
         ],
