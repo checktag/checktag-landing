@@ -158,6 +158,7 @@ function SafetyAlert({ notify }: { notify: (m: string, k: "success" | "error") =
           <h3 className="font-semibold">Product safety alert</h3>
           <p className="text-sm text-slate-400">
             For a confirmed recall or counterfeit. Warns everyone who scanned this product in the last year, at top priority.
+            It&apos;s saved as a published recall, so scans of the product show it until you resolve it under Brands → Recalls.
           </p>
         </div>
       </div>

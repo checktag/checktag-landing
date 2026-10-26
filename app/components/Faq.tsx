@@ -153,7 +153,7 @@ const Faq = () => {
             within 24 hours.
           </p>
           <a
-            href="mailto:support@checktag.co"
+            href="mailto:support@checktag.io"
             className="inline-flex items-center space-x-2 px-8 py-3.5 border border-white/15 text-white rounded-full font-medium text-sm hover:bg-white/5 transition-all duration-300"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -17,6 +17,8 @@ import Activity from "./_components/Activity";
 import Notifications from "./_components/Notifications";
 import News from "./_components/News";
 import Team from "./_components/Team";
+import Support from "./_components/Support";
+import Brands from "./_components/Brands";
 import {
   Inbox,
   PackageCheck,
@@ -29,6 +31,8 @@ import {
   BellRing,
   Newspaper,
   Users,
+  LifeBuoy,
+  Building2,
 } from "lucide-react";
 
 type Tab =
@@ -41,6 +45,8 @@ type Tab =
   | "notifications"
   | "news"
   | "activity"
+  | "support"
+  | "brands"
   | "team";
 
 // Each tab belongs to one area of the dashboard; an admin sees the tabs their
@@ -56,6 +62,8 @@ const TABS: { key: Tab; label: string; icon: React.ElementType; area: AdminArea 
   { key: "notifications", label: "Notifications", icon: BellRing, area: "announcements" },
   { key: "news", label: "News", icon: Newspaper, area: "news" },
   { key: "activity", label: "Activity", icon: History, area: "activity" },
+  { key: "support", label: "Support", icon: LifeBuoy, area: "support" },
+  { key: "brands", label: "Brands", icon: Building2, area: "brands" },
   { key: "team", label: "Team", icon: Users, area: "team" },
 ];
 
@@ -172,6 +180,8 @@ export default function AdminDashboard() {
         {tab === "notifications" && <Notifications notify={notify} />}
         {tab === "news" && <News notify={notify} />}
         {tab === "activity" && <Activity notify={notify} />}
+        {tab === "support" && <Support notify={notify} />}
+        {tab === "brands" && <Brands notify={notify} />}
         {tab === "team" && <Team notify={notify} />}
         {tabs.length === 0 && (
           <p className="py-20 text-center text-sm text-slate-400">Your admin role doesn&apos;t include any part of the dashboard yet. Ask an Owner.</p>

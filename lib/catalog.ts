@@ -44,6 +44,22 @@ export interface Product {
   servingSize?: string;
   details?: Record<string, string>;
   verifiedFields?: string[];
+  /** Brand portal: the verified brand that owns the product… */
+  brandOwner?: { name: string; verified: true };
+  /** …the fields it provided itself (name, description, ingredients, imageUrl, category)… */
+  brandProvided?: string[];
+  /** …and a recall or safety notice it published, if any. */
+  recall?: Recall;
+}
+
+export interface Recall {
+  id: string;
+  kind: "recall" | "safety_notice" | "counterfeit_warning";
+  title: string;
+  body: string;
+  lots: string[];
+  brand: string | null;
+  publishedAt: string | null;
 }
 
 export interface CatalogItem {
@@ -64,6 +80,8 @@ export interface Review {
   author: string;
   createdAt: string;
   verifiedScan: boolean;
+  /** The verified brand's public reply, if it wrote one. */
+  brandReply?: { body: string; at: string | null; brand: string } | null;
 }
 
 export interface Similar {
@@ -91,6 +109,10 @@ async function get<T>(path: string, revalidate = 3600): Promise<T | null> {
 }
 
 export const BARCODE_RE = /^\d{8,14}$/;
+
+// The catalogue can include single packs with a CheckTag code (ids like "u-…"):
+// they have no product page of their own, so lists leave them out.
+const withPages = (items: CatalogItem[]) => items.filter((i) => BARCODE_RE.test(i.barcode));
 
 
 /** A product page is worth indexing once it has a real analysis. */
@@ -120,12 +142,12 @@ export async function getCategories(): Promise<{ slug: string; name: string; cou
 }
 
 export async function getCategory(slug: string): Promise<CatalogItem[]> {
-  return (await get<{ items: CatalogItem[] }>(`/api/catalog/categories/${encodeURIComponent(slug)}?limit=60`, 3600))?.items ?? [];
+  return withPages((await get<{ items: CatalogItem[] }>(`/api/catalog/categories/${encodeURIComponent(slug)}?limit=60`, 3600))?.items ?? []);
 }
 
 export async function searchProducts(q: string): Promise<CatalogItem[]> {
   if (q.trim().length < 2) return [];
-  return (await get<{ items: CatalogItem[] }>(`/api/catalog/search?q=${encodeURIComponent(q.trim())}&limit=30`, 300))?.items ?? [];
+  return withPages((await get<{ items: CatalogItem[] }>(`/api/catalog/search?q=${encodeURIComponent(q.trim())}&limit=30`, 300))?.items ?? []);
 }
 
 /** Every listed product (for the sitemap), following the cursor. */
@@ -139,7 +161,7 @@ export async function getAllProducts(max = 45000): Promise<CatalogItem[]> {
     if (!page.next || page.items.length < 1000) break;
     cursor = page.next;
   }
-  return out.slice(0, max);
+  return withPages(out).slice(0, max);
 }
 
 export const toneClass = (t?: Tone) =>

@@ -109,6 +109,8 @@ export type AdminArea =
   | "announcements"
   | "news"
   | "activity"
+  | "support"
+  | "brands"
   | "team";
 
 export interface AdminMe {

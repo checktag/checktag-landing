@@ -80,7 +80,7 @@ const featureCards = [
       </svg>
     ),
     title: "Earn Cash-Back Rewards",
-    description: "Every scan and contribution earns you reward points. Build streaks, join campaigns, and redeem your points for cash-back rewards—get rewarded for knowing what you consume.",
+    description: "Every scan and contribution earns you reward points, with bonuses for discovering new products and inviting friends. Redeem your points for cash-back rewards—get rewarded for knowing what you consume.",
     gradient: "from-[#F59E0B]/20 to-[#FBBF24]/10",
     borderColor: "border-[#F59E0B]/20",
   },

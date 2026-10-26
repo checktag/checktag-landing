@@ -7,8 +7,8 @@ const API = process.env.NEXT_PUBLIC_API_URL || "https://api.checktag.io";
 //    our own pages may use the camera (the Telegram mini app's barcode scanner).
 //  • Everything except the Telegram mini app (/tg, which Telegram Web shows in a
 //    frame) refuses to be framed by other sites.
-//  • /admin: a strict content security policy — only our own code, only talks to
-//    the CheckTag API, never framed.
+//  • /admin and the brand portal (/portal): a strict content security policy —
+//    only our own code, only talks to the CheckTag API, never framed, never cached.
 const base = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
@@ -29,21 +29,19 @@ const adminCsp = [
   "object-src 'none'",
 ].join("; ");
 
+const locked = [
+  { key: "Content-Security-Policy", value: adminCsp },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Cache-Control", value: "no-store" },
+];
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
     return [
       { source: "/:path*", headers: base },
       { source: "/((?!tg(?:/|$)).*)", headers: [{ key: "X-Frame-Options", value: "SAMEORIGIN" }] },
-      {
-        source: "/admin/:path*",
-        headers: [
-          { key: "Content-Security-Policy", value: adminCsp },
-          { key: "X-Frame-Options", value: "DENY" },
-          { key: "Cache-Control", value: "no-store" },
-        ],
-      },
-      { source: "/admin", headers: [{ key: "Content-Security-Policy", value: adminCsp }, { key: "X-Frame-Options", value: "DENY" }, { key: "Cache-Control", value: "no-store" }] },
+      ...["/admin", "/admin/:path*", "/portal", "/portal/:path*"].map((source) => ({ source, headers: locked })),
     ];
   },
 };
