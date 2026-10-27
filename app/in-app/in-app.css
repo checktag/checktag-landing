@@ -1,0 +1,128 @@
+/* In-app legal pages. Same palette as the mobile app (CTColors, see
+   app/tg/tg.css). Tokens sit on the page itself, so it reads correctly even
+   if the theme script didn't run; the script also paints <html>/<body> for
+   overscroll. Unlayered, so it overrides the site's dark base. */
+
+html.inapp,
+.ia-doc {
+  --ia-bg: #f6f8fc;
+  --ia-text: #091222;
+  --ia-text-2: #41506a;
+  --ia-text-3: #6e7d95;
+  --ia-link: #103c8f;
+  --ia-rule: #14a6c9;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]).inapp,
+  html:not([data-theme="light"]) .ia-doc {
+    --ia-bg: #0a0f1e;
+    --ia-text: #edf1fa;
+    --ia-text-2: #9ca9c4;
+    --ia-text-3: #67748f;
+    --ia-link: #5b8cf0;
+    --ia-rule: #3bc6e6;
+    color-scheme: dark;
+  }
+}
+
+html[data-theme="dark"].inapp,
+html[data-theme="dark"] .ia-doc {
+  --ia-bg: #0a0f1e;
+  --ia-text: #edf1fa;
+  --ia-text-2: #9ca9c4;
+  --ia-text-3: #67748f;
+  --ia-link: #5b8cf0;
+  --ia-rule: #3bc6e6;
+  color-scheme: dark;
+}
+
+html.inapp,
+html.inapp body {
+  background: var(--ia-bg);
+  color: var(--ia-text);
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ia-doc {
+  min-height: 100vh;
+  background: var(--ia-bg);
+  color: var(--ia-text);
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 20px 20px calc(48px + env(safe-area-inset-bottom));
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.ia-doc h1 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.ia-date {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--ia-text-3);
+}
+
+.ia-intro {
+  margin: 20px 0 0;
+  color: var(--ia-text-2);
+}
+
+.ia-sec {
+  margin-top: 28px;
+}
+
+.ia-sec h2 {
+  margin: 0 0 8px;
+  padding-left: 12px;
+  border-left: 3px solid var(--ia-rule);
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.ia-sec p {
+  margin: 0;
+  color: var(--ia-text-2);
+}
+
+.ia-sec ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  list-style: disc;
+  color: var(--ia-text-2);
+}
+
+.ia-sec p + ul {
+  margin-top: 8px;
+}
+
+.ia-sec li::marker {
+  color: var(--ia-text-3);
+}
+
+.ia-link {
+  color: var(--ia-link);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ia-link:focus-visible {
+  outline: 2px solid var(--ia-link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
