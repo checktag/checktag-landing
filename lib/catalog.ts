@@ -78,6 +78,8 @@ export interface Review {
   rating: number;
   body: string | null;
   author: string;
+  /** Level title from level 3, e.g. "Checker". */
+  authorTitle?: string | null;
   createdAt: string;
   verifiedScan: boolean;
   /** The verified brand's public reply, if it wrote one. */

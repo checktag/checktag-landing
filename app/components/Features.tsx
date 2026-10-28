@@ -67,7 +67,7 @@ const featureCards = [
       </svg>
     ),
     title: "Authenticity & Safety Checks",
-    description: "Flags suspicious codes and possible counterfeits, so you can steer clear of fake or unsafe products—one more layer of knowing what you're buying.",
+    description: "Flags suspicious codes and possible counterfeits, so you can steer clear of counterfeit or unsafe products—one more layer of knowing what you're buying.",
     gradient: "from-[#10B981]/20 to-[#34D399]/10",
     borderColor: "border-[#10B981]/20",
   },

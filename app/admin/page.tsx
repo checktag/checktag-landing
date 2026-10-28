@@ -20,6 +20,7 @@ import Team from "./_components/Team";
 import Support from "./_components/Support";
 import Brands from "./_components/Brands";
 import Growth from "./_components/Growth";
+import Reviewers from "./_components/Reviewers";
 import {
   Inbox,
   PackageCheck,
@@ -35,10 +36,12 @@ import {
   LifeBuoy,
   Building2,
   Rocket,
+  Scale,
 } from "lucide-react";
 
 type Tab =
   | "submissions"
+  | "reviewers"
   | "products"
   | "community"
   | "payouts"
@@ -56,6 +59,7 @@ type Tab =
 // role includes (the server enforces the same split).
 const TABS: { key: Tab; label: string; icon: React.ElementType; area: AdminArea }[] = [
   { key: "submissions", label: "Submissions", icon: Inbox, area: "submissions" },
+  { key: "reviewers", label: "Reviewers", icon: Scale, area: "submissions" },
   { key: "products", label: "Products", icon: PackageCheck, area: "products" },
   { key: "community", label: "Community", icon: MessagesSquare, area: "community" },
   // Payout (AML) review — not product reviews; those live under Community.
@@ -187,6 +191,7 @@ export default function AdminDashboard() {
         {tab === "support" && <Support notify={notify} />}
         {tab === "brands" && <Brands notify={notify} />}
         {tab === "growth" && <Growth notify={notify} />}
+        {tab === "reviewers" && <Reviewers notify={notify} canSetPay={!!me?.areas.includes("growth")} />}
         {tab === "team" && <Team notify={notify} />}
         {tabs.length === 0 && (
           <p className="py-20 text-center text-sm text-slate-400">Your admin role doesn&apos;t include any part of the dashboard yet. Ask an Owner.</p>
