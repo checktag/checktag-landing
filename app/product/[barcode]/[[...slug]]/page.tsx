@@ -195,7 +195,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             </a>
           </div>
           <p className="mt-3 border-t border-emerald-400/15 pt-3 text-sm text-white/60">
-            Bought a fake or expired one in Lagos? Report it free to the Lagos State Consumer Protection Agency (LASCOPA) on{" "}
+            Bought a counterfeit or expired one in Lagos? Report it free to the Lagos State Consumer Protection Agency (LASCOPA) on{" "}
             <a href={`tel:${LASCOPA_TEL}`} className="font-semibold text-emerald-200 underline-offset-2 hover:underline">
               {LASCOPA_LINE}
             </a>
@@ -321,6 +321,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                 {r.body && <blockquote className="mt-2 leading-relaxed text-white/80">{r.body}</blockquote>}
                 <figcaption className="mt-2 text-xs text-white/50">
                   {r.author}
+                  {r.authorTitle && <span className="text-white/70"> · {r.authorTitle}</span>}
                   {r.verifiedScan && " · scanned it"}
                 </figcaption>
                 {r.brandReply?.body && (

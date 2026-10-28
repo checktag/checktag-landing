@@ -286,6 +286,7 @@ function ReviewItem({ r, onMenu, onHelpful }: { r: Review; onMenu(): void; onHel
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
             <span className="truncate text-[14px] font-semibold text-ct-text">{name}</span>
+            {r.authorTitle && <span className="rounded-full bg-ct-accent-soft px-1.5 py-0.5 text-[10.5px] font-bold text-ct-text-2">{r.authorTitle}</span>}
             {r.mine && <span className="rounded-full bg-ct-primary-soft px-1.5 py-0.5 text-[10.5px] font-bold text-ct-primary">You</span>}
             {r.verifiedScan && (
               <span className="inline-flex items-center gap-0.5 text-[11px] font-semibold text-ct-good">
